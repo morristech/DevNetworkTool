@@ -1,0 +1,36 @@
+<resources>>
+<!--
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+-->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/toolBarColor</item>
+        <item name="colorPrimaryDark">@color/toolBarColorDark</item>
+        <item name="colorAccent">@color/toolBarColor</item>
+        <item name="android:statusBarColor">@color/toolBarColorDark</item>
+        <item name="android:colorButtonNormal">@color/toolBarColor</item>
+    </style>
+
+    <style name="AppThemeActivityControl" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/toolBarColor</item>
+        <item name="colorPrimaryDark">@color/toolBarColorDark</item>
+        <item name="colorAccent">@color/toolBarColor</item>
+        <item name="android:statusBarColor">@color/toolBarColorDark</item>
+        <item name="android:colorButtonNormal">@color/toolBarColor</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="DevNetwork.Button" parent="android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/button_simple_flat</item>
+    </style>
+</resources>

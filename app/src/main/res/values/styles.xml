@@ -1,0 +1,40 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/toolBarColor</item>
+        <item name="colorPrimaryDark">@color/toolBarColorDark</item>
+        <item name="colorAccent">@color/toolBarColor</item>
+        <item name="colorButtonNormal">@color/toolBarColor</item>
+    </style>
+
+    <style name="AppThemeActivityControl" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/toolBarColor</item>
+        <item name="colorPrimaryDark">@color/toolBarColorDark</item>
+        <item name="colorAccent">@color/toolBarColor</item>
+        <item name="colorButtonNormal">@color/toolBarColor</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/toolBarColor</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#000000</item>
+        <!-- Used for the background -->
+        <!--<item name="android:background">#888888</item>-->
+    </style>
+
+</resources>

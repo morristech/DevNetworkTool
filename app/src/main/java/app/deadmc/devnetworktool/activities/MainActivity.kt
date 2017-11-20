@@ -1,0 +1,220 @@
+package app.deadmc.devnetworktool.activities
+
+import android.app.ActivityManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.Bundle
+import android.os.IBinder
+import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.ViewGroup
+import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.constants.DevConsts
+import app.deadmc.devnetworktool.fragments.*
+import app.deadmc.devnetworktool.fragments.ping.PingFragment
+import app.deadmc.devnetworktool.fragments.rest.RestFragment
+import app.deadmc.devnetworktool.interfaces.MainActivityView
+import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.presenters.MainPresenter
+import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
+import app.deadmc.devnetworktool.services.ConnectionService
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import java.io.Serializable
+
+/**
+ * Created by DEADMC on 11/11/2017.
+ */
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, MainActivityView {
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var mainPresenter: MainPresenter
+
+    var workingConnectionsPresenter: WorkingConnectionPresenter? = null
+    var serviceBound = false
+    var serviceConnection: ServiceConnection? = null
+    var connectionService: ConnectionService? = null
+    var alertDialog: AlertDialog? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navigationView.itemIconTintList = null
+        navigationView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        runFragmentDependsOnClickedItem(id)
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    override fun runFragmentDependsOnClickedItem(item: Int) {
+        if (isServiceRunning(ConnectionService::class.java.name)) {
+            stopService()
+        }
+        when (item) {
+            R.id.tcp_client -> runFragment(TcpConnectionsFragment())
+            R.id.udp_client -> runFragment(UdpConnectionsFragment())
+            R.id.ping -> runFragment(DevConsts.PING, PingFragment())
+            R.id.rest -> runFragment(DevConsts.REST, RestFragment())
+            R.id.settings -> runFragment(DevConsts.REST, SettingsFragment())
+            R.id.exit -> mainPresenter.showDialogExitConnection()
+        }
+    }
+
+    override fun runFragmentDependsOnId(id: Int) {
+        when (id) {
+            DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment())
+        }
+    }
+
+    override fun runFragmentDependsOnId(id: Int, serializable: Serializable) {
+        val bundle = Bundle()
+        bundle.putSerializable("serializable", serializable)
+        when (id) {
+            DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
+        }
+    }
+
+
+    override fun showDialogExitConnection() {
+        val alertDialogBuilder = AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)
+        alertDialogBuilder.setMessage(R.string.alert_close_connection)
+        alertDialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
+            stopService()
+        }
+
+        alertDialogBuilder.setNegativeButton(R.string.no) { _, _ -> mainPresenter.hideDialogExitConnection() }
+        alertDialog = alertDialogBuilder.create()
+        alertDialog?.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        alertDialog?.show()
+    }
+
+    override fun hideDialogExitConnection() {
+        alertDialog?.dismiss()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.action_settings).isVisible = false
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        super.onPrepareOptionsMenu(menu)
+        return true
+    }
+
+    override fun doBindService(connectionHistory: ConnectionHistory?) {
+        Log.e("doBindService", "service is binded " + serviceBound)
+        if (serviceBound)
+            return
+        val intent = Intent(this,
+                ConnectionService::class.java)
+        startService(intent)
+
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(className: ComponentName, binder: IBinder) {
+                Log.e("ServiceConnection", "connected")
+
+                connectionService = (binder as ConnectionService.LocalBinder).service
+
+                if (connectionService?.getCurrentClient() == null)
+                    connectionService?.initConnection(connectionHistory)
+                serviceBound = true
+
+                if (workingConnectionsPresenter?.currentConnectionHistory == null) {
+                    workingConnectionsPresenter?.currentConnectionHistory = connectionService?.connectionHistory
+                    if (connectionService?.isRunning == true)
+                        mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT)
+                } else {
+                    workingConnectionsPresenter?.successfulCallback()
+                }
+            }
+
+            override fun onServiceDisconnected(className: ComponentName) {
+                Log.e("ServiceConnection", "disconnected")
+                connectionService = null
+                serviceBound = false
+            }
+        }
+
+        serviceBound = bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    override fun doUnbindService() {
+        if (serviceConnection != null) {
+            try {
+                unbindService(serviceConnection)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            connectionService = null
+            serviceBound = false
+        }
+    }
+
+    override fun setCustomTitle(stringId: Int) {
+        toolbar.setTitle(stringId)
+        Log.e("setTitleActivity", "" + getString(stringId))
+    }
+
+    override fun setCustomTitle(title: String) {
+        toolbar.setTitle(title)
+        Log.e("setTitleActivity", "" + title)
+    }
+
+
+    override fun stopService() {
+        connectionService?.stopService()
+
+        val intent = Intent(this,
+                ConnectionService::class.java)
+        stopService(intent)
+        doUnbindService()
+    }
+
+    private fun isServiceRunning(serviceName: String): Boolean {
+        var serviceRunning = false
+        val am = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val l = am.getRunningServices(50)
+        val i = l.iterator()
+        while (i.hasNext()) {
+            val runningServiceInfo = i
+                    .next() as ActivityManager.RunningServiceInfo
+
+            if (runningServiceInfo.service.className == serviceName) {
+                serviceRunning = true
+            }
+        }
+        return serviceRunning
+    }
+
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            mainPresenter.showDialogExitConnection()
+        }
+    }
+
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF893A</color>
+    <color name="colorPrimaryDark">#df7833</color>
+    <color name="colorAccent">#FF893A</color>
+    <color name="toolBarColor">#FF893A</color>
+    <color name="toolBarColorDark">#df7833</color>
+    <color name="textColor">#4f4f4f</color>
+    <color name="textColorLight">#616161</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#c4c4c4</color>
+    <color name="lightGrey">#eeeeee</color>
+    <color name="lightOrange">#ffd4b7</color>
+    <color name="lightGrey2">#e6e6e6</color>
+</resources>

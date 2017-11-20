@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/statsTitleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/imageViewArrowStats"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_keyboard_arrow_up_black_36dp" />
+
+                <TextView
+                    android:id="@+id/textStatsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/textColor"
+                    android:text="@string/stats"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+
+            <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                android:id="@+id/collapseStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/statsRecyclerView"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+
+            <View
+                android:background="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                />
+
+            <LinearLayout
+                android:id="@+id/headerTitleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/imageViewArrowHeader"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_keyboard_arrow_up_black_36dp" />
+
+                <TextView
+                    android:id="@+id/textHeaderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/textColor"
+                    android:text="@string/headers"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                android:id="@+id/collapseHeaders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/headersRecyclerView"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_height="wrap_content"/>
+
+            </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+
+            <View
+                android:background="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                />
+
+            <LinearLayout
+                android:id="@+id/requestTitleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/imageViewArrowRequest"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_keyboard_arrow_up_black_36dp" />
+
+                <TextView
+                    android:id="@+id/textRequestTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/textColor"
+                    android:text="@string/body"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                android:id="@+id/collapseRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <Button
+                    android:id="@+id/watchButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_buttons_flat"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/bodyTextView"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
