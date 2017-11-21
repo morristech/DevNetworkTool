@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
 import java.util.ArrayList
 
 abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
-    lateinit var alertDialog: AlertDialog
+    var alertDialog: AlertDialog? = null
     lateinit var alertView: View
     lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
 
@@ -77,7 +77,7 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
             getPresenter().hideDialog()
         })
         alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        alertDialog?.show()
     }
 
     override fun showDialogForEdit(connectionHistory: ConnectionHistory, position: Int) {
@@ -98,7 +98,7 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
             getPresenter().hideDialog()
         }
         alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        alertDialog?.show()
     }
 
     override fun hideDialog() {

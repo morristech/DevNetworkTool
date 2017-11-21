@@ -67,7 +67,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.squareup.okio:okio:1.11.0"
-    compile "com.sothree.slidinguppanel:library:3.3.1"
+    compile 'com.sothree.slidinguppanel:library:3.4.0'
 
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-android:1.5.3'

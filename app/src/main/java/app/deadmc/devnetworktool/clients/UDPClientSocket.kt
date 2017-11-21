@@ -26,7 +26,7 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
     override fun run() {
 
         try {
-            Log.e("datagramSocket", "started")
+            Log.e("datagramSocket", "started port = "+connectionHistory.port)
             datagramSocket = DatagramSocket(connectionHistory.port)
             val buffer = ByteArray(65536)
             val incomingDatagramPacket = DatagramPacket(buffer, buffer.size)
@@ -37,18 +37,9 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
                 line = String(data, 0, incomingDatagramPacket.length)
                 addLine(line!!, true)
             }
-        } catch (e: UnknownHostException) {
-            Log.e("UnknownHostException", e.toString())
+        } catch (e: Exception) {
+            Log.e("UDP", Log.getStackTraceString(e))
             errorConnectCallback()
-            e.printStackTrace()
-        } catch (e: SocketException) {
-            Log.e("SocketException", e.toString())
-            errorConnectCallback()
-            e.printStackTrace()
-        } catch (e: IOException) {
-            Log.e("IOException", e.toString())
-            errorConnectCallback()
-            e.printStackTrace()
         }
 
     }
@@ -68,14 +59,8 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
                 val sendPacket = DatagramPacket(sendData, sendData.size, InetAddress.getByName(connectionHistory.ipAddress), connectionHistory.port)
                 val datagramSocket = DatagramSocket()
                 datagramSocket.send(sendPacket)
-            } catch (e: IOException) {
-                Log.e("sendMessage", "IOException " + e.message)
-                e.printStackTrace()
-            } catch (e: NullPointerException) {
-                Log.e("sendMessage", "NullPointerException" + e.message)
-                e.printStackTrace()
             } catch (e: Exception) {
-
+                Log.e("UDP",Log.getStackTraceString(e))
             }
         })
         thread.start()

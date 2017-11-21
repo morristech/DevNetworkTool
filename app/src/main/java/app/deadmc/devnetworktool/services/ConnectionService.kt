@@ -12,6 +12,7 @@ import android.support.v7.app.NotificationCompat
 import android.util.Log
 
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.activities.MainActivity2
 import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.clients.TCPClientSocket
@@ -138,7 +139,7 @@ class ConnectionService : Service() {
      * @param description
      */
     private fun setServiceForeground(description: String) {
-        val notificationIntent = Intent(this, MainActivity2::class.java)
+        val notificationIntent = Intent(this, MainActivity::class.java)
 
         val pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0)

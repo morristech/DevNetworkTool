@@ -57,6 +57,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
+
+        if (isServiceRunning(ConnectionService::class.java.name))
+            doBindService(null)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -141,13 +144,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     connectionService?.initConnection(connectionHistory)
                 serviceBound = true
 
+                if (workingConnectionsPresenter == null && connectionService?.isRunning == true)
+                    mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT)
+                connectionService?.workingConnectionPresenter = workingConnectionsPresenter
                 if (workingConnectionsPresenter?.currentConnectionHistory == null) {
                     workingConnectionsPresenter?.currentConnectionHistory = connectionService?.connectionHistory
-                    if (connectionService?.isRunning == true)
-                        mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT)
-                } else {
-                    workingConnectionsPresenter?.successfulCallback()
                 }
+                workingConnectionsPresenter?.currentClient = connectionService?.getCurrentClient()
+                workingConnectionsPresenter?.successfulCallback()
             }
 
             override fun onServiceDisconnected(className: ComponentName) {
@@ -215,6 +219,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         } else {
             mainPresenter.showDialogExitConnection()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectionService?.workingConnectionPresenter = null
+        doUnbindService()
     }
 
 }

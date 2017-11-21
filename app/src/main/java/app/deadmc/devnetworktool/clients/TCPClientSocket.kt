@@ -56,9 +56,8 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
             }
 
 
-        } catch (e: UnknownHostException) {
-            errorConnectCallback()
-        } catch (e: IOException) {
+        } catch (e: Exception) {
+            Log.e("TCP","exceotion "+Log.getStackTraceString(e))
             errorConnectCallback()
         }
 

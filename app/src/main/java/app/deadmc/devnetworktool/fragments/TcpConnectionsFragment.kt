@@ -33,7 +33,7 @@ open class TcpConnectionsFragment : ConnectionsFragment(),ConnectionsView {
 
     override fun collectConnectionHistory():ConnectionHistory {
         val connectionHistory = ConnectionHistory()
-        if (alertDialog.isShowing) {
+        if (alertDialog?.isShowing == true) {
             connectionHistory.ipAddress = alertView.editTextIpAddress.text.toString()
             connectionHistory.name = alertView.editTextName.text.toString()
             connectionHistory.port = CheckHelper.portFromString(alertView.editTextPort.text.toString())

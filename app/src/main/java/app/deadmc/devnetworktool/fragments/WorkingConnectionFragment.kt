@@ -82,7 +82,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
     private fun initRecyclerViewInputs() {
         jsonInputArrayList = JsonInput.createJsonInputsList(1)
-        jsonInputsAdapter = JsonInputsAdapter(context, jsonInputArrayList, messageEditText)
+        jsonInputsAdapter = JsonInputsAdapter(context, jsonInputArrayList, myFragmentView.messageEditText)
         myFragmentView.recyclerViewInputs.adapter = jsonInputsAdapter
         myFragmentView.recyclerViewInputs.layoutManager = LinearLayoutManager(context)
         val callback = SimpleItemTouchHelperCallback(jsonInputsAdapter, true)
@@ -112,18 +112,22 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
     override fun errorCallback() {
         Log.e("error", "callback")
-        errorResulted = true
-        myFragmentView.slidingLayout.visibility = View.GONE
-        myFragmentView.loadingRelativeLayout.visibility = View.GONE
-        myFragmentView.errorRelativeLayout.visibility = View.VISIBLE
+        myFragmentView.post {
+            errorResulted = true
+            myFragmentView.slidingLayout.visibility = View.GONE
+            myFragmentView.loadingRelativeLayout.visibility = View.GONE
+            myFragmentView.errorRelativeLayout.visibility = View.VISIBLE
+        }
     }
 
     override fun successfulCallback() {
         Log.e("success", "callback")
-        errorResulted = false
-        myFragmentView.slidingLayout.visibility = View.VISIBLE
-        myFragmentView.loadingRelativeLayout.visibility = View.GONE
-        myFragmentView.errorRelativeLayout.visibility = View.GONE
+        myFragmentView.post {
+            errorResulted = false
+            myFragmentView.slidingLayout.visibility = View.VISIBLE
+            myFragmentView.loadingRelativeLayout.visibility = View.GONE
+            myFragmentView.errorRelativeLayout.visibility = View.GONE
+        }
     }
 
     override fun addLineToAdapter(receivedMessage: ReceivedMessage) {
