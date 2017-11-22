@@ -103,6 +103,7 @@ public class PingFragment extends ParentFragment {
         viewPager = (ViewPager) myFragmentView.findViewById(R.id.viewpager);
         pingPagerAdapter = new PingPagerAdapter(getFragmentManager(),getActivity(),pingStructureArrayList,currentUrl);
         viewPager.setAdapter(pingPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         TabLayout tabLayout = (TabLayout) myFragmentView.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -147,7 +148,6 @@ public class PingFragment extends ParentFragment {
     }
 
     private void getPings() {
-        //Log.e("getPings", "started");
         working = true;
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {

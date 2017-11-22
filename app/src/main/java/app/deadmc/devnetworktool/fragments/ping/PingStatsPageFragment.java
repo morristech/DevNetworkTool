@@ -61,7 +61,7 @@ public class PingStatsPageFragment extends BasePingFragment {
     public void refreshFragment(ArrayList<PingStructure> arrayList) {
         try {
             setPingStructureArrayList(arrayList);
-            Log.e("refreshStats", "count of elements " + pingStructureArrayList.size());
+            Log.e("refreshStats", "count of elements " + getPingStructureArrayList().size());
             setPingStats(true);
         } catch (NullPointerException e) {}
     }
@@ -105,11 +105,11 @@ public class PingStatsPageFragment extends BasePingFragment {
 
     private void setPingStats(boolean refreshAll) {
         Log.e("setPingStats","called");
-        if (pingStructureArrayList == null)
+        if (getPingStructureArrayList() == null)
             return;
         if (pingStats == null || refreshAll) {
             pingStats = new PingStats();
-            for (PingStructure pingStructure: pingStructureArrayList) {
+            for (PingStructure pingStructure: getPingStructureArrayList()) {
                 pingStats.setIpAddress(pingStructure.getIpAddress());
                 pingStats.setTtl(pingStructure.getTtl());
                 pingStats.addPing(pingStructure.getPing());
@@ -142,7 +142,7 @@ public class PingStatsPageFragment extends BasePingFragment {
         super.onSaveInstanceState(outState);
         Log.e("onSaveInstanceState", "save");
         outState.putString("currentUrl", currentUrl);
-        outState.putString("pingStructureList", new Gson().toJson(pingStructureArrayList));
+        outState.putString("pingStructureList", new Gson().toJson(getPingStructureArrayList()));
         outState.putString("pingStats",new Gson().toJson(pingStats));
     }
 
@@ -161,7 +161,7 @@ public class PingStatsPageFragment extends BasePingFragment {
         Type type = new TypeToken<ArrayList<PingStructure>>(){}.getType();
         String serializedString = bundle.getString("pingStructureList");
         Gson gson = new Gson();
-        pingStructureArrayList = gson.fromJson(serializedString,type);
+        setPingStructureArrayList(gson.fromJson(serializedString, type));
 
         type = new TypeToken<PingStats>(){}.getType();
         serializedString = bundle.getString("pingStats");

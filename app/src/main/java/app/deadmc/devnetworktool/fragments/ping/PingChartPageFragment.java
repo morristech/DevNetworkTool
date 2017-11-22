@@ -56,7 +56,6 @@ public class PingChartPageFragment extends BasePingFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -159,11 +158,11 @@ public class PingChartPageFragment extends BasePingFragment {
 
             // set data
             lineChart.setData(data);
-            if (pingStructureArrayList == null)
+            if (getPingStructureArrayList() == null)
                 return;
-            Log.e("PingChart", "pingStructureArrayList size = " + pingStructureArrayList.size());
+            Log.e("PingChart", "pingStructureArrayList size = " + getPingStructureArrayList().size());
 
-            for(PingStructure pingStructure:pingStructureArrayList) {
+            for(PingStructure pingStructure: getPingStructureArrayList()) {
                 int i = lineDataSet.getEntryCount();
                 lineDataSet.addEntry(new Entry(i, pingStructure.getPing()));
             }
@@ -187,7 +186,7 @@ public class PingChartPageFragment extends BasePingFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //Log.e("onSaveInstanceState", "save");
-        outState.putString("pingStructureList", new Gson().toJson(pingStructureArrayList));
+        outState.putString("pingStructureList", new Gson().toJson(getPingStructureArrayList()));
     }
 
     private void restoreState(Bundle bundle) {
@@ -200,7 +199,7 @@ public class PingChartPageFragment extends BasePingFragment {
         Type type = new TypeToken<ArrayList<PingStructure>>(){}.getType();
         String serializedString = bundle.getString("pingStructureList");
         Gson gson = new Gson();
-        pingStructureArrayList = gson.fromJson(serializedString,type);
+        setPingStructureArrayList((ArrayList<PingStructure>)gson.fromJson(serializedString, type));
     }
 
 }

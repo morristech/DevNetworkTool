@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.fragments
+package app.deadmc.devnetworktool.fragments.socket_connections
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -11,25 +11,21 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
 import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
-import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.helpers.DateTimeHelper
 import app.deadmc.devnetworktool.interfaces.WorkingConnectionView
 import app.deadmc.devnetworktool.modules.JsonInput
 import app.deadmc.devnetworktool.modules.MessageHistory
 import app.deadmc.devnetworktool.modules.ReceivedMessage
-import app.deadmc.devnetworktool.presenters.MainPresenter
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import app.deadmc.devnetworktool.system.SimpleItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_working_connection.*
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import kotlinx.android.synthetic.main.fragment_working_connection.*
 import kotlinx.android.synthetic.main.fragment_working_connection.view.*
 import java.io.Serializable
 import java.util.ArrayList
-import android.R.attr.defaultValue
 import android.widget.Toast
+import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.modules.ConnectionHistory
 
 

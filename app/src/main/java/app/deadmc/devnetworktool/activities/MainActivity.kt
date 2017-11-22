@@ -20,6 +20,9 @@ import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.*
 import app.deadmc.devnetworktool.fragments.ping.PingFragment
 import app.deadmc.devnetworktool.fragments.rest.RestFragment
+import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
+import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
+import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
 import app.deadmc.devnetworktool.interfaces.MainActivityView
 import app.deadmc.devnetworktool.modules.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.MainPresenter
@@ -143,7 +146,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (connectionService?.getCurrentClient() == null)
                     connectionService?.initConnection(connectionHistory)
                 serviceBound = true
-
+                Log.e("main activity","working resenter == null "+(workingConnectionsPresenter == null))
                 if (workingConnectionsPresenter == null && connectionService?.isRunning == true)
                     mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT)
                 connectionService?.workingConnectionPresenter = workingConnectionsPresenter

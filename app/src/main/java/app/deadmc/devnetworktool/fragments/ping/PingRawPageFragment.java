@@ -39,15 +39,15 @@ public class PingRawPageFragment extends BasePingFragment {
     public void addPingStructure(PingStructure pingStructure, boolean canUpdate){
         //Log.e("addPingStructure","RAW");
 
-        if (pingStructureArrayList == null) {
+        if (getPingStructureArrayList() == null) {
             Log.e("addPingStructure","pingStructureArrayList IS NULL");
             return;
         }
-        pingStructureArrayList.add(pingStructure);
+        getPingStructureArrayList().add(pingStructure);
         if (canUpdate) {
             receivedMessagesAdapter.notifyDataSetChanged();
-            if (linearLayoutManager.findLastVisibleItemPosition() >= pingStructureArrayList.size() - 3)
-                recyclerView.smoothScrollToPosition(pingStructureArrayList.size() - 1);
+            if (linearLayoutManager.findLastVisibleItemPosition() >= getPingStructureArrayList().size() - 3)
+                recyclerView.smoothScrollToPosition(getPingStructureArrayList().size() - 1);
             else {
                 //Log.e("raw","linearLayoutManager.findLastVisibleItemPosition() = "+linearLayoutManager.findLastVisibleItemPosition());
                 //Log.e("raw","pingStructureArrayList.size() = "+pingStructureArrayList.size());
@@ -60,11 +60,11 @@ public class PingRawPageFragment extends BasePingFragment {
     public void refreshFragment(ArrayList<PingStructure> arrayList){
         try {
             setPingStructureArrayList(arrayList);
-            receivedMessagesAdapter = new ReceivedPingsAdapter(getActivity(), pingStructureArrayList);
+            receivedMessagesAdapter = new ReceivedPingsAdapter(getActivity(), getPingStructureArrayList());
             recyclerView.setAdapter(receivedMessagesAdapter);
             receivedMessagesAdapter.notifyDataSetChanged();
-            if (linearLayoutManager.findLastVisibleItemPosition() == pingStructureArrayList.size() - 2)
-                recyclerView.smoothScrollToPosition(pingStructureArrayList.size() - 1);
+            if (linearLayoutManager.findLastVisibleItemPosition() == getPingStructureArrayList().size() - 2)
+                recyclerView.smoothScrollToPosition(getPingStructureArrayList().size() - 1);
         } catch (NullPointerException e) {}
     }
 
@@ -100,13 +100,13 @@ public class PingRawPageFragment extends BasePingFragment {
     }
 
     private void initPingList() {
-        if (pingStructureArrayList == null)
+        if (getPingStructureArrayList() == null)
             return;
         //Log.e("PingRaw","pingStructureArrayList size = "+pingStructureArrayList.size());
-        receivedMessagesAdapter = new ReceivedPingsAdapter(getActivity(), pingStructureArrayList);
+        receivedMessagesAdapter = new ReceivedPingsAdapter(getActivity(), getPingStructureArrayList());
         recyclerView.setAdapter(receivedMessagesAdapter);
         try {
-            if (lastVisiblePosition != 0 && pingStructureArrayList.size() > lastVisiblePosition)
+            if (lastVisiblePosition != 0 && getPingStructureArrayList().size() > lastVisiblePosition)
                 recyclerView.smoothScrollToPosition(lastVisiblePosition);
         } catch (IllegalArgumentException e) {
             //Log.e("error",Log.getStackTraceString(e));
@@ -117,7 +117,7 @@ public class PingRawPageFragment extends BasePingFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //Log.e("onSaveInstanceState", "save");
-        outState.putString("pingStructureList", new Gson().toJson(pingStructureArrayList));
+        outState.putString("pingStructureList", new Gson().toJson(getPingStructureArrayList()));
         outState.putInt("scrollPosition", linearLayoutManager.findLastVisibleItemPosition());
     }
 
@@ -133,7 +133,7 @@ public class PingRawPageFragment extends BasePingFragment {
         Type type = new TypeToken<ArrayList<PingStructure>>(){}.getType();
         String serializedString = bundle.getString("pingStructureList");
         Gson gson = new Gson();
-        pingStructureArrayList = gson.fromJson(serializedString,type);
+        setPingStructureArrayList((ArrayList<PingStructure>) gson.fromJson(serializedString, type));
     }
 
 
