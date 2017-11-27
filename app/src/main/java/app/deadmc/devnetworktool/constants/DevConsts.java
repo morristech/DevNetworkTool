@@ -12,4 +12,6 @@ public class DevConsts {
     public static final String SETTINGS = "SETTINGS";
 
     public static final int WORKING_CONNECTION_FRAGMENT = 0;
+    public static final int PING_FRAGMENT = 1;
+    public static final int REST_FRAGMENT = 2;
 }

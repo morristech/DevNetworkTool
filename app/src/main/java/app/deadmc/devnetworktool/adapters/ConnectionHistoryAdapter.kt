@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_edit_delete.view.*
 
 abstract class ConnectionHistoryAdapter(private val connectionArrayList: ArrayList<ConnectionHistory>) : RecyclerView.Adapter<ConnectionHistoryAdapter.ViewHolder>() {
 
-    private val viewBinderHelper = ViewBinderHelper()
+    protected val viewBinderHelper = ViewBinderHelper()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 

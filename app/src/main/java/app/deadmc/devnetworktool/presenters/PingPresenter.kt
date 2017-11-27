@@ -7,18 +7,33 @@ import app.deadmc.devnetworktool.helpers.SystemHelper
 import app.deadmc.devnetworktool.interfaces.PingView
 import app.deadmc.devnetworktool.modules.PingStructure
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.presenter.InjectPresenter
 import java.util.ArrayList
 
 /**
  * Created by DEADMC on 11/22/2017.
  */
+@InjectViewState
 class PingPresenter : BasePresenter<PingView>() {
     var currentUrl:String? = null
-    private var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
+    var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
+    var pingPagePresenterList: HashSet<PingPagePresenter> = HashSet()
     private var pingThread: Thread? = null
-    private var pingPagePresenterList: ArrayList<PingPagePresenter> = ArrayList()
+
 
     @Volatile private var working = false
+
+    fun handleClick() {
+        if (working) {
+            working = false
+            viewState.setStartButtonOff()
+        } else {
+            getPings()
+            viewState.setStartButtonOn()
+        }
+
+    }
 
     private fun getPings() {
         //Log.e("getPings", "started");
@@ -34,7 +49,7 @@ class PingPresenter : BasePresenter<PingView>() {
 
                 handler.post {
                     try {
-                        addMessageToPagerAdapter(SystemHelper.getPing(currentUrl))
+                        addMessage(SystemHelper.getPing(currentUrl))
                     } catch (e: IllegalStateException) {
                         Log.e("",Log.getStackTraceString(e))
                     }
@@ -45,20 +60,28 @@ class PingPresenter : BasePresenter<PingView>() {
         pingThread?.start()
     }
 
-    private fun addMessageToPagerAdapter(message: String) {
-        Log.e("thread", "addMessageToPagerAdapter")
+
+
+    private fun addMessage(message: String) {
+        Log.e("thread", "addMessageToPagerAdapter "+pingPagePresenterList.size)
         val pingStructure = PingStructure(message)
         pingStructureArrayList.add(pingStructure)
 
+        pingPagePresenterList.forEach {
+            Log.e("presenter","it "+it.toString())
+            it.addPingStructure(pingStructure,true)
+        }
+
+
+        /*
         val currentItem = viewPager.getCurrentItem()
-
         val sparseArrayFragments = pingPagerAdapter.getRegisteredFragment()
-
         for (i in 0 until sparseArrayFragments.size()) {
             val index = sparseArrayFragments.keyAt(i)
             val basePingFragment = sparseArrayFragments.get(index)
             val canUpdate = index == currentItem && !scrolling
             basePingFragment.addPingStructure(pingStructure, canUpdate)
         }
+        */
     }
 }

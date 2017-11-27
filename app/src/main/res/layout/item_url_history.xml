@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="2dp"
+    android:id="@+id/layoutUrlHistory"
     android:paddingLeft="16dp">
 
     <TextView
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Some name here"
-        android:id="@+id/ipAddressTextView"
+        android:id="@+id/urlTextView"
         android:textColor="@color/textColor"
         android:padding="15dp"
         android:layout_marginLeft="10dp"

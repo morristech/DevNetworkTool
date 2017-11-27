@@ -7,12 +7,12 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputIpAddress"
+        android:id="@+id/urlTextInoutLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editIpAddress"
+            android:id="@+id/urlEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ip_address_url" />

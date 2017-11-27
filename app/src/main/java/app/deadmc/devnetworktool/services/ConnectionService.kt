@@ -13,7 +13,6 @@ import android.util.Log
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.activities.MainActivity2
 import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.clients.TCPClientSocket
 import app.deadmc.devnetworktool.clients.UDPClientSocket

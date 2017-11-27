@@ -71,11 +71,11 @@ public class RestFragment extends ObserverFragment {
     }
 
     public void initViewPager() {
-        viewPager = (ViewPager) myFragmentView.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) myFragmentView.findViewById(R.id.viewPager);
         restPagerAdapter = new RestPagerAdapter(getFragmentManager(),getActivity(),currentUrl,this);
         viewPager.setAdapter(restPagerAdapter);
         viewPager.setOffscreenPageLimit(5);
-        TabLayout tabLayout = (TabLayout) myFragmentView.findViewById(R.id.sliding_tabs);
+        TabLayout tabLayout = (TabLayout) myFragmentView.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}

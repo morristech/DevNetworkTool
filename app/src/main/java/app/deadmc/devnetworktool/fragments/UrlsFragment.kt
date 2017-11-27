@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.fragments.socket_connections
+package app.deadmc.devnetworktool.fragments
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -10,19 +10,20 @@ import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.adapters.ConnectionHistoryAdapter
+import app.deadmc.devnetworktool.adapters.UrlHistoryAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.ConnectionsView
 import app.deadmc.devnetworktool.modules.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
-import kotlinx.android.synthetic.main.add_connection_layout.view.*
+import kotlinx.android.synthetic.main.add_url_layout.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
 import java.util.ArrayList
 
-abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
+abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     var alertDialog: AlertDialog? = null
     lateinit var alertView: View
-    lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
+    lateinit var connectionHistoryAdapter:UrlHistoryAdapter
 
     abstract fun getPresenter() : ConnectionsPresenter
 
@@ -35,18 +36,17 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
 
     fun initElements() {
         myFragmentView.floatingActionButton.setOnClickListener { getPresenter().showDialogForCreate() }
-
         myFragmentView.recyclerViewHistory.setHasFixedSize(true)
         myFragmentView.recyclerViewHistory.layoutManager = LinearLayoutManager(context)
         getPresenter().fillRecyclerView()
-
     }
+
+
 
     override fun fillRecyclerView(list:List<ConnectionHistory>) {
         val arrayListConnectionHistory = ArrayList(list)
-        connectionHistoryAdapter = object : ConnectionHistoryAdapter(arrayListConnectionHistory) {
+        connectionHistoryAdapter = object : UrlHistoryAdapter(arrayListConnectionHistory) {
             override fun onClickItem(connectionHistory: ConnectionHistory, position: Int) {
-                Log.e("onClickItem","connectionHistory "+connectionHistory.ipAddress)
                 getPresenter().openNextFragment(mainActivity.mainPresenter,connectionHistory)
             }
 
@@ -66,7 +66,7 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
 
     override fun showDialogForCreate() {
         val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = onGetLayoutInflater(null).inflate(R.layout.add_connection_layout, null)
+        alertView = onGetLayoutInflater(null).inflate(R.layout.add_url_layout, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(getPresenter().currentConnectionHistory)
         alertDialogBuilder.setPositiveButton(R.string.add, { _, _ ->
@@ -79,14 +79,14 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
 
     override fun showDialogForEdit(connectionHistory: ConnectionHistory, position: Int) {
         val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = onGetLayoutInflater(null).inflate(R.layout.add_connection_layout, null)
+        alertView = onGetLayoutInflater(null).inflate(R.layout.add_url_layout, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(connectionHistory)
 
         alertDialogBuilder.setPositiveButton(R.string.edit) { _, _ ->
-            connectionHistory.ipAddress = alertView.editTextIpAddress.text.toString()
-            connectionHistory.name = alertView.editTextName.text.toString()
-            connectionHistory.port = if (alertView.editTextPort.text.toString().isEmpty()) 0 else Integer.parseInt(alertView.editTextPort.text.toString())
+            connectionHistory.ipAddress = alertView.urlEditText.text.toString()
+            connectionHistory.name = alertView.urlEditText.text.toString()
+            connectionHistory.port = 80
             getPresenter().saveConnectionHistory(connectionHistory)
             connectionHistoryAdapter.notifyItemChanged(position)
             getPresenter().hideDialog()
@@ -112,12 +112,7 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
 
 
     private fun fillDialogVariables(connectionHistory: ConnectionHistory) {
-        alertView.editTextIpAddress.setText(connectionHistory.ipAddress)
-        alertView.editTextName.setText(connectionHistory.name)
-        if (connectionHistory.port == 0)
-            alertView.editTextPort.setText("")
-        else
-            alertView.editTextPort.setText(connectionHistory.port.toString())
+        alertView.urlEditText.setText(connectionHistory.ipAddress)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import app.deadmc.devnetworktool.R;
-import app.deadmc.devnetworktool.activities.MainActivity2;
 import app.deadmc.devnetworktool.adapters.RestRequestHistoryAdapter;
 import app.deadmc.devnetworktool.fragments.ParentFragment;
 import app.deadmc.devnetworktool.modules.RestRequestHistory;
@@ -58,11 +57,7 @@ public class RestHistoryFragment extends ParentFragment {
             @Override
             public void onClickItem(RestRequestHistory restRequestHistory, int position) {
                 try {
-                    if (restFragment == null) {
-                        MainActivity2 mainActivity2 = (MainActivity2) getActivity();
-                        restFragment = (RestFragment) mainActivity2.getCurrentFragment();
-                    }
-                    restFragment.loadRestHistory(restRequestHistory);
+                    //restFragment.loadRestHistory(restRequestHistory);
                 } catch (Exception e) {}
             }
         };

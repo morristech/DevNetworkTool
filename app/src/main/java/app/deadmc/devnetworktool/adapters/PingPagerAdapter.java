@@ -16,6 +16,7 @@ import app.deadmc.devnetworktool.fragments.ping.PingChartPageFragment;
 import app.deadmc.devnetworktool.fragments.ping.PingRawPageFragment;
 import app.deadmc.devnetworktool.fragments.ping.PingStatsPageFragment;
 import app.deadmc.devnetworktool.modules.PingStructure;
+import app.deadmc.devnetworktool.presenters.PingPresenter;
 
 /**
  * Created by Feren on 11.12.2016.
@@ -23,8 +24,8 @@ import app.deadmc.devnetworktool.modules.PingStructure;
 public class PingPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<BasePingFragment> registeredFragments = new SparseArray<>();
-    private ArrayList<PingStructure> pingStructureArrayList;
     private String currentUrl;
+    private PingPresenter pingPresenter;
 
     private static int NUM_ITEMS = 3;
     private static int[] PAGE_NAMES = {R.string.raw_data,R.string.chart,R.string.stats};
@@ -33,13 +34,10 @@ public class PingPagerAdapter extends FragmentStatePagerAdapter {
 
     public PingPagerAdapter(FragmentManager fragmentManager,
                             Context context,
-                            ArrayList<PingStructure> pingStructureArrayList,
-                            String currentUrl) {
+                            PingPresenter pingPresenter) {
         super(fragmentManager);
         this.context = context;
-        this.pingStructureArrayList = pingStructureArrayList;
-        this.currentUrl = currentUrl;
-        Log.e("PingRaw", "pingStructureArrayList Adapter size = " + pingStructureArrayList.size());
+        this.pingPresenter = pingPresenter;
     }
 
     @Override
@@ -55,11 +53,11 @@ public class PingPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 basePingFragment = new PingStatsPageFragment();
                 PingStatsPageFragment pingStatsPageFragment = (PingStatsPageFragment) basePingFragment;
-                pingStatsPageFragment.setCurrentUrl(currentUrl);
+                pingStatsPageFragment.setCurrentUrl(pingPresenter.getCurrentUrl());
                 break;
         }
         if (basePingFragment != null)
-            basePingFragment.setPingStructureArrayList(pingStructureArrayList);
+            basePingFragment.setPingPresenter(pingPresenter);
         return  basePingFragment;
     }
 
@@ -72,6 +70,9 @@ public class PingPagerAdapter extends FragmentStatePagerAdapter {
         } catch (IndexOutOfBoundsException e){
             Log.e("instantiateItem",Log.getStackTraceString(e));
         }
+
+        fragment.setPingPresenter(pingPresenter);
+        //pingPresenter.getPingPagePresenterList().add(fragment.getPresenter());
         return fragment;
     }
 

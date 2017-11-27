@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.deadmc.devnetworktool.R;
-import app.deadmc.devnetworktool.activities.MainActivity2;
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter;
 import app.deadmc.devnetworktool.fragments.ParentFragment;
 import app.deadmc.devnetworktool.helpers.AllHeaders;
@@ -149,10 +148,6 @@ public class RequestRestFragment extends ParentFragment {
             @Override
             public void onClick(View v) {
                 try {
-                    if (restFragment == null) {
-                        MainActivity2 mainActivity2 = (MainActivity2) getActivity();
-                        restFragment = (RestFragment) mainActivity2.getCurrentFragment();
-                    }
                     restFragment.sendRequest(urlEditText.getText().toString(), currentMethod, collectHeaders(), collectRequests());
                     RestRequestHistory restRequestHistory = new RestRequestHistory(urlEditText.getText().toString(), currentMethod, headersArrayList, requestArrayList);
                     restRequestHistory.save();

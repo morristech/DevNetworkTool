@@ -18,7 +18,8 @@ import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.*
-import app.deadmc.devnetworktool.fragments.ping.PingFragment
+import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
+import app.deadmc.devnetworktool.fragments.ping.RefactoredPingFragment
 import app.deadmc.devnetworktool.fragments.rest.RestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
@@ -79,7 +80,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (item) {
             R.id.tcp_client -> runFragment(TcpConnectionsFragment())
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
-            R.id.ping -> runFragment(DevConsts.PING, PingFragment())
+            R.id.ping -> runFragment(PingConnectionsFragment())
             R.id.rest -> runFragment(DevConsts.REST, RestFragment())
             R.id.settings -> runFragment(DevConsts.REST, SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
@@ -93,10 +94,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun runFragmentDependsOnId(id: Int, serializable: Serializable) {
-        val bundle = Bundle()
-        bundle.putSerializable("serializable", serializable)
         when (id) {
+            DevConsts.PING_FRAGMENT -> runFragment(RefactoredPingFragment.getInstance(serializable))
             DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
+            DevConsts.REST_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
         }
     }
 

@@ -29,7 +29,7 @@ open class ConnectionsPresenter : BasePresenter<ConnectionsView>() {
         viewState.hideDialog()
     }
 
-    fun openWorkingConnectionFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
+    open fun openNextFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
         mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT,connectionHistory)
     }
 

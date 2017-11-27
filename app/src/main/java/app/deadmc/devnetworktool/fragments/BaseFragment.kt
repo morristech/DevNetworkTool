@@ -6,7 +6,6 @@ import android.view.View
 import com.arellomobile.mvp.MvpAppCompatFragment
 
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.activities.MainActivity2
 
 /**
  * Created by Feren on 12.01.2017.
