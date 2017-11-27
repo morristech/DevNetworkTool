@@ -17,8 +17,14 @@ object SystemHelper {
     external fun stringFromJNI(): String
 
 
-    fun pingRequest():String {
+    fun pingRequest(): String {
         return stringFromJNI()
+    }
+
+
+    // Used to load the 'native-lib' library on application startup.
+    init {
+        System.loadLibrary("native-lib")
     }
 
 

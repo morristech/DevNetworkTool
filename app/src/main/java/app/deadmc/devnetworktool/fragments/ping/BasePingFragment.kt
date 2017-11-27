@@ -14,9 +14,8 @@ import app.deadmc.devnetworktool.presenters.PingPresenter
  */
 abstract class BasePingFragment : BaseFragment(), PingPageView {
 
-    var pingPresenter:PingPresenter? = null
-
     abstract fun getPresenter():PingPagePresenter
+    abstract fun getCommonPresenter():PingPresenter
     override abstract fun addPingStructure(pingStructure: PingStructure, canUpdate: Boolean)
     override abstract fun refreshFragment(arrayList: ArrayList<PingStructure>)
 }

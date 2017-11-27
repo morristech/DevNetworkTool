@@ -20,6 +20,7 @@ import app.deadmc.devnetworktool.modules.PingStats
 import app.deadmc.devnetworktool.modules.PingStructure
 import app.deadmc.devnetworktool.modules.SimpleString
 import app.deadmc.devnetworktool.presenters.PingPagePresenter
+import app.deadmc.devnetworktool.presenters.PingPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 
@@ -39,6 +40,10 @@ class PingStatsPageFragment : BasePingFragment() {
 
     override fun getPresenter(): PingPagePresenter {
         return pingPagePresenter
+    }
+
+    override fun getCommonPresenter(): PingPresenter {
+        return PingPresenter()
     }
 
     init {
@@ -66,8 +71,8 @@ class PingStatsPageFragment : BasePingFragment() {
 
     override fun refreshFragment(arrayList: ArrayList<PingStructure>) {
         try {
-            pingPresenter.pingStructureArrayList = arrayList
-            Log.e("refreshStats", "count of elements " + pingPresenter.pingStructureArrayList.size)
+            getCommonPresenter().pingStructureArrayList = arrayList
+            Log.e("refreshStats", "count of elements " + getCommonPresenter().pingStructureArrayList.size)
             setPingStats(true)
         } catch (e: NullPointerException) {
         }
@@ -85,7 +90,7 @@ class PingStatsPageFragment : BasePingFragment() {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
         restoreState(savedInstanceState)
         initElements()
-        pingPresenter.pingPagePresenterList.add(pingPagePresenter)
+        getCommonPresenter().pingPagePresenterList.add(pingPagePresenter)
         // Inflate the layout for this fragment
         return myFragmentView
     }
@@ -112,11 +117,11 @@ class PingStatsPageFragment : BasePingFragment() {
 
     private fun setPingStats(refreshAll: Boolean) {
         Log.e("setPingStats", "called")
-        if (pingPresenter.pingStructureArrayList == null)
+        if (getCommonPresenter().pingStructureArrayList == null)
             return
         if (pingStats == null || refreshAll) {
             pingStats = PingStats()
-            for (pingStructure in pingPresenter.pingStructureArrayList) {
+            for (pingStructure in getCommonPresenter().pingStructureArrayList) {
                 pingStats!!.ipAddress = pingStructure.ipAddress
                 pingStats!!.ttl = pingStructure.ttl
                 pingStats!!.addPing(pingStructure.ping)

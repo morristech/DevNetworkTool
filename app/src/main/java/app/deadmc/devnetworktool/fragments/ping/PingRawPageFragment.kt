@@ -18,6 +18,7 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
 import app.deadmc.devnetworktool.modules.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPagePresenter
+import app.deadmc.devnetworktool.presenters.PingPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -43,12 +44,16 @@ class PingRawPageFragment : BasePingFragment() {
         return pingPagePresenter
     }
 
+    override fun getCommonPresenter(): PingPresenter {
+        return PingPresenter()
+    }
+
     override fun addPingStructure(pingStructure: PingStructure, canUpdate: Boolean) {
         //Log.e("addPingStructure","RAW");
         if (canUpdate) {
             receivedMessagesAdapter.notifyDataSetChanged()
-            if (linearLayoutManager!!.findLastVisibleItemPosition() >= pingPresenter.pingStructureArrayList.size - 3)
-                myFragmentView.recyclerView.smoothScrollToPosition(pingPresenter.pingStructureArrayList.size - 1)
+            if (linearLayoutManager!!.findLastVisibleItemPosition() >= getCommonPresenter().pingStructureArrayList.size - 3)
+                myFragmentView.recyclerView.smoothScrollToPosition(getCommonPresenter().pingStructureArrayList.size - 1)
             else {
                 //Log.e("raw","linearLayoutManager.findLastVisibleItemPosition() = "+linearLayoutManager.findLastVisibleItemPosition());
                 //Log.e("raw","pingStructureArrayList.size() = "+pingStructureArrayList.size());
@@ -80,7 +85,7 @@ class PingRawPageFragment : BasePingFragment() {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
         restoreState(savedInstanceState)
         initElements()
-        pingPresenter.pingPagePresenterList.add(pingPagePresenter)
+        getCommonPresenter().pingPagePresenterList.add(pingPagePresenter)
         // Inflate the layout for this fragment
         return myFragmentView
     }
@@ -99,11 +104,10 @@ class PingRawPageFragment : BasePingFragment() {
     }
 
     private fun initPingList() {
-        if (pingPresenter == null)
-        receivedMessagesAdapter = ReceivedPingsAdapter(activity, pingPresenter.pingStructureArrayList)
+        receivedMessagesAdapter = ReceivedPingsAdapter(activity, getCommonPresenter().pingStructureArrayList)
         myFragmentView.recyclerView.adapter = receivedMessagesAdapter
         try {
-            if (lastVisiblePosition != 0 && pingPresenter.pingStructureArrayList.size > lastVisiblePosition)
+            if (lastVisiblePosition != 0 && getCommonPresenter().pingStructureArrayList.size > lastVisiblePosition)
                 myFragmentView.recyclerView.smoothScrollToPosition(lastVisiblePosition)
         } catch (e: IllegalArgumentException) {
             //Log.e("error",Log.getStackTraceString(e));

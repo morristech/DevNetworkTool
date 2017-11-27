@@ -26,6 +26,7 @@ import java.util.ArrayList
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.modules.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPagePresenter
+import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.presenter.InjectPresenter
 
@@ -42,6 +43,10 @@ class PingChartPageFragment : BasePingFragment() {
 
     override fun getPresenter(): PingPagePresenter {
         return pingPagePresenter
+    }
+
+    override fun getCommonPresenter(): PingPresenter {
+        return PingPresenter()
     }
 
     override fun addPingStructure(pingStructure: PingStructure, canUpdate: Boolean) {
@@ -69,7 +74,7 @@ class PingChartPageFragment : BasePingFragment() {
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_chart, container, false)
         initElements()
-        pingPresenter?.pingPagePresenterList.add(pingPagePresenter)
+        getCommonPresenter().pingPagePresenterList?.add(pingPagePresenter)
         // Inflate the layout for this fragment
         return myFragmentView
     }
@@ -159,7 +164,7 @@ class PingChartPageFragment : BasePingFragment() {
             // set data
             lineChart!!.data = data
 
-            for (pingStructure in pingPresenter.pingStructureArrayList) {
+            for (pingStructure in getCommonPresenter().pingStructureArrayList) {
                 val i = lineDataSet!!.entryCount
                 lineDataSet!!.addEntry(Entry(i.toFloat(), pingStructure.ping))
             }

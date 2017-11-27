@@ -56,8 +56,8 @@ public class PingPagerAdapter extends FragmentStatePagerAdapter {
                 pingStatsPageFragment.setCurrentUrl(pingPresenter.getCurrentUrl());
                 break;
         }
-        if (basePingFragment != null)
-            basePingFragment.setPingPresenter(pingPresenter);
+        //if (basePingFragment != null)
+           // basePingFragment.setPingPresenter(pingPresenter);
         return  basePingFragment;
     }
 
@@ -71,7 +71,7 @@ public class PingPagerAdapter extends FragmentStatePagerAdapter {
             Log.e("instantiateItem",Log.getStackTraceString(e));
         }
 
-        fragment.setPingPresenter(pingPresenter);
+        //fragment.setPingPresenter(pingPresenter);
         //pingPresenter.getPingPagePresenterList().add(fragment.getPresenter());
         return fragment;
     }

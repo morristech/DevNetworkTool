@@ -16,7 +16,7 @@ import java.util.ArrayList
  */
 @InjectViewState
 class PingPresenter : BasePresenter<PingView>() {
-    var currentUrl:String? = null
+    var currentUrl:String = ""
     var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
     var pingPagePresenterList: HashSet<PingPagePresenter> = HashSet()
     private var pingThread: Thread? = null
