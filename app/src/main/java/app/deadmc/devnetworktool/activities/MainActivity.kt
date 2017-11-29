@@ -19,7 +19,7 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.*
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
-import app.deadmc.devnetworktool.fragments.ping.RefactoredPingFragment
+import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
 import app.deadmc.devnetworktool.fragments.rest.RestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
@@ -95,7 +95,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun runFragmentDependsOnId(id: Int, serializable: Serializable) {
         when (id) {
-            DevConsts.PING_FRAGMENT -> runFragment(RefactoredPingFragment.getInstance(serializable))
+            DevConsts.PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
             DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
             DevConsts.REST_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
         }

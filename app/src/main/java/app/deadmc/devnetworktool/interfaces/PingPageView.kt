@@ -1,7 +1,6 @@
 package app.deadmc.devnetworktool.interfaces
 
 import app.deadmc.devnetworktool.modules.PingStructure
-import app.deadmc.devnetworktool.presenters.PingPagePresenter
 import com.arellomobile.mvp.MvpView
 import java.util.ArrayList
 

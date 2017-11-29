@@ -1,5 +1,8 @@
 package app.deadmc.devnetworktool.modules;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Created by Feren on 30.11.2016.
  */
@@ -83,7 +86,7 @@ public class PingStats {
     }
 
     public float getAverage() {
-        return average;
+        return Math.round(average*10)/10f;
     }
 
     public String getIpAddress() {

@@ -1,51 +1,44 @@
 package app.deadmc.devnetworktool.fragments.ping
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.PingPagerAdapter
-import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
-import app.deadmc.devnetworktool.interfaces.PingPageView
 import app.deadmc.devnetworktool.interfaces.PingView
 import app.deadmc.devnetworktool.modules.ConnectionHistory
 import app.deadmc.devnetworktool.modules.PingStructure
-import app.deadmc.devnetworktool.presenters.PingPagePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.presenter.InjectPresenter
-import java.util.ArrayList
-import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_ping.view.*
 import java.io.Serializable
+import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
 
-/**
- * Created by DEADMC on 11/26/2017.
- */
-class RefactoredPingFragment : BaseFragment(), PingView {
+class MainPingFragment : BaseFragment(), PingView {
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var pingPresenter:PingPresenter
     lateinit var pingPagerAdapter: PingPagerAdapter
-
-
     private var scrolling = false
 
     companion object {
-        fun getInstance(serializable: Serializable): RefactoredPingFragment {
-            val fragment = RefactoredPingFragment()
+        fun getInstance(serializable: Serializable): MainPingFragment {
+            val fragment = MainPingFragment()
             val args = Bundle()
             args.putSerializable("connection_history", serializable)
             fragment.arguments = args
             return fragment
         }
+    }
+
+    @ProvidePresenter(type = PresenterType.LOCAL)
+    fun provideRepositoryPresenter(): PingPresenter {
+        return PingPresenter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,25 +68,27 @@ class RefactoredPingFragment : BaseFragment(), PingView {
     }
 
     private fun initViewPager() {
-        pingPagerAdapter = PingPagerAdapter(fragmentManager, activity, pingPresenter)
+        pingPagerAdapter = PingPagerAdapter(fragmentManager, activity)
         myFragmentView.viewPager.adapter = pingPagerAdapter
         myFragmentView.viewPager.offscreenPageLimit = 3
         myFragmentView.tabLayout.setupWithViewPager(myFragmentView.viewPager)
+        myFragmentView.viewPager.currentItem = pingPresenter.currentPage
+
 
         val viewPagerListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                //Log.e("scrolled","start "+positionOffset);
                 if (positionOffset > 0.0f)
                     scrolling = true
             }
 
-            override fun onPageSelected(position: Int) {}
+            override fun onPageSelected(position: Int) {
+                Log.e(TAG,"pageSelected = $position")
+                pingPresenter.currentPage = position
+            }
 
             override fun onPageScrollStateChanged(state: Int) {
                 if (ViewPager.SCROLL_STATE_IDLE == state) {
                     scrolling = false
-                    Log.e("StateChanged", "scroll finished")
-                    //refreshFragments()
                 }
             }
         }
@@ -106,5 +101,7 @@ class RefactoredPingFragment : BaseFragment(), PingView {
             pingPresenter.handleClick()
         })
     }
+
+    override fun addPingStructure(pingStructure: PingStructure){}
 
 }

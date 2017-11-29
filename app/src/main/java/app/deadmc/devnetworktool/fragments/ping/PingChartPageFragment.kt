@@ -9,179 +9,129 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IFillFormatter
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
-import java.lang.reflect.Type
 import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.interfaces.PingView
 import app.deadmc.devnetworktool.modules.PingStructure
-import app.deadmc.devnetworktool.presenters.PingPagePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
-import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.presenter.InjectPresenter
-
-/**
- * Created by Feren on 16.01.2017.
- */
-class PingChartPageFragment : BasePingFragment() {
-
-    @InjectPresenter
-    lateinit var pingPagePresenter:PingPagePresenter
-    private var lineChart: LineChart? = null
-    private var lineDataSet: LineDataSet? = null
+import com.arellomobile.mvp.presenter.PresenterType
+import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
 
 
-    override fun getPresenter(): PingPagePresenter {
-        return pingPagePresenter
-    }
+class PingChartPageFragment : BasePingFragment(), PingView {
 
-    override fun getCommonPresenter(): PingPresenter {
-        return PingPresenter()
-    }
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var pingPresenter: PingPresenter
+    private lateinit var lineDataSet: LineDataSet
 
-    override fun addPingStructure(pingStructure: PingStructure, canUpdate: Boolean) {
-        addDataToChart(pingStructure.ping, canUpdate)
-    }
-
-
-    override fun refreshFragment(pingStructureArrayList: ArrayList<PingStructure>) {
-        /*
-        try {
-            setPingStructureArrayList(pingStructureArrayList);
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
-            lineChart.invalidate();
-        } catch (NullPointerException e) {}
-        */
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun addPingStructure(pingStructure: PingStructure) {
+        if (initCompleted)
+            addDataToChart(pingStructure.ping)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_chart, container, false)
-        initElements()
-        getCommonPresenter().pingPagePresenterList?.add(pingPagePresenter)
-        // Inflate the layout for this fragment
+        initGraphic()
+        initCompleted = true
         return myFragmentView
     }
 
-
-    private fun initElements() {
-        initGraphic()
-    }
-
     private fun initGraphic() {
-
-        lineChart = myFragmentView.findViewById<View>(R.id.chart) as LineChart
-        lineChart!!.setViewPortOffsets(0f, 0f, 0f, 0f)
-        lineChart!!.setBackgroundColor(Color.rgb(238, 238, 238))
-
+        myFragmentView.chart.setViewPortOffsets(0f, 0f, 0f, 0f)
+        myFragmentView.chart.setBackgroundColor(Color.rgb(238, 238, 238))
         // no description text
-        lineChart!!.description.isEnabled = false
-
+        myFragmentView.chart.description.isEnabled = false
         // enable touch gestures
-        lineChart!!.setTouchEnabled(true)
-
+        myFragmentView.chart.setTouchEnabled(true)
         // enable scaling and dragging
-        lineChart!!.isDragEnabled = true
-        lineChart!!.setScaleEnabled(true)
-
+        myFragmentView.chart.isDragEnabled = true
+        myFragmentView.chart.setScaleEnabled(true)
         // if disabled, scaling can be done on x- and y-axis separately
-        lineChart!!.setPinchZoom(false)
+        myFragmentView.chart.setPinchZoom(false)
+        myFragmentView.chart.setDrawGridBackground(false)
+        myFragmentView.chart.maxHighlightDistance = 300f
 
-        lineChart!!.setDrawGridBackground(false)
-        lineChart!!.maxHighlightDistance = 300f
+        myFragmentView.chart.setBackgroundColor(ContextCompat.getColor(activity, R.color.white))
 
-        val x = lineChart!!.xAxis
+        val x = myFragmentView.chart.xAxis
         x.isEnabled = false
-
-        val y = lineChart!!.axisLeft
+        val y = myFragmentView.chart.axisLeft
         //y.setTypeface(mTfLight);
         y.setLabelCount(8, false)
+        y.axisMinimum = 0f
         y.textColor = ContextCompat.getColor(activity, R.color.textColor)
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         y.setDrawGridLines(false)
         y.axisLineColor = ContextCompat.getColor(activity, R.color.textColor)
 
-        lineChart!!.axisRight.isEnabled = false
-
+        myFragmentView.chart.axisRight.isEnabled = false
         // add data
         setDataToChart()
-
-        lineChart!!.legend.isEnabled = false
-
-        lineChart!!.animateXY(2000, 2000)
-
+        myFragmentView.chart.legend.isEnabled = false
+        myFragmentView.chart.animateXY(2000, 2000)
         // dont forget to refresh the drawing
-        lineChart!!.invalidate()
+        myFragmentView.chart.invalidate()
     }
 
     private fun setDataToChart() {
+        Log.e(TAG, "setDataToChart")
         val yVals = ArrayList<Entry>()
 
-        if (lineChart!!.data != null && lineChart!!.data.dataSetCount > 0) {
-            lineDataSet = lineChart!!.data.getDataSetByIndex(0) as LineDataSet
-            lineDataSet!!.values = yVals
-            lineChart!!.data.notifyDataChanged()
-            lineChart!!.notifyDataSetChanged()
+        if (myFragmentView.chart.data != null && myFragmentView.chart.data.dataSetCount > 0) {
+            lineDataSet = myFragmentView.chart.data.getDataSetByIndex(0) as LineDataSet
+            lineDataSet.values = yVals
+            myFragmentView.chart.data.notifyDataChanged()
+            myFragmentView.chart.notifyDataSetChanged()
         } else {
             // create a dataset and give it a type
             lineDataSet = LineDataSet(yVals, "DataSet 1")
 
-            lineDataSet!!.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-            lineDataSet!!.cubicIntensity = 0.2f
-            lineDataSet!!.setDrawFilled(true)
-            lineDataSet!!.setDrawCircles(false)
-            lineDataSet!!.lineWidth = 1.0f
-            lineDataSet!!.highlightLineWidth = 1.0f
-            lineDataSet!!.highLightColor = ContextCompat.getColor(activity, R.color.textColor)
-            lineDataSet!!.color = ContextCompat.getColor(activity, R.color.colorPrimaryDark)
-            lineDataSet!!.fillColor = ContextCompat.getColor(activity, R.color.colorPrimary)
-            lineDataSet!!.fillAlpha = 150
-            lineDataSet!!.setDrawHorizontalHighlightIndicator(true)
-            lineDataSet!!.fillFormatter = IFillFormatter { dataSet, dataProvider -> 0f }
+            lineDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+            lineDataSet.cubicIntensity = 0.2f
+            lineDataSet.setDrawFilled(true)
+            lineDataSet.setDrawCircles(false)
+            lineDataSet.lineWidth = 1.0f
+            lineDataSet.highlightLineWidth = 1.0f
+            lineDataSet.highLightColor = ContextCompat.getColor(activity, R.color.textColor)
+            lineDataSet.color = ContextCompat.getColor(activity, R.color.colorPrimaryDark)
+            lineDataSet.fillColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+            lineDataSet.fillAlpha = 150
+            lineDataSet.setDrawHorizontalHighlightIndicator(true)
+            lineDataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> 0f }
 
             // create a data object with the datasets
             val data = LineData(lineDataSet!!)
             //data.setValueTypeface(mTfLight);
             data.setValueTextSize(9f)
             data.setDrawValues(false)
+            myFragmentView.chart.data = data
 
-            // set data
-            lineChart!!.data = data
-
-            for (pingStructure in getCommonPresenter().pingStructureArrayList) {
-                val i = lineDataSet!!.entryCount
-                lineDataSet!!.addEntry(Entry(i.toFloat(), pingStructure.ping))
+            for (pingStructure in pingPresenter.pingStructureArrayList) {
+                val i = lineDataSet.entryCount
+                lineDataSet.addEntry(Entry(i.toFloat(), pingStructure.ping))
             }
-            lineChart!!.data.notifyDataChanged()
-            lineChart!!.notifyDataSetChanged()
-            lineChart!!.invalidate()
+            myFragmentView.chart.data.notifyDataChanged()
+            myFragmentView.chart.notifyDataSetChanged()
+            myFragmentView.chart.invalidate()
         }
     }
 
-    private fun addDataToChart(value: Float, canUpdate: Boolean) {
-        val i = lineDataSet!!.entryCount
-        lineDataSet!!.addEntry(Entry(i.toFloat(), value))
-        if (canUpdate) {
-            lineChart!!.data.notifyDataChanged()
-            lineChart!!.notifyDataSetChanged()
-            lineChart!!.invalidate()
-        }
+    private fun addDataToChart(value: Float) {
+        val i = lineDataSet.entryCount
+        lineDataSet.addEntry(Entry(i.toFloat(), value))
+        myFragmentView.chart.data.notifyDataChanged()
+        myFragmentView.chart.notifyDataSetChanged()
+        myFragmentView.chart.invalidate()
+
     }
 
 

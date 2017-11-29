@@ -14,6 +14,8 @@ open class BaseFragment : MvpAppCompatFragment() {
 
     protected lateinit var myFragmentView: View
     protected lateinit var mainActivity: MainActivity
+    val TAG = javaClass.simpleName
+
 
     override fun toString(): String {
         return this.javaClass.simpleName

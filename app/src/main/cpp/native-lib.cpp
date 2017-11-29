@@ -11,3 +11,6 @@ Java_app_deadmc_devnetworktool_helpers_SystemHelper_stringFromJNI(
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
+
+
+

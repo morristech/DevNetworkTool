@@ -11,32 +11,28 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.presenter.InjectPresenter
 import java.util.ArrayList
 
-/**
- * Created by DEADMC on 11/22/2017.
- */
 @InjectViewState
 class PingPresenter : BasePresenter<PingView>() {
     var currentUrl:String = ""
     var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
-    var pingPagePresenterList: HashSet<PingPagePresenter> = HashSet()
+    var currentPage:Int = 0
+    var currentPosition:Int = 0
     private var pingThread: Thread? = null
-
 
     @Volatile private var working = false
 
     fun handleClick() {
         if (working) {
             working = false
-            viewState.setStartButtonOff()
+            viewState.setStartButtonOn()
         } else {
             getPings()
-            viewState.setStartButtonOn()
+            viewState.setStartButtonOff()
         }
 
     }
 
     private fun getPings() {
-        //Log.e("getPings", "started");
         working = true
         val handler = Handler()
         pingThread = Thread {
@@ -46,7 +42,6 @@ class PingPresenter : BasePresenter<PingView>() {
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
-
                 handler.post {
                     try {
                         addMessage(SystemHelper.getPing(currentUrl))
@@ -55,7 +50,6 @@ class PingPresenter : BasePresenter<PingView>() {
                     }
                 }
             }
-            Log.e("thread", "stopped")
         }
         pingThread?.start()
     }
@@ -63,25 +57,8 @@ class PingPresenter : BasePresenter<PingView>() {
 
 
     private fun addMessage(message: String) {
-        Log.e("thread", "addMessageToPagerAdapter "+pingPagePresenterList.size)
         val pingStructure = PingStructure(message)
         pingStructureArrayList.add(pingStructure)
-
-        pingPagePresenterList.forEach {
-            Log.e("presenter","it "+it.toString())
-            it.addPingStructure(pingStructure,true)
-        }
-
-
-        /*
-        val currentItem = viewPager.getCurrentItem()
-        val sparseArrayFragments = pingPagerAdapter.getRegisteredFragment()
-        for (i in 0 until sparseArrayFragments.size()) {
-            val index = sparseArrayFragments.keyAt(i)
-            val basePingFragment = sparseArrayFragments.get(index)
-            val canUpdate = index == currentItem && !scrolling
-            basePingFragment.addPingStructure(pingStructure, canUpdate)
-        }
-        */
+        viewState.addPingStructure(pingStructure)
     }
 }

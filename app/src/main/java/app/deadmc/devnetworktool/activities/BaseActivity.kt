@@ -8,10 +8,7 @@ import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.fragments.ParentFragment
 import com.arellomobile.mvp.MvpAppCompatActivity
 
-/**
- * Created by DEADMC on 11/11/2017.
- */
-open class BaseActivity : MvpAppCompatActivity() {
+abstract class BaseActivity : MvpAppCompatActivity() {
     fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         val fragmentManager = supportFragmentManager
         if (addToBackStack) {
