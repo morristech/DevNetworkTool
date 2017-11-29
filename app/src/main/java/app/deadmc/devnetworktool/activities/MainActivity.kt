@@ -20,6 +20,7 @@ import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.*
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
 import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
+import app.deadmc.devnetworktool.fragments.rest.RestConnectionsFragment
 import app.deadmc.devnetworktool.fragments.rest.RestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
@@ -81,7 +82,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.tcp_client -> runFragment(TcpConnectionsFragment())
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
             R.id.ping -> runFragment(PingConnectionsFragment())
-            R.id.rest -> runFragment(DevConsts.REST, RestFragment())
+            R.id.rest -> runFragment(RestConnectionsFragment())
             R.id.settings -> runFragment(DevConsts.REST, SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }

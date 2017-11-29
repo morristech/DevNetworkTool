@@ -25,6 +25,7 @@ import java.util.HashMap;
 
 import app.deadmc.devnetworktool.R;
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter;
+import app.deadmc.devnetworktool.fragments.BaseFragment;
 import app.deadmc.devnetworktool.fragments.ParentFragment;
 import app.deadmc.devnetworktool.helpers.AllHeaders;
 import app.deadmc.devnetworktool.modules.KeyValueModel;
@@ -36,7 +37,7 @@ import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration;
  * Created by adanilov on 14.03.2017.
  */
 
-public class RequestRestFragment extends ParentFragment {
+public class RequestRestFragment extends BaseFragment {
 
     private Spinner methodSpinner;
     private Button sendButton;
@@ -118,7 +119,6 @@ public class RequestRestFragment extends ParentFragment {
         initHeadersRecyclerView();
         initRequestRecyclerView();
         initSwipe();
-        initOtherActions();
     }
 
     public void setRestFragment(RestFragment restFragment) {
@@ -136,12 +136,6 @@ public class RequestRestFragment extends ParentFragment {
         requestArrayList = restRequestHistory.getRequests();
         initElements();
     }
-
-    private void initOtherActions() {
-        setTitle();
-    }
-
-
     private void initButtons() {
         sendButton = (Button) myFragmentView.findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {

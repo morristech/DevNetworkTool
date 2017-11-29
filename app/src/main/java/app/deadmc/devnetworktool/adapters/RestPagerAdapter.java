@@ -31,7 +31,6 @@ public class RestPagerAdapter extends FragmentStatePagerAdapter {
 
     public RestPagerAdapter(FragmentManager fragmentManager,
                             Context context,
-                            String currentUrl,
                             RestFragment restFragment) {
         super(fragmentManager);
         this.context = context;

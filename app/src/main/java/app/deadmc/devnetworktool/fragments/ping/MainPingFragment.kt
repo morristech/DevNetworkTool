@@ -21,7 +21,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 
 class MainPingFragment : BaseFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var pingPresenter:PingPresenter
     lateinit var pingPagerAdapter: PingPagerAdapter
     private var scrolling = false
@@ -73,7 +73,6 @@ class MainPingFragment : BaseFragment(), PingView {
         myFragmentView.viewPager.offscreenPageLimit = 3
         myFragmentView.tabLayout.setupWithViewPager(myFragmentView.viewPager)
         myFragmentView.viewPager.currentItem = pingPresenter.currentPage
-
 
         val viewPagerListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

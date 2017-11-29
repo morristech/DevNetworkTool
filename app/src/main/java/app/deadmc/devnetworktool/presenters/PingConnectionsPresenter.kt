@@ -12,7 +12,6 @@ import com.arellomobile.mvp.InjectViewState
 class PingConnectionsPresenter : ConnectionsPresenter() {
 
     override fun openNextFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
-        Log.e("PingConnections","openNextFragment ping fragment "+DevConsts.PING_FRAGMENT)
         mainPresenter.runFragmentDependsOnId(DevConsts.PING_FRAGMENT,connectionHistory)
     }
 
