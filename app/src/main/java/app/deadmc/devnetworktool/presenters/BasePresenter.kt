@@ -7,5 +7,5 @@ import com.arellomobile.mvp.MvpView
  * Created by DEADMC on 11/15/2017.
  */
 open class BasePresenter <T : MvpView> : MvpPresenter <T>() {
-
+    val TAG = javaClass.simpleName
 }

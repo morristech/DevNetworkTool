@@ -11,6 +11,12 @@ import java.io.Serializable
  */
 @InjectViewState
 class MainPresenter : BasePresenter<MainActivityView>() {
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.runFragmentDefault()
+    }
+
     fun runFragmentDependsOnClickedItem(item: Int) {
         viewState.runFragmentDependsOnClickedItem(item)
     }

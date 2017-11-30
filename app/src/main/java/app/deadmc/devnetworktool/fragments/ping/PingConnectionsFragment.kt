@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.add_url_layout.view.*
 /**
  * Created by DEADMC on 11/26/2017.
  */
-open class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
+class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
 
     @InjectPresenter
-    open lateinit var presenter: PingConnectionsPresenter
+    lateinit var presenter: PingConnectionsPresenter
 
     override fun getPresenter(): ConnectionsPresenter {
         return presenter

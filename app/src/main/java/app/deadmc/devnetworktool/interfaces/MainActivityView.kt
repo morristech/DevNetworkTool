@@ -11,6 +11,7 @@ interface MainActivityView : MvpView {
     fun runFragmentDependsOnClickedItem(item: Int)
     fun runFragmentDependsOnId(id: Int)
     fun runFragmentDependsOnId(id: Int, serializable: Serializable)
+    fun runFragmentDefault()
     fun showDialogExitConnection()
     fun hideDialogExitConnection()
     fun doBindService(connectionHistory: ConnectionHistory?)

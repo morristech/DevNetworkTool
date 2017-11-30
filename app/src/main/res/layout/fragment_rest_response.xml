@@ -43,7 +43,7 @@
 
 
             <app.deadmc.devnetworktool.views.CollapseLinearLayout
-                android:id="@+id/collapseStats"
+                android:id="@+id/collapseLinearLayoutStats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -90,7 +90,7 @@
             </LinearLayout>
 
             <app.deadmc.devnetworktool.views.CollapseLinearLayout
-                android:id="@+id/collapseHeaders"
+                android:id="@+id/collapseLinearLayoutHeaders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -137,7 +137,7 @@
             </LinearLayout>
 
             <app.deadmc.devnetworktool.views.CollapseLinearLayout
-                android:id="@+id/collapseRequest"
+                android:id="@+id/collapseLinearLayoutRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

@@ -21,7 +21,7 @@ import app.deadmc.devnetworktool.fragments.*
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
 import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
 import app.deadmc.devnetworktool.fragments.rest.RestConnectionsFragment
-import app.deadmc.devnetworktool.fragments.rest.RestFragment
+import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
@@ -98,10 +98,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (id) {
             DevConsts.PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
             DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
-            DevConsts.REST_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
+            DevConsts.REST_FRAGMENT -> runFragment(MainRestFragment.getInstance(serializable))
         }
     }
 
+    override fun runFragmentDefault() {
+        runFragment(RestConnectionsFragment())
+    }
 
     override fun showDialogExitConnection() {
         val alertDialogBuilder = AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)

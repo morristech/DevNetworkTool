@@ -21,7 +21,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 
 class MainPingFragment : BaseFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.LOCAL)
+    @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var pingPresenter:PingPresenter
     lateinit var pingPagerAdapter: PingPagerAdapter
     private var scrolling = false
@@ -37,7 +37,7 @@ class MainPingFragment : BaseFragment(), PingView {
     }
 
     @ProvidePresenter(type = PresenterType.LOCAL)
-    fun provideRepositoryPresenter(): PingPresenter {
+    fun providePresenter(): PingPresenter {
         return PingPresenter()
     }
 

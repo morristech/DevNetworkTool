@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.fragments.rest
 
+import android.util.Log
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.UrlsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.ConnectionsFragment
@@ -16,10 +17,10 @@ import kotlinx.android.synthetic.main.add_url_layout.view.*
 /**
  * Created by DEADMC on 11/26/2017.
  */
-open class RestConnectionsFragment : UrlsFragment(), ConnectionsView {
+class RestConnectionsFragment : UrlsFragment(), ConnectionsView {
 
     @InjectPresenter
-    open lateinit var presenter: RestConnectionsPresenter
+    lateinit var presenter: RestConnectionsPresenter
 
     override fun getPresenter(): ConnectionsPresenter {
         return presenter
