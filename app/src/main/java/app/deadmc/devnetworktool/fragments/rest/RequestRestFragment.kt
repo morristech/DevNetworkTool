@@ -92,7 +92,7 @@ class RequestRestFragment : BaseFragment(), RestView {
 
         myFragmentView.addHeaderButton.setOnClickListener { initDialogForHeader() }
 
-        myFragmentView.addHeaderButton.setOnClickListener { initDialogForRequest() }
+        myFragmentView.addRequestButton.setOnClickListener { initDialogForRequest() }
     }
 
     private fun initEditText() {
