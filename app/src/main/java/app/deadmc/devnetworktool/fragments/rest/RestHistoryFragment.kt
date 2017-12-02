@@ -13,14 +13,20 @@ import java.util.ArrayList
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestRequestHistoryAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
+import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
 import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.presenters.RestLoadHistoryPresenter
 import app.deadmc.devnetworktool.system.ItemTouchCallback
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_history.view.*
 
-class RestHistoryFragment : BaseFragment() {
+class RestHistoryFragment : BaseFragment(),RestLoadHistoryView {
 
-    private var recyclerViewHistory: RecyclerView? = null
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var restLoadHistoryPresenter:RestLoadHistoryPresenter
+
     private var restRequestHistoryArrayList: ArrayList<RestRequestHistory>? = null
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -30,6 +36,9 @@ class RestHistoryFragment : BaseFragment() {
         return myFragmentView
     }
 
+
+    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {}
+
     fun initElements() {
         myFragmentView.recyclerViewHistory.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
@@ -38,15 +47,10 @@ class RestHistoryFragment : BaseFragment() {
         restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context, restRequestHistoryArrayList) {
             override fun onLongClickItem(restRequestHistory: RestRequestHistory, position: Int) {
                 super.onLongClickItem(restRequestHistory, position)
-
             }
 
             override fun onClickItem(restRequestHistory: RestRequestHistory, position: Int) {
-                try {
-                    //mainRestFragment.loadRestHistory(restRequestHistory);
-                } catch (e: Exception) {
-                }
-
+                    restLoadHistoryPresenter.loadRestHistory(restRequestHistory)
             }
         }
 
@@ -68,8 +72,9 @@ class RestHistoryFragment : BaseFragment() {
                 return false
             }
         })
-        itemTouchHelper.attachToRecyclerView(recyclerViewHistory)
+        itemTouchHelper.attachToRecyclerView(myFragmentView.recyclerViewHistory)
     }
+
 
 
 }

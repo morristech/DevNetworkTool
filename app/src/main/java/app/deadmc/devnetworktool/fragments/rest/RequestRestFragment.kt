@@ -22,10 +22,12 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
+import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
 import app.deadmc.devnetworktool.interfaces.RestView
 import app.deadmc.devnetworktool.modules.KeyValueModel
 import app.deadmc.devnetworktool.modules.ResponseDev
 import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.presenters.RestLoadHistoryPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import app.deadmc.devnetworktool.system.ItemTouchCallback
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
@@ -33,10 +35,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
 
-class RequestRestFragment : BaseFragment(), RestView {
+class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var restPresenter: RestPresenter
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var restLoadHistoryPresnter: RestLoadHistoryPresenter
 
     private var methodSpinner: Spinner? = null
     private lateinit var keyValueAdapterHeaders: KeyValueAdapter
@@ -65,18 +70,16 @@ class RequestRestFragment : BaseFragment(), RestView {
         initEditText()
         initSpinner()
         initHeadersRecyclerView()
-        initRequestRecyclerView()
         initSwipe()
     }
 
-    fun setRequestHistory(restRequestHistory: RestRequestHistory) {
-        /*
-        currentUrl = restRequestHistory.url
-        currentMethod = restRequestHistory.method
-        headersArrayList = restRequestHistory.headers
-        requestArrayList = restRequestHistory.requests
+    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
+        Log.e(TAG,"loadRequestHistory called "+restRequestHistory.method)
+        restPresenter.currentMethod = restRequestHistory.method
+        restPresenter.currentUrl = restRequestHistory.url
+        restPresenter.headersArrayList = restRequestHistory.headers
+        restPresenter.requestArrayList = restRequestHistory.requests
         initElements()
-        */
     }
 
     private fun initButtons() {

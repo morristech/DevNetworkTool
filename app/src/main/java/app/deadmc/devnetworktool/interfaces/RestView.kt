@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.interfaces
 
 import app.deadmc.devnetworktool.modules.ResponseDev
+import app.deadmc.devnetworktool.modules.RestRequestHistory
 import com.arellomobile.mvp.MvpView
 
 /**

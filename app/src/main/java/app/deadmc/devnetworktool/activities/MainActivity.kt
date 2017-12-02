@@ -107,16 +107,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun showDialogExitConnection() {
-        val alertDialogBuilder = AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)
-        alertDialogBuilder.setMessage(R.string.alert_close_connection)
-        alertDialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
-            stopService()
+        if (isServiceRunning(ConnectionService::class.java.name)) {
+            val alertDialogBuilder = AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)
+            alertDialogBuilder.setMessage(R.string.alert_close_connection)
+            alertDialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
+                stopService()
+                onBackPressed()
+            }
+
+            alertDialogBuilder.setNegativeButton(R.string.no) { _, _ -> mainPresenter.hideDialogExitConnection() }
+            alertDialog = alertDialogBuilder.create()
+            alertDialog?.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            alertDialog?.show()
+        } else {
+            onBackPressed()
         }
 
-        alertDialogBuilder.setNegativeButton(R.string.no) { _, _ -> mainPresenter.hideDialogExitConnection() }
-        alertDialog = alertDialogBuilder.create()
-        alertDialog?.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        alertDialog?.show()
     }
 
     override fun hideDialogExitConnection() {
