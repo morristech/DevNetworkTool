@@ -20,6 +20,7 @@ import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
+import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
 import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
@@ -35,13 +36,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
 
-class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
+class RequestRestFragment : BaseFragment(), RestView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = DevConsts.REST)
     lateinit var restPresenter: RestPresenter
-
-    @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var restLoadHistoryPresnter: RestLoadHistoryPresenter
 
     private var methodSpinner: Spinner? = null
     private lateinit var keyValueAdapterHeaders: KeyValueAdapter
@@ -69,9 +67,12 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
         initButtons()
         initEditText()
         initSpinner()
+        initRequestRecyclerView()
         initHeadersRecyclerView()
         initSwipe()
     }
+
+
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
         Log.e(TAG,"loadRequestHistory called "+restRequestHistory.method)
@@ -94,7 +95,6 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
         }
 
         myFragmentView.addHeaderButton.setOnClickListener { initDialogForHeader() }
-
         myFragmentView.addRequestButton.setOnClickListener { initDialogForRequest() }
     }
 
@@ -200,7 +200,7 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
         alertDialogBuilder!!.setPositiveButton(R.string.edit) { dialog, which ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
-            keyValueAdapterHeaders!!.notifyItemChanged(position)
+            keyValueAdapterHeaders.notifyItemChanged(position)
             dialog.dismiss()
         }
         alertDialogBuilder!!.show()
@@ -213,27 +213,27 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
     private fun initDialogForRequest() {
         initDialogVariablesRequest()
 
-        alertDialogBuilder!!.setPositiveButton(R.string.add) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.add) { dialog, which ->
             val keyValueModel = KeyValueModel()
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
-            keyValueAdapterRequest!!.addItem(keyValueModel)
+            keyValueAdapterRequest.addItem(keyValueModel)
             dialog.dismiss()
         }
-        alertDialogBuilder!!.show()
+        alertDialogBuilder?.show()
     }
 
     private fun initDialogForEditRequest(keyValueModel: KeyValueModel, position: Int) {
 
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
-        alertDialogBuilder!!.setPositiveButton(R.string.edit) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
-            keyValueAdapterRequest!!.notifyItemChanged(position)
+            keyValueAdapterRequest.notifyItemChanged(position)
             dialog.dismiss()
         }
-        alertDialogBuilder!!.show()
+        alertDialogBuilder?.show()
 
     }
 
@@ -244,11 +244,11 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
     private fun initDialogVariablesHeader() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
         alertView = activity.layoutInflater.inflate(R.layout.add_key_value_layout_header, null)
-        alertDialogBuilder!!.setView(alertView)
-        editTextKey = alertView!!.findViewById<View>(R.id.editTextKey) as EditText
-        editTextValue = alertView!!.findViewById<View>(R.id.editTextValue) as EditText
-        keySpinner = alertView!!.findViewById<View>(R.id.materialSpinnerHeaderKey) as Spinner
-        valueSpinner = alertView!!.findViewById<View>(R.id.materialSpinnerHeaderValue) as Spinner
+        alertDialogBuilder?.setView(alertView)
+        editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
+        editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
+        keySpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderKey) as Spinner
+        valueSpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderValue) as Spinner
         setDialogSpinnerKey()
     }
 
@@ -258,21 +258,21 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
     private fun initDialogVariablesRequest() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
         alertView = activity.layoutInflater.inflate(R.layout.add_key_value_layout_request, null)
-        alertDialogBuilder!!.setView(alertView)
-        editTextKey = alertView!!.findViewById<View>(R.id.editTextKey) as EditText
-        editTextValue = alertView!!.findViewById<View>(R.id.editTextValue) as EditText
+        alertDialogBuilder?.setView(alertView)
+        editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
+        editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
         editTextKey!!.setText(keyValueModel.key)
         editTextValue!!.setText(keyValueModel.value)
         if (hasSpinners) {
-            val keyIndex = keyParamsList!!.indexOf(keyValueModel.key)
+            val keyIndex = keyParamsList.indexOf(keyValueModel.key)
             if (keyIndex > 0) {
                 keySpinner!!.setSelection(keyIndex)
                 valueSpinner!!.visibility = View.VISIBLE
                 setDialogSpinnerValue(keyValueModel.key)
-                val valueIndex = valueParamsList!!.indexOf(keyValueModel.value)
+                val valueIndex = valueParamsList.indexOf(keyValueModel.value)
                 if (valueIndex > 0) {
                     valueSpinner!!.setSelection(valueIndex)
                 } else {
@@ -280,32 +280,32 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
                 }
 
             } else {
-                keySpinner!!.setSelection(0)
-                valueSpinner!!.visibility = View.GONE
+                keySpinner?.setSelection(0)
+                valueSpinner?.visibility = View.GONE
             }
         }
     }
 
     private fun setDialogSpinnerKey() {
         keyParamsList = ArrayList()
-        keyParamsList!!.add(getString(R.string.custom_header))
-        keyParamsList!!.addAll(AllHeaders.getHeadersHashmap().keys)
+        keyParamsList.add(getString(R.string.custom_header))
+        keyParamsList.addAll(AllHeaders.getHeadersHashmap().keys)
         val keySpinnerAdapter = ArrayAdapter(context,
-                R.layout.support_simple_spinner_dropdown_item, keyParamsList!!)
+                R.layout.support_simple_spinner_dropdown_item, keyParamsList)
         keySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        keySpinner!!.visibility = View.VISIBLE
-        keySpinner!!.adapter = keySpinnerAdapter
-        keySpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        keySpinner?.visibility = View.VISIBLE
+        keySpinner?.adapter = keySpinnerAdapter
+        keySpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val item = parent.getItemAtPosition(position).toString()
                 if (item == getString(R.string.custom_header)) {
-                    editTextKey!!.setText("")
-                    valueSpinner!!.visibility = View.GONE
+                    editTextKey?.setText("")
+                    valueSpinner?.visibility = View.GONE
                 } else {
-                    editTextKey!!.setText(item)
+                    editTextKey?.setText(item)
                     setDialogSpinnerValue(item)
                 }
-                editTextValue!!.setText("")
+                editTextValue?.setText("")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -314,24 +314,24 @@ class RequestRestFragment : BaseFragment(), RestView,RestLoadHistoryView {
 
     private fun setDialogSpinnerValue(key: String) {
         valueParamsList = ArrayList()
-        valueParamsList!!.add(getString(R.string.custom_value))
-        valueParamsList!!.addAll(AllHeaders.getHeadersHashmap()[key] as ArrayList<String>)
-        if (valueParamsList!!.size == 1) {
-            valueSpinner!!.visibility = View.GONE
+        valueParamsList.add(getString(R.string.custom_value))
+        valueParamsList.addAll(AllHeaders.getHeadersHashmap()[key] as ArrayList<String>)
+        if (valueParamsList.size == 1) {
+            valueSpinner?.visibility = View.GONE
             return
         }
         val valueSpinnerAdapter = ArrayAdapter(context,
-                R.layout.support_simple_spinner_dropdown_item, valueParamsList!!)
+                R.layout.support_simple_spinner_dropdown_item, valueParamsList)
         valueSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        valueSpinner!!.visibility = View.VISIBLE
-        valueSpinner!!.adapter = valueSpinnerAdapter
-        valueSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        valueSpinner?.visibility = View.VISIBLE
+        valueSpinner?.adapter = valueSpinnerAdapter
+        valueSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val item = parent.getItemAtPosition(position).toString()
                 if (item == getString(R.string.custom_value)) {
-                    editTextValue!!.setText("")
+                    editTextValue?.setText("")
                 } else {
-                    editTextValue!!.setText(item)
+                    editTextValue?.setText(item)
                 }
             }
 

@@ -9,14 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestPagerAdapter
+import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
-import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
 import app.deadmc.devnetworktool.interfaces.RestView
 import app.deadmc.devnetworktool.modules.ConnectionHistory
 import app.deadmc.devnetworktool.modules.ResponseDev
 import app.deadmc.devnetworktool.modules.RestRequestHistory
-import app.deadmc.devnetworktool.presenters.RestLoadHistoryPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -24,15 +22,15 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_rest.view.*
 import java.io.Serializable
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
 
 
-class MainRestFragment : BaseFragment(),RestView, RestLoadHistoryView {
+
+
+class MainRestFragment : BaseFragment(),RestView {
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var restPresenter: RestPresenter
     private lateinit var restPagerAdapter: RestPagerAdapter
-
-    @InjectPresenter(type = PresenterType.GLOBAL)
-    lateinit var restLoadHistoryPresenter:RestLoadHistoryPresenter
 
     companion object {
         fun getInstance(serializable: Serializable): MainRestFragment {
@@ -63,11 +61,10 @@ class MainRestFragment : BaseFragment(),RestView, RestLoadHistoryView {
         return RestPresenter()
     }
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
-    fun provideRestLoadHistoryPresnter():RestLoadHistoryPresenter {
-        return RestLoadHistoryPresenter()
+    @ProvidePresenterTag(presenterClass = RestPresenter::class, type = PresenterType.GLOBAL)
+    fun providePresenterTag(): String {
+        return DevConsts.REST
     }
-
 
     private fun initViewPager() {
         restPagerAdapter = RestPagerAdapter(fragmentManager, activity)
@@ -86,11 +83,10 @@ class MainRestFragment : BaseFragment(),RestView, RestLoadHistoryView {
     }
 
     override fun setResponse(responseDev: ResponseDev) {
-
+        viewPager.setCurrentItem(1, true)
     }
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
         viewPager.setCurrentItem(0, true)
     }
-
 }

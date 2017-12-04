@@ -5,6 +5,7 @@ import android.util.Log
 import app.deadmc.devnetworktool.interfaces.PingView
 import app.deadmc.devnetworktool.interfaces.RestView
 import app.deadmc.devnetworktool.modules.KeyValueModel
+import app.deadmc.devnetworktool.modules.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,8 +28,6 @@ class RestPresenter : BasePresenter<RestView>() {
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun sendRequest() {
-        //val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-        //StrictMode.setThreadPolicy(policy)
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,6 +39,11 @@ class RestPresenter : BasePresenter<RestView>() {
                 })
 
         )
+    }
+
+    fun loadRestHistory(restRequestHistory: RestRequestHistory) {
+        Log.e(TAG,"loadRestHistory currentUrl "+currentUrl)
+        viewState.loadRequestHistory(restRequestHistory)
     }
 
     private fun collectHeaders(): HashMap<String, String> {

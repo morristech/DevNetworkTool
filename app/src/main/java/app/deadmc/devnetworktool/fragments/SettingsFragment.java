@@ -11,7 +11,7 @@ import app.deadmc.devnetworktool.R;
  * Created by DEADMC on 6/7/2017.
  */
 
-public class SettingsFragment extends ParentFragment {
+public class SettingsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

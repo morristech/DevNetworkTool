@@ -15,7 +15,7 @@ import app.deadmc.devnetworktool.helpers.StringHelper;
 /**
  * Created by Feren on 25.09.2016.
  */
-public class FormattedJsonFragment extends ParentFragment {
+public class FormattedJsonFragment extends BaseFragment {
 
 
     private String text = "";
@@ -31,7 +31,6 @@ public class FormattedJsonFragment extends ParentFragment {
         return myFragmentView;
     }
 
-    @Override
     public void initElements() {
         //super.initElements();
         textView = (TextView) myFragmentView.findViewById(R.id.jsonTextView);

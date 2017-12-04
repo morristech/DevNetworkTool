@@ -83,7 +83,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
             R.id.ping -> runFragment(PingConnectionsFragment())
             R.id.rest -> runFragment(RestConnectionsFragment())
-            R.id.settings -> runFragment(DevConsts.REST, SettingsFragment())
+            R.id.settings -> runFragment(SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
     }
@@ -120,7 +120,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             alertDialog?.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             alertDialog?.show()
         } else {
-            onBackPressed()
+            super.onBackPressed()
         }
 
     }

@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.MenuItem
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.fragments.ParentFragment
 import com.arellomobile.mvp.MvpAppCompatActivity
 
 abstract class BaseActivity : MvpAppCompatActivity() {
@@ -28,11 +27,6 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         return if (id == R.id.action_settings) {
             true
         } else super.onOptionsItemSelected(item)
-    }
-
-    fun runFragment(type: String, fragment: ParentFragment) {
-        fragment.setTypeOfFragment(type)
-        openFragment(fragment, true)
     }
 
     fun runFragment(fragment: BaseFragment) {

@@ -20,7 +20,6 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.adapters.ParametersAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.fragments.ParentFragment
 import app.deadmc.devnetworktool.helpers.FileFormatHelper
 import app.deadmc.devnetworktool.helpers.StringHelper
 import app.deadmc.devnetworktool.modules.ResponseDev
@@ -29,6 +28,7 @@ import app.deadmc.devnetworktool.views.CollapseLinearLayout
 
 import app.deadmc.devnetworktool.helpers.ImageHelpers.rotateImage
 import app.deadmc.devnetworktool.interfaces.RestView
+import app.deadmc.devnetworktool.modules.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -39,7 +39,6 @@ class ResponseRestFragment : BaseFragment(),RestView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var restPresenter: RestPresenter
-    private var watchButton: Button? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,8 +48,6 @@ class ResponseRestFragment : BaseFragment(),RestView {
     }
 
     fun initElements() {
-        //super.initElements();
-
         initLayout(myFragmentView.collapseLinearLayoutStats, myFragmentView.statsTitleLayout, myFragmentView.imageViewArrowStats)
         initLayout(myFragmentView.collapseLinearLayoutHeaders, myFragmentView.headerTitleLayout, myFragmentView.imageViewArrowHeader)
         initLayout(myFragmentView.collapseLinearLayoutRequest, myFragmentView.requestTitleLayout, myFragmentView.imageViewArrowRequest)
@@ -75,9 +72,7 @@ class ResponseRestFragment : BaseFragment(),RestView {
         }
 
 
-        myFragmentView.watchButton.setOnClickListener(View.OnClickListener {
-            if (responseDev!!.body == null)
-                return@OnClickListener
+        myFragmentView.watchButton.setOnClickListener({
             val intent = Intent(context, FullViewActivity::class.java)
             startActivity(intent)
         })
@@ -99,7 +94,6 @@ class ResponseRestFragment : BaseFragment(),RestView {
 
 
     override fun setResponse(responseDev: ResponseDev) {
-        //headersRecyclerView.setText(responseDev.getResponse().headers().toString());
         Log.e("Response", "setResponse")
         initHeadersRecyclerView(responseDev.headers)
         initStatsRecyclerView(responseDev.code, responseDev.delay)
@@ -124,7 +118,6 @@ class ResponseRestFragment : BaseFragment(),RestView {
     }
 
     private fun initHeadersRecyclerView(headers: String) {
-        Log.e("headers", headers.toString())
         val arrayList = ArrayList<Spanned>()
         val stringArray = headers.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         for (head in stringArray) {
@@ -136,6 +129,9 @@ class ResponseRestFragment : BaseFragment(),RestView {
 
         val parametersAdapter = ParametersAdapter(context, arrayList)
         initRecyclerViews(headersRecyclerView, parametersAdapter)
+    }
 
+    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
+        Log.e(TAG,"loadRequestHistory")
     }
 }
