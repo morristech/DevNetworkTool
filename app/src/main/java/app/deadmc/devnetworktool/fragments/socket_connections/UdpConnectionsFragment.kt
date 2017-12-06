@@ -2,7 +2,7 @@ package app.deadmc.devnetworktool.fragments.socket_connections
 
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.helpers.CheckHelper
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.UdpConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter

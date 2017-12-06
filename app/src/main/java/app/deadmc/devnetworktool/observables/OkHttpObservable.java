@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import app.deadmc.devnetworktool.modules.ResponseDev;
+import app.deadmc.devnetworktool.models.ResponseDev;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import okhttp3.FormBody;

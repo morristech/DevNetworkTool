@@ -2,17 +2,14 @@ package app.deadmc.devnetworktool.fragments.ping
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import java.util.ArrayList
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.modules.PingStructure
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter

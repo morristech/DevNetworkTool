@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.modules;
+package app.deadmc.devnetworktool.models;
 
 /**
  * Created by adanilov on 20.03.2017.

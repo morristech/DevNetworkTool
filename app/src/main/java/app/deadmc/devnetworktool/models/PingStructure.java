@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.modules;
+package app.deadmc.devnetworktool.models;
 
 import android.content.Context;
 
@@ -12,8 +12,6 @@ public class PingStructure {
 
     private float ping;
     private int ttl;
-
-
 
     private String ipAddress;
     private int timeAdded;

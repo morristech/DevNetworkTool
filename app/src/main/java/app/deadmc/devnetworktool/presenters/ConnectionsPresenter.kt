@@ -1,8 +1,8 @@
 package app.deadmc.devnetworktool.presenters
 
 import app.deadmc.devnetworktool.constants.DevConsts
-import app.deadmc.devnetworktool.interfaces.ConnectionsView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 
 @InjectViewState

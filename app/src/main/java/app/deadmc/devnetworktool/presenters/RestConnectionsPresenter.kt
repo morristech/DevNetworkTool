@@ -1,8 +1,9 @@
 package app.deadmc.devnetworktool.presenters
 
 import app.deadmc.devnetworktool.constants.DevConsts
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
+import com.orm.SugarRecord
 
 /**
  * Created by DEADMC on 11/26/2017.
@@ -15,7 +16,7 @@ class RestConnectionsPresenter : ConnectionsPresenter() {
     }
 
     override fun fillRecyclerView() {
-        val list = ConnectionHistory.find(ConnectionHistory::class.java, "type = ?", DevConsts.REST)
+        val list = SugarRecord.find(ConnectionHistory::class.java, "type = ?", DevConsts.REST)
         viewState.fillRecyclerView(list)
     }
 }

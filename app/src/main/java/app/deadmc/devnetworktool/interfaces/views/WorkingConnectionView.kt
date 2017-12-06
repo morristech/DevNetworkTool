@@ -1,8 +1,7 @@
-package app.deadmc.devnetworktool.interfaces
+package app.deadmc.devnetworktool.interfaces.views
 
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import app.deadmc.devnetworktool.modules.MessageHistory
-import app.deadmc.devnetworktool.modules.ReceivedMessage
+import app.deadmc.devnetworktool.models.MessageHistory
+import app.deadmc.devnetworktool.models.ReceivedMessage
 import com.arellomobile.mvp.MvpView
 import java.util.ArrayList
 

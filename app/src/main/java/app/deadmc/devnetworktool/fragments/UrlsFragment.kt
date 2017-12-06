@@ -3,17 +3,14 @@ package app.deadmc.devnetworktool.fragments
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.adapters.ConnectionHistoryAdapter
 import app.deadmc.devnetworktool.adapters.UrlHistoryAdapter
-import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.ConnectionsView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import kotlinx.android.synthetic.main.add_url_layout.view.*
@@ -50,11 +47,11 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
                 getPresenter().openNextFragment(mainActivity.mainPresenter,connectionHistory)
             }
 
-            override fun removeItemCallback(connectionHistory: ConnectionHistory) {
+            override fun onDeleteItem(connectionHistory: ConnectionHistory) {
                 getPresenter().deleteConnectionHistory(connectionHistory)
             }
 
-            override fun editItemCallback(connectionHistory: ConnectionHistory, position: Int) {
+            override fun onEditItem(connectionHistory: ConnectionHistory, position: Int) {
                 getPresenter().showDialogForEdit(connectionHistory,position)
             }
         }

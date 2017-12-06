@@ -9,10 +9,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 
 import java.util.ArrayList
 
@@ -22,20 +20,19 @@ import app.deadmc.devnetworktool.adapters.ParametersAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.FileFormatHelper
 import app.deadmc.devnetworktool.helpers.StringHelper
-import app.deadmc.devnetworktool.modules.ResponseDev
-import app.deadmc.devnetworktool.singletons.SharedData
+import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
 
 import app.deadmc.devnetworktool.helpers.ImageHelpers.rotateImage
-import app.deadmc.devnetworktool.interfaces.RestView
-import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_response.*
 import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 
-class ResponseRestFragment : BaseFragment(),RestView {
+class ResponseRestFragment : BaseFragment(), RestView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var restPresenter: RestPresenter

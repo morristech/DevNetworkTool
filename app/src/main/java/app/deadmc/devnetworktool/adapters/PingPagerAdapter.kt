@@ -4,19 +4,13 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.util.Log
-import android.util.SparseArray
 import android.view.ViewGroup
-
-import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.fragments.ping.BasePingFragment
 import app.deadmc.devnetworktool.fragments.ping.PingChartPageFragment
 import app.deadmc.devnetworktool.fragments.ping.PingRawPageFragment
 import app.deadmc.devnetworktool.fragments.ping.PingStatsPageFragment
-import app.deadmc.devnetworktool.modules.PingStructure
-import app.deadmc.devnetworktool.presenters.PingPresenter
 
 class PingPagerAdapter(fragmentManager: FragmentManager,
                        private val context: Context) : FragmentStatePagerAdapter(fragmentManager) {

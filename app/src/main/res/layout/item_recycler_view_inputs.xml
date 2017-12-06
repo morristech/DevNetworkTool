@@ -1,46 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutInputs"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:weightSum="2"
-    >
+    android:paddingTop="10dp"
+    android:weightSum="2">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_gravity="center_vertical">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_reorder_black_36dp"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/editTextKey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:hint="@string/key"
+        android:textSize="18sp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextKey"
-
-            android:textSize="18sp"
-            android:hint="@string/key"
-             />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextValue"
-            android:textSize="18sp"
-            android:hint="@string/value" />
-    </LinearLayout>
+    <EditText
+        android:id="@+id/editTextValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/value"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

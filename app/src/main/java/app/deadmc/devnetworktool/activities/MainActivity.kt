@@ -25,8 +25,8 @@ import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
-import app.deadmc.devnetworktool.interfaces.MainActivityView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.MainActivityView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.MainPresenter
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
 import app.deadmc.devnetworktool.services.ConnectionService
@@ -231,7 +231,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            mainPresenter.showDialogExitConnection()
+            if (isServiceRunning(ConnectionService::class.java.name))
+                mainPresenter.showDialogExitConnection()
+            else
+                super.onBackPressed()
         }
     }
 

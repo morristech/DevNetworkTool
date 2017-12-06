@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -18,8 +17,8 @@ import com.github.mikephil.charting.formatter.IFillFormatter
 import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.modules.PingStructure
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType

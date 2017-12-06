@@ -1,7 +1,7 @@
 package app.deadmc.devnetworktool.presenters
 
-import app.deadmc.devnetworktool.interfaces.MainActivityView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.MainActivityView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 import java.io.Serializable
 

@@ -1,16 +1,11 @@
 package app.deadmc.devnetworktool.fragments.rest
 
-import android.util.Log
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.UrlsFragment
-import app.deadmc.devnetworktool.fragments.socket_connections.ConnectionsFragment
-import app.deadmc.devnetworktool.helpers.CheckHelper
-import app.deadmc.devnetworktool.interfaces.ConnectionsView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
-import app.deadmc.devnetworktool.presenters.PingConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.RestConnectionsPresenter
-import app.deadmc.devnetworktool.presenters.TcpConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.add_url_layout.view.*
 

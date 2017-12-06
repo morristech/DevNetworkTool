@@ -14,9 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoDragView="@+id/slidingView"
+        sothree:umanoDragView="@+id/dragView"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="80dp"
+        sothree:umanoPanelHeight="100dp"
+        sothree:umanoShadowHeight="0dp"
         >
 
 
@@ -42,7 +43,7 @@
             android:id="@+id/dragView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
+            android:background="@color/white"
             android:clickable="true"
             android:focusable="false"
             android:orientation="vertical">
@@ -52,12 +53,20 @@
                 android:orientation="vertical"
                 android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="20dp">
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:id="@+id/imageViewArrow"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_keyboard_arrow_down_black_36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:background="#ffffff"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 >
@@ -86,6 +95,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

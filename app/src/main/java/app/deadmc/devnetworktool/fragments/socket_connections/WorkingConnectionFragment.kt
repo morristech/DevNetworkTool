@@ -2,31 +2,30 @@ package app.deadmc.devnetworktool.fragments.socket_connections
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
-import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.helpers.DateTimeHelper
-import app.deadmc.devnetworktool.interfaces.WorkingConnectionView
-import app.deadmc.devnetworktool.modules.JsonInput
-import app.deadmc.devnetworktool.modules.MessageHistory
-import app.deadmc.devnetworktool.modules.ReceivedMessage
+import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
+import app.deadmc.devnetworktool.models.JsonInput
+import app.deadmc.devnetworktool.models.MessageHistory
+import app.deadmc.devnetworktool.models.ReceivedMessage
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
-import app.deadmc.devnetworktool.system.SimpleItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_working_connection.*
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_working_connection.view.*
 import java.io.Serializable
 import java.util.ArrayList
 import android.widget.Toast
+import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
+import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapterRefactored
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 
 class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
@@ -34,10 +33,10 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     @InjectPresenter
     lateinit var workingConnectionPresenter: WorkingConnectionPresenter
 
-    private var jsonInputArrayList: ArrayList<JsonInput>? = null
-    private var receivedMessageArrayList: ArrayList<ReceivedMessage> = ReceivedMessage.createReceivedMessageList(0)
+    private var jsonInputArrayList: ArrayList<JsonInput> = JsonInput.createJsonInputsList(1)
+    private var receivedMessageArrayList: ArrayList<ReceivedMessage> = ArrayList()
     private lateinit var jsonInputsAdapter: JsonInputsAdapter
-    private lateinit var receivedMessagesAdapter: ReceivedMessagesAdapter
+    private lateinit var receivedMessagesAdapter: ReceivedMessagesAdapterRefactored
     private var errorResulted = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,41 +58,48 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         initRecyclerViewMessages()
         myFragmentView.buttonSend.setOnClickListener { sendMessage() }
         myFragmentView.buttonAdd.setOnClickListener {
-            jsonInputArrayList?.add(JsonInput("", ""))
-            jsonInputsAdapter.notifyItemInserted(jsonInputArrayList!!.size - 1)
+            jsonInputArrayList.add(JsonInput("", ""))
+            jsonInputsAdapter.notifyItemInserted(jsonInputArrayList.size - 1)
         }
 
         myFragmentView.slidingLayout.visibility = View.GONE
         myFragmentView.errorRelativeLayout.visibility = View.GONE
         myFragmentView.loadingRelativeLayout.visibility = View.VISIBLE
+        myFragmentView.slidingLayout.dragView.slidingView.imageViewArrow.rotation = 180f
+        
+        myFragmentView.slidingLayout.addPanelSlideListener(object:SlidingUpPanelLayout.PanelSlideListener {
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {
+                Log.e(TAG,"slideOffset $slideOffset")
+                myFragmentView.slidingLayout.dragView.slidingView.imageViewArrow.rotation = 180f*slideOffset+180f
+            }
+
+            override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+                Log.e(TAG,"onPanelStateChanged $previousState | $newState")
+            }
+        })
     }
 
     private fun sendMessage() {
         val message = messageEditText.text.toString()
-        if (message.length > 0)
+        if (!message.isEmpty())
             workingConnectionPresenter.sendMessage(message)
         else
             Toast.makeText(context, R.string.string_is_empty, Toast.LENGTH_SHORT).show()
     }
 
     private fun initRecyclerViewInputs() {
-        jsonInputArrayList = JsonInput.createJsonInputsList(1)
-        jsonInputsAdapter = JsonInputsAdapter(context, jsonInputArrayList, myFragmentView.messageEditText)
+        jsonInputsAdapter = JsonInputsAdapter(jsonInputArrayList, myFragmentView.messageEditText)
         myFragmentView.recyclerViewInputs.adapter = jsonInputsAdapter
         myFragmentView.recyclerViewInputs.layoutManager = LinearLayoutManager(context)
-        val callback = SimpleItemTouchHelperCallback(jsonInputsAdapter, true)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView( myFragmentView.recyclerViewInputs)
     }
 
     private fun initRecyclerViewMessages() {
-        receivedMessageArrayList = ReceivedMessage.createReceivedMessageList(0)
-        receivedMessagesAdapter = ReceivedMessagesAdapter(context, receivedMessageArrayList, this)
+        receivedMessagesAdapter = object :ReceivedMessagesAdapterRefactored(context,receivedMessageArrayList) {
+            override fun onDeleteItem(element: ReceivedMessage) {
+            }
+        }
         myFragmentView.recyclerViewMessages.adapter = receivedMessagesAdapter
         myFragmentView.recyclerViewMessages.layoutManager = LinearLayoutManager(context)
-        val callback = SimpleItemTouchHelperCallback(receivedMessagesAdapter, false)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(myFragmentView.recyclerViewMessages)
         myFragmentView.recyclerViewMessages.addItemDecoration(SimpleDividerItemDecoration(context))
         workingConnectionPresenter.fillReceivedMessageList()
     }

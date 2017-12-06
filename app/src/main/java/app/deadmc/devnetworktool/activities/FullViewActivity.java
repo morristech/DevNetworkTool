@@ -2,7 +2,6 @@ package app.deadmc.devnetworktool.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ScrollView;
@@ -12,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import app.deadmc.devnetworktool.R;
 import app.deadmc.devnetworktool.helpers.FileFormatHelper;
 import app.deadmc.devnetworktool.helpers.StringHelper;
-import app.deadmc.devnetworktool.modules.ResponseDev;
+import app.deadmc.devnetworktool.models.ResponseDev;
 import app.deadmc.devnetworktool.singletons.SharedData;
 
 public class FullViewActivity extends AppCompatActivity {

@@ -2,7 +2,7 @@ package app.deadmc.devnetworktool.singletons;
 
 import android.content.Context;
 
-import app.deadmc.devnetworktool.modules.ResponseDev;
+import app.deadmc.devnetworktool.models.ResponseDev;
 
 /**
  * Created by Feren on 23.03.2017.

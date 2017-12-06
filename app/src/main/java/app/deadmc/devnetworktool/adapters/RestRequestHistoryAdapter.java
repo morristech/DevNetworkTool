@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import app.deadmc.devnetworktool.R;
 import app.deadmc.devnetworktool.helpers.DateTimeHelper;
-import app.deadmc.devnetworktool.modules.RestRequestHistory;
+import app.deadmc.devnetworktool.models.RestRequestHistory;
 
 /**
  * Created by adanilov on 23.03.2017.

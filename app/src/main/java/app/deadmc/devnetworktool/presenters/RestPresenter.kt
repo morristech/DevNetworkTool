@@ -1,11 +1,9 @@
 package app.deadmc.devnetworktool.presenters
 
-import android.os.StrictMode
 import android.util.Log
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.interfaces.RestView
-import app.deadmc.devnetworktool.modules.KeyValueModel
-import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.KeyValueModel
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers

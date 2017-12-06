@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.modules;
+package app.deadmc.devnetworktool.models;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -6,8 +6,6 @@ import com.orm.SugarRecord;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import app.deadmc.devnetworktool.helpers.DateTimeHelper;
 
 /**
  * Created by adanilov on 22.03.2017.

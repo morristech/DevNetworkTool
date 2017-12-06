@@ -10,12 +10,10 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.URL
-import java.net.UnknownHostException
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.helpers.CheckHelper
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import okio.BufferedSource
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import okio.Okio
 
 /**

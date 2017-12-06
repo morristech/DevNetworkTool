@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,14 +22,11 @@ import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
-import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
-import app.deadmc.devnetworktool.interfaces.RestView
-import app.deadmc.devnetworktool.modules.KeyValueModel
-import app.deadmc.devnetworktool.modules.ResponseDev
-import app.deadmc.devnetworktool.modules.RestRequestHistory
-import app.deadmc.devnetworktool.presenters.RestLoadHistoryPresenter
+import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.KeyValueModel
+import app.deadmc.devnetworktool.models.ResponseDev
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
-import app.deadmc.devnetworktool.system.ItemTouchCallback
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -69,10 +65,7 @@ class RequestRestFragment : BaseFragment(), RestView {
         initSpinner()
         initRequestRecyclerView()
         initHeadersRecyclerView()
-        initSwipe()
     }
-
-
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
         Log.e(TAG,"loadRequestHistory called "+restRequestHistory.method)
@@ -119,9 +112,9 @@ class RequestRestFragment : BaseFragment(), RestView {
 
     private fun initHeadersRecyclerView() {
         initRecyclerView(myFragmentView.headersRecyclerView)
-        keyValueAdapterHeaders = object : KeyValueAdapter(context, restPresenter.headersArrayList) {
-            override fun onLongPress(keyValueModel: KeyValueModel, position: Int) {
-                initDialogForEditHeader(keyValueModel, position)
+        keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
+            override fun onEditItem(element: KeyValueModel, position: Int) {
+                initDialogForEditRequest(element, position)
             }
         }
 
@@ -131,9 +124,9 @@ class RequestRestFragment : BaseFragment(), RestView {
 
     private fun initRequestRecyclerView() {
         initRecyclerView(myFragmentView.requestRecyclerView)
-        keyValueAdapterRequest = object : KeyValueAdapter(context, restPresenter.requestArrayList) {
-            override fun onLongPress(keyValueModel: KeyValueModel, position: Int) {
-                initDialogForEditRequest(keyValueModel, position)
+        keyValueAdapterRequest = object : KeyValueAdapter(restPresenter.requestArrayList) {
+            override fun onEditItem(element: KeyValueModel, position: Int) {
+                initDialogForEditRequest(element, position)
             }
         }
         myFragmentView.requestRecyclerView.adapter = keyValueAdapterRequest
@@ -147,33 +140,6 @@ class RequestRestFragment : BaseFragment(), RestView {
         recyclerView.layoutManager = layoutManager
         recyclerView.isNestedScrollingEnabled = false
     }
-
-    private fun initSwipe() {
-        val itemTouchHelperHeader = ItemTouchHelper(object : ItemTouchCallback(activity) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                keyValueAdapterHeaders.removeItem(position)
-            }
-
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-        })
-        itemTouchHelperHeader.attachToRecyclerView(myFragmentView.headersRecyclerView)
-
-        val itemTouchHelperRequest = ItemTouchHelper(object : ItemTouchCallback(activity) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                keyValueAdapterRequest.removeItem(position)
-            }
-
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-        })
-        itemTouchHelperRequest.attachToRecyclerView(myFragmentView.requestRecyclerView)
-    }
-
 
     ///////////////////////////////////////////////////Dialog Part
 
@@ -224,7 +190,6 @@ class RequestRestFragment : BaseFragment(), RestView {
     }
 
     private fun initDialogForEditRequest(keyValueModel: KeyValueModel, position: Int) {
-
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->

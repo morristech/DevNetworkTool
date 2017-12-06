@@ -3,18 +3,15 @@ package app.deadmc.devnetworktool.presenters
 import android.util.Log
 import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.helpers.DateTimeHelper
-import app.deadmc.devnetworktool.interfaces.WorkingConnectionView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import app.deadmc.devnetworktool.modules.MessageHistory
-import app.deadmc.devnetworktool.modules.ReceivedMessage
+import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.models.MessageHistory
+import app.deadmc.devnetworktool.models.ReceivedMessage
 import com.arellomobile.mvp.InjectViewState
 import com.orm.query.Condition
 import com.orm.query.Select
 import java.util.ArrayList
 
-/**
- * Created by DEADMC on 11/19/2017.
- */
 @InjectViewState
 class WorkingConnectionPresenter : BasePresenter<WorkingConnectionView>() {
     var currentConnectionHistory: ConnectionHistory? = null

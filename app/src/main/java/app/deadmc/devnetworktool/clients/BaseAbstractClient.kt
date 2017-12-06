@@ -2,7 +2,7 @@ package app.deadmc.devnetworktool.clients
 
 import android.content.Context
 
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.models.ConnectionHistory
 
 /**
  * Created by Feren on 23.07.2016.

@@ -2,13 +2,11 @@ package app.deadmc.devnetworktool.presenters
 
 import android.os.Handler
 import android.util.Log
-import android.util.SparseArray
 import app.deadmc.devnetworktool.helpers.SystemHelper
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.modules.PingStructure
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.presenter.InjectPresenter
 import java.util.ArrayList
 
 @InjectViewState

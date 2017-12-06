@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.PingPagerAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import app.deadmc.devnetworktool.modules.PingStructure
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_ping.view.*

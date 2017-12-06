@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.deadmc.devnetworktool.R;
-import app.deadmc.devnetworktool.modules.PingStructure;
+import app.deadmc.devnetworktool.models.PingStructure;
 
 /**
  * Created by Feren on 02.10.2016.

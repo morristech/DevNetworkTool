@@ -1,4 +1,4 @@
-package app.deadmc.devnetworktool.modules;
+package app.deadmc.devnetworktool.models;
 
 import app.deadmc.devnetworktool.R;
 

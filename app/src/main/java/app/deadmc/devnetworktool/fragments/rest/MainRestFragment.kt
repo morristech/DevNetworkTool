@@ -11,10 +11,10 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestPagerAdapter
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.RestView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import app.deadmc.devnetworktool.modules.ResponseDev
-import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.models.ResponseDev
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -27,7 +27,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenterTag
 
 
 
-class MainRestFragment : BaseFragment(),RestView {
+class MainRestFragment : BaseFragment(), RestView {
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var restPresenter: RestPresenter
     private lateinit var restPagerAdapter: RestPagerAdapter

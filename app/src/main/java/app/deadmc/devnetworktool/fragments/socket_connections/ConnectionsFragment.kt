@@ -11,15 +11,15 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.adapters.ConnectionHistoryAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.ConnectionsView
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import kotlinx.android.synthetic.main.add_connection_layout.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
 import java.util.ArrayList
 
-abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
+abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     var alertDialog: AlertDialog? = null
     lateinit var alertView: View
     lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
@@ -50,11 +50,11 @@ abstract class ConnectionsFragment : BaseFragment(),ConnectionsView {
                 getPresenter().openNextFragment(mainActivity.mainPresenter,connectionHistory)
             }
 
-            override fun removeItemCallback(connectionHistory: ConnectionHistory) {
+            override fun onDeleteItem(connectionHistory: ConnectionHistory) {
                 getPresenter().deleteConnectionHistory(connectionHistory)
             }
 
-            override fun editItemCallback(connectionHistory: ConnectionHistory, position: Int) {
+            override fun onEditItem(connectionHistory: ConnectionHistory, position: Int) {
                 getPresenter().showDialogForEdit(connectionHistory,position)
             }
         }

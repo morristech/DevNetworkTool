@@ -3,15 +3,12 @@ package app.deadmc.devnetworktool.clients
 import android.content.Context
 import android.util.Log
 
-import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
-import java.net.SocketException
-import java.net.UnknownHostException
 
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.modules.ConnectionHistory
+import app.deadmc.devnetworktool.models.ConnectionHistory
 
 /**
  * Created by Feren on 23.07.2016.

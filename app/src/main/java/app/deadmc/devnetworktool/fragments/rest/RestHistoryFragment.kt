@@ -15,20 +15,17 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestRequestHistoryAdapter
 import app.deadmc.devnetworktool.constants.DevConsts
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
-import app.deadmc.devnetworktool.interfaces.RestView
-import app.deadmc.devnetworktool.modules.ResponseDev
-import app.deadmc.devnetworktool.modules.RestRequestHistory
-import app.deadmc.devnetworktool.presenters.RestLoadHistoryPresenter
+import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.ResponseDev
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import app.deadmc.devnetworktool.system.ItemTouchCallback
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_rest_history.view.*
 
-class RestHistoryFragment : BaseFragment(),RestView {
+class RestHistoryFragment : BaseFragment(), RestView {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = DevConsts.REST)
     lateinit var restPresenter:RestPresenter

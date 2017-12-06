@@ -20,4 +20,8 @@ open class BaseFragment : MvpAppCompatFragment() {
     override fun toString(): String {
         return this.javaClass.simpleName
     }
+
+    fun setTitle() {
+
+    }
 }// Required empty public constructor

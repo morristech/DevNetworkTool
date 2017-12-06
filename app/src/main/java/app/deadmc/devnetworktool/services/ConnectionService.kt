@@ -17,9 +17,8 @@ import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.clients.TCPClientSocket
 import app.deadmc.devnetworktool.clients.UDPClientSocket
 import app.deadmc.devnetworktool.constants.DevConsts
-import app.deadmc.devnetworktool.modules.ConnectionHistory
-import app.deadmc.devnetworktool.modules.MessageHistory
-import app.deadmc.devnetworktool.presenters.MainPresenter
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.models.MessageHistory
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
 
 class ConnectionService : Service() {

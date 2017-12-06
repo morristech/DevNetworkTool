@@ -1,10 +1,9 @@
 package app.deadmc.devnetworktool.presenters
 
 import android.util.Log
-import app.deadmc.devnetworktool.interfaces.RestLoadHistoryView
-import app.deadmc.devnetworktool.modules.RestRequestHistory
+import app.deadmc.devnetworktool.interfaces.views.RestLoadHistoryView
+import app.deadmc.devnetworktool.models.RestRequestHistory
 import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 
 /**
  * Created by DEADMC on 12/2/2017.

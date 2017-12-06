@@ -6,7 +6,7 @@ import com.crashlytics.android.Crashlytics;
 import com.orm.SugarContext;
 
 import app.deadmc.devnetworktool.constants.DevConsts;
-import app.deadmc.devnetworktool.modules.ConnectionHistory;
+import app.deadmc.devnetworktool.models.ConnectionHistory;
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences;
 import app.deadmc.devnetworktool.singletons.SharedData;
 import io.fabric.sdk.android.Fabric;

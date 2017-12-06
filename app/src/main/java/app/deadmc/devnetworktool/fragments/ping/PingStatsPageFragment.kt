@@ -2,8 +2,6 @@ package app.deadmc.devnetworktool.fragments.ping
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +10,17 @@ import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.SimpleStringAdapter
-import app.deadmc.devnetworktool.interfaces.PingView
-import app.deadmc.devnetworktool.modules.PingStats
-import app.deadmc.devnetworktool.modules.PingStructure
-import app.deadmc.devnetworktool.modules.SimpleString
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.PingStats
+import app.deadmc.devnetworktool.models.PingStructure
+import app.deadmc.devnetworktool.models.SimpleString
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
 
-class PingStatsPageFragment : BasePingFragment(),PingView {
+class PingStatsPageFragment : BasePingFragment(), PingView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var pingPresenter:PingPresenter
