@@ -8,6 +8,8 @@ import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import app.deadmc.devnetworktool.views.ViewBinderHelper
 import kotlinx.android.synthetic.main.item_connection_swipe.view.*
 import kotlinx.android.synthetic.main.item_edit_delete.view.*
+import kotlinx.android.synthetic.main.divider.*
+import kotlinx.android.synthetic.main.divider.view.*
 import java.util.ArrayList
 
 
@@ -34,6 +36,10 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
 
         if (onlyDelete)
             viewHolder.itemView.layoutEditDelete.layoutEdit.visibility = View.GONE
+
+        if (position == arrayList.size-1) {
+            viewHolder.itemView.divider.visibility = View.GONE
+        }
     }
 
 

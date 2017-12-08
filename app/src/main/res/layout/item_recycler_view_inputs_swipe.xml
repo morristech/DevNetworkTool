@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.deadmc.devnetworktool.views.SwipeRevealLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRevealLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:mode="same_level"
-    app:dragEdge="right">
+    android:orientation="vertical">
 
-    <include layout="@layout/item_edit_delete" />
+    <app.deadmc.devnetworktool.views.SwipeRevealLayout
 
-    <include layout="@layout/item_recycler_view_inputs" />
+        android:id="@+id/swipeRevealLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dragEdge="right"
+        app:mode="same_level">
 
-</app.deadmc.devnetworktool.views.SwipeRevealLayout>
+        <include layout="@layout/item_edit_delete" />
+
+        <include layout="@layout/item_recycler_view_inputs" />
+
+    </app.deadmc.devnetworktool.views.SwipeRevealLayout>
+
+    <include layout="@layout/divider" />
+</LinearLayout>

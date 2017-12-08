@@ -19,8 +19,6 @@ import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
-import app.deadmc.devnetworktool.system.ItemTouchCallback
-import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_history.view.*
@@ -60,24 +58,7 @@ class RestHistoryFragment : BaseFragment(), RestView {
         }
 
         myFragmentView.recyclerViewHistory.adapter = restRequestHistoryAdapter
-        myFragmentView.recyclerViewHistory.addItemDecoration(SimpleDividerItemDecoration(activity))
         restRequestHistoryAdapter.notifyDataSetChanged()
-        initSwipe()
-
-    }
-
-    private fun initSwipe() {
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchCallback(activity) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                restRequestHistoryAdapter.removeItem(position)
-            }
-
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-        })
-        itemTouchHelper.attachToRecyclerView(myFragmentView.recyclerViewHistory)
     }
 
     override fun setResponse(responseDev: ResponseDev) {

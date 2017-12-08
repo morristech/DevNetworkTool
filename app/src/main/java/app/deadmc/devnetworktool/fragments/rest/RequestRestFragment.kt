@@ -27,7 +27,6 @@ import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
-import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
@@ -134,11 +133,10 @@ class RequestRestFragment : BaseFragment(), RestView {
 
     private fun initRecyclerView(recyclerView: RecyclerView?) {
         //recyclerView.setHasFixedSize(true);
-        recyclerView!!.addItemDecoration(SimpleDividerItemDecoration(activity))
         val layoutManager = LinearLayoutManager(context)
         layoutManager.isAutoMeasureEnabled = true
-        recyclerView.layoutManager = layoutManager
-        recyclerView.isNestedScrollingEnabled = false
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.isNestedScrollingEnabled = false
     }
 
     ///////////////////////////////////////////////////Dialog Part

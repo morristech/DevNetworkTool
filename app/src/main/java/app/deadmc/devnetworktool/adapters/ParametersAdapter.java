@@ -1,9 +1,5 @@
 package app.deadmc.devnetworktool.adapters;
 
-/**
- * Created by adanilov on 20.03.2017.
- */
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -16,9 +12,6 @@ import java.util.ArrayList;
 
 import app.deadmc.devnetworktool.R;
 
-/**
- * Created by Feren on 30.11.2016.
- */
 public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.ViewHolder> {
 
     ArrayList<Spanned> arrayList;

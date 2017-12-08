@@ -4,38 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp">
-
-    <ImageView
-        android:id="@+id/imageViewFrom"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/default_item_padding_bottom"
+    android:paddingLeft="@dimen/default_item_padding_left"
+    android:paddingRight="@dimen/default_item_padding_right"
+    android:paddingTop="@dimen/default_item_padding_top">
 
     <LinearLayout
-        android:id="@+id/layoutText"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textViewText"
+        <ImageView
+            android:id="@+id/imageViewFrom"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <LinearLayout
+            android:id="@+id/layoutText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="tons of text everywhere"
-            android:textColor="@color/textColor"
-            android:textSize="18sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:paddingRight="10dp"
-            android:text="14:15:20" />
+            <TextView
+                android:id="@+id/textViewText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="tons of text everywhere"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/default_primary_text" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="14:15:20"
+                android:textSize="@dimen/default_date_text" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

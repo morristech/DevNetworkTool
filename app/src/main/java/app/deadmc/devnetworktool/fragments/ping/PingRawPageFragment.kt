@@ -11,7 +11,6 @@ import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPresenter
-import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
@@ -53,7 +52,6 @@ class PingRawPageFragment : BasePingFragment(), PingView {
     private fun initRecyclerView() {
         linearLayoutManager = LinearLayoutManager(activity)
         myFragmentView.recyclerView.layoutManager = linearLayoutManager
-        myFragmentView.recyclerView.addItemDecoration(SimpleDividerItemDecoration(activity))
 
     }
 

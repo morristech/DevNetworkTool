@@ -12,4 +12,5 @@
     <color name="lightGrey">#eeeeee</color>
     <color name="lightOrange">#ffd4b7</color>
     <color name="lightGrey2">#e6e6e6</color>
+    <color name="dividerColor">#1f000000</color>
 </resources>

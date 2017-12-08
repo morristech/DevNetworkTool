@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.helpers.DateTimeHelper
@@ -14,7 +15,6 @@ import app.deadmc.devnetworktool.models.JsonInput
 import app.deadmc.devnetworktool.models.MessageHistory
 import app.deadmc.devnetworktool.models.ReceivedMessage
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
-import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_working_connection.*
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_working_connection.view.*
@@ -22,11 +22,10 @@ import java.io.Serializable
 import java.util.ArrayList
 import android.widget.Toast
 import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
-import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapterRefactored
+import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-
 
 class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
@@ -36,8 +35,9 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     private var jsonInputArrayList: ArrayList<JsonInput> = JsonInput.createJsonInputsList(1)
     private var receivedMessageArrayList: ArrayList<ReceivedMessage> = ArrayList()
     private lateinit var jsonInputsAdapter: JsonInputsAdapter
-    private lateinit var receivedMessagesAdapter: ReceivedMessagesAdapterRefactored
+    private lateinit var receivedMessagesAdapter: ReceivedMessagesAdapter
     private var errorResulted = true
+    private var baseDragViewHeight:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,11 +66,30 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         myFragmentView.errorRelativeLayout.visibility = View.GONE
         myFragmentView.loadingRelativeLayout.visibility = View.VISIBLE
         myFragmentView.slidingLayout.dragView.slidingView.imageViewArrow.rotation = 180f
-        
+
+        myFragmentView.slidingLayout.dragView.slidingView.postDelayed({
+            baseDragViewHeight = myFragmentView.slidingLayout.dragView.slidingView.height
+        },120)
+
+
         myFragmentView.slidingLayout.addPanelSlideListener(object:SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                Log.e(TAG,"slideOffset $slideOffset")
                 myFragmentView.slidingLayout.dragView.slidingView.imageViewArrow.rotation = 180f*slideOffset+180f
+                val width = myFragmentView.slidingLayout.dragView.slidingView.width
+                if (slideOffset >= 0.9) {
+                    val opacity = ((1f - slideOffset) * 10f)
+
+                    val height = Math.round(baseDragViewHeight.toFloat() * opacity)
+                    myFragmentView.slidingLayout.dragView.slidingView.layoutParams =
+                            LinearLayout.LayoutParams(width, height)
+                    myFragmentView.slidingLayout.dragView.slidingView.alpha = opacity
+                }
+
+                if (slideOffset < 0.9) {
+                    myFragmentView.slidingLayout.dragView.slidingView.layoutParams =
+                            LinearLayout.LayoutParams(width, baseDragViewHeight)
+                    myFragmentView.slidingLayout.dragView.slidingView.alpha = 1.0f
+                }
             }
 
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
@@ -91,16 +110,16 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         jsonInputsAdapter = JsonInputsAdapter(jsonInputArrayList, myFragmentView.messageEditText)
         myFragmentView.recyclerViewInputs.adapter = jsonInputsAdapter
         myFragmentView.recyclerViewInputs.layoutManager = LinearLayoutManager(context)
+        myFragmentView.recyclerViewInputs.isNestedScrollingEnabled = true
     }
 
     private fun initRecyclerViewMessages() {
-        receivedMessagesAdapter = object :ReceivedMessagesAdapterRefactored(context,receivedMessageArrayList) {
+        receivedMessagesAdapter = object : ReceivedMessagesAdapter(context,receivedMessageArrayList) {
             override fun onDeleteItem(element: ReceivedMessage) {
             }
         }
         myFragmentView.recyclerViewMessages.adapter = receivedMessagesAdapter
         myFragmentView.recyclerViewMessages.layoutManager = LinearLayoutManager(context)
-        myFragmentView.recyclerViewMessages.addItemDecoration(SimpleDividerItemDecoration(context))
         workingConnectionPresenter.fillReceivedMessageList()
     }
 

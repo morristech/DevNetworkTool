@@ -14,7 +14,6 @@ import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
-import app.deadmc.devnetworktool.system.SimpleDividerItemDecoration
 import kotlinx.android.synthetic.main.add_connection_layout.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
 import java.util.ArrayList
@@ -60,7 +59,6 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
         }
 
         myFragmentView.recyclerViewHistory.adapter = connectionHistoryAdapter
-        myFragmentView.recyclerViewHistory.addItemDecoration(SimpleDividerItemDecoration(activity))
         connectionHistoryAdapter.notifyDataSetChanged()
     }
 

@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
+    android:paddingLeft="@dimen/default_item_padding_left"
+    android:paddingRight="@dimen/default_item_padding_right"
+    android:paddingTop="@dimen/default_item_padding_top"
+    android:paddingBottom="@dimen/default_item_padding_bottom"
     android:weightSum="2">
 
     <EditText
@@ -22,5 +24,6 @@
         android:hint="@string/value"
         android:textSize="18sp" />
 
+    <include layout="@layout/divider"/>
 
 </LinearLayout>

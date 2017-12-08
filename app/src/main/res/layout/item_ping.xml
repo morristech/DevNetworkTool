@@ -3,8 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:paddingLeft="16dp">
+    android:paddingLeft="@dimen/default_item_padding_left"
+    android:paddingRight="@dimen/default_item_padding_right"
+    android:paddingTop="@dimen/default_item_padding_top"
+    android:paddingBottom="@dimen/default_item_padding_bottom">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,6 +19,8 @@
         android:paddingBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
+
+    <include layout="@layout/divider"/>
 
 
 </LinearLayout>
