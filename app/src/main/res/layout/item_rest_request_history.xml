@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutRestRequestHistory"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,17 +13,14 @@
         android:id="@+id/urlTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="Some name here"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/default_primary_text"
-        android:textStyle="bold" />
+        android:textSize="@dimen/default_primary_text" />
 
     <TextView
         android:id="@+id/methodTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="Some name here"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/default_secondary_text" />
@@ -32,11 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:padding="5dp"
         android:text="Some name here"
         android:textColor="@color/textColor"
         android:textSize="@dimen/default_date_text" />
-
-    <include layout="@layout/divider" />
 
 </LinearLayout>

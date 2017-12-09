@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.presenters
 
-import app.deadmc.devnetworktool.constants.DevConsts
+
+import app.deadmc.devnetworktool.constants.WORKING_CONNECTION_FRAGMENT
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
@@ -30,7 +31,7 @@ open class ConnectionsPresenter : BasePresenter<ConnectionsView>() {
     }
 
     open fun openNextFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
-        mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT,connectionHistory)
+        mainPresenter.runFragmentDependsOnId(WORKING_CONNECTION_FRAGMENT,connectionHistory)
     }
 
     open fun fillRecyclerView() {

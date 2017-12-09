@@ -17,6 +17,7 @@ import java.util.ArrayList
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.adapters.ParametersAdapter
+import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.FileFormatHelper
 import app.deadmc.devnetworktool.helpers.StringHelper
@@ -34,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 
 class ResponseRestFragment : BaseFragment(), RestView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
     lateinit var restPresenter: RestPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -129,6 +130,11 @@ class ResponseRestFragment : BaseFragment(), RestView {
     }
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
-        Log.e(TAG,"loadRequestHistory")
+    }
+
+    override fun hideProgress() {
+    }
+
+    override fun showProgress() {
     }
 }

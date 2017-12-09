@@ -16,7 +16,9 @@ import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.clients.BaseAbstractClient
 import app.deadmc.devnetworktool.clients.TCPClientSocket
 import app.deadmc.devnetworktool.clients.UDPClientSocket
-import app.deadmc.devnetworktool.constants.DevConsts
+import app.deadmc.devnetworktool.constants.TCP_CLIENT
+import app.deadmc.devnetworktool.constants.UDP_CLIENT
+
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.MessageHistory
 import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
@@ -60,8 +62,8 @@ class ConnectionService : Service() {
     fun initConnection(connectionHistory: ConnectionHistory?) {
         this.connectionHistory = connectionHistory
         when (connectionHistory?.type) {
-            DevConsts.TCP_CLIENT -> initTCPConnection()
-            DevConsts.UDP_CLIENT -> initUDPConnection()
+            TCP_CLIENT -> initTCPConnection()
+            UDP_CLIENT -> initUDPConnection()
         }
         workingConnectionPresenter?.currentClient = currentClient
         startClient()

@@ -18,7 +18,7 @@ class PingStats {
     var min: Float = 0.toFloat()
         private set
     var average: Float = 0.toFloat()
-        get() = Math.round(average * 10) / 10f
+        get() = Math.round(field * 10) / 10f
 
     private var all: Float = 0.toFloat()
 

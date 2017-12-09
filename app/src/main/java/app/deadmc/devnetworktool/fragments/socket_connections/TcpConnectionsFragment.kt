@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
-import app.deadmc.devnetworktool.constants.DevConsts
+
+import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.helpers.CheckHelper
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
@@ -8,7 +9,7 @@ import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.TcpConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 
-import kotlinx.android.synthetic.main.add_connection_layout.view.*
+import kotlinx.android.synthetic.main.dialog_add_connection.view.*
 
 open class TcpConnectionsFragment : ConnectionsFragment(), ConnectionsView {
 
@@ -26,7 +27,7 @@ open class TcpConnectionsFragment : ConnectionsFragment(), ConnectionsView {
             connectionHistory.name = alertView.editTextName.text.toString()
             connectionHistory.port = CheckHelper.portFromString(alertView.editTextPort.text.toString())
             connectionHistory.setLastUsageDefault()
-            connectionHistory.type = DevConsts.TCP_CLIENT
+            connectionHistory.type = TCP_CLIENT
         }
         return connectionHistory
     }

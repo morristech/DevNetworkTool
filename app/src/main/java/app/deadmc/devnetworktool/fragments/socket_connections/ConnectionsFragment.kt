@@ -14,7 +14,7 @@ import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
-import kotlinx.android.synthetic.main.add_connection_layout.view.*
+import kotlinx.android.synthetic.main.dialog_add_connection.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
 import java.util.ArrayList
 
@@ -64,7 +64,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
 
     override fun showDialogForCreate() {
         val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = onGetLayoutInflater(null).inflate(R.layout.add_connection_layout, null)
+        alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_connection, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(getPresenter().currentConnectionHistory)
         alertDialogBuilder.setPositiveButton(R.string.add, { _, _ ->
@@ -77,7 +77,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
 
     override fun showDialogForEdit(connectionHistory: ConnectionHistory, position: Int) {
         val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = onGetLayoutInflater(null).inflate(R.layout.add_connection_layout, null)
+        alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_connection, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(connectionHistory)
 

@@ -1,12 +1,13 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
-import app.deadmc.devnetworktool.constants.DevConsts
+
+import app.deadmc.devnetworktool.constants.UDP_CLIENT
 import app.deadmc.devnetworktool.helpers.CheckHelper
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.UdpConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.add_connection_layout.view.*
+import kotlinx.android.synthetic.main.dialog_add_connection.view.*
 
 class UdpConnectionsFragment : ConnectionsFragment() {
 
@@ -24,7 +25,7 @@ class UdpConnectionsFragment : ConnectionsFragment() {
             connectionHistory.name = alertView.editTextName.text.toString()
             connectionHistory.port = CheckHelper.portFromString(alertView.editTextPort.text.toString())
             connectionHistory.setLastUsageDefault()
-            connectionHistory.type = DevConsts.UDP_CLIENT
+            connectionHistory.type = UDP_CLIENT
         }
         return connectionHistory
     }

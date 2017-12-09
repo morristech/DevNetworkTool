@@ -16,4 +16,10 @@ abstract class BasePingFragment : BaseFragment(), PingView {
     override fun setStartButtonOff() {
     }
 
+    override fun hideProgress() {
+    }
+
+    override fun showProgress() {
+    }
+
 }

@@ -16,11 +16,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.constants.DevConsts
+import app.deadmc.devnetworktool.constants.*
 import app.deadmc.devnetworktool.fragments.*
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
 import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
-import app.deadmc.devnetworktool.fragments.rest.RestConnectionsFragment
 import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
@@ -36,9 +35,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.Serializable
 
-/**
- * Created by DEADMC on 11/11/2017.
- */
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, MainActivityView {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
@@ -82,7 +78,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.tcp_client -> runFragment(TcpConnectionsFragment())
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
             R.id.ping -> runFragment(PingConnectionsFragment())
-            R.id.rest -> runFragment(RestConnectionsFragment())
+            R.id.rest -> runFragment(MainRestFragment())
             R.id.settings -> runFragment(SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
@@ -90,20 +86,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun runFragmentDependsOnId(id: Int) {
         when (id) {
-            DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment())
+            WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment())
         }
     }
 
     override fun runFragmentDependsOnId(id: Int, serializable: Serializable) {
         when (id) {
-            DevConsts.PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
-            DevConsts.WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
-            DevConsts.REST_FRAGMENT -> runFragment(MainRestFragment.getInstance(serializable))
+            PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
+            WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
+            REST_FRAGMENT -> runFragment(MainRestFragment())
         }
     }
 
     override fun runFragmentDefault() {
-        runFragment(RestConnectionsFragment())
+        runFragment(MainRestFragment())
     }
 
     override fun showDialogExitConnection() {
@@ -159,7 +155,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 serviceBound = true
                 Log.e("main activity","working resenter == null "+(workingConnectionsPresenter == null))
                 if (workingConnectionsPresenter == null && connectionService?.isRunning == true)
-                    mainPresenter.runFragmentDependsOnId(DevConsts.WORKING_CONNECTION_FRAGMENT)
+                    mainPresenter.runFragmentDependsOnId(WORKING_CONNECTION_FRAGMENT)
                 connectionService?.workingConnectionPresenter = workingConnectionsPresenter
                 if (workingConnectionsPresenter?.currentConnectionHistory == null) {
                     workingConnectionsPresenter?.currentConnectionHistory = connectionService?.connectionHistory

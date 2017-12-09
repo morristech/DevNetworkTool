@@ -23,9 +23,11 @@ class PingPresenter : BasePresenter<PingView>() {
         if (working) {
             working = false
             viewState.setStartButtonOn()
+            viewState.hideProgress()
         } else {
             getPings()
             viewState.setStartButtonOff()
+            viewState.showProgress()
         }
 
     }

@@ -1,13 +1,14 @@
 package app.deadmc.devnetworktool.fragments.ping
 
-import app.deadmc.devnetworktool.constants.DevConsts
+
+import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.fragments.UrlsFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.PingConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.add_url_layout.view.*
+import kotlinx.android.synthetic.main.dialog_add_url.view.*
 
 /**
  * Created by DEADMC on 11/26/2017.
@@ -28,7 +29,7 @@ class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
             connectionHistory.name = alertView.urlEditText.text.toString()
             connectionHistory.port = 80
             connectionHistory.setLastUsageDefault()
-            connectionHistory.type = DevConsts.PING
+            connectionHistory.type = PING
         }
         return connectionHistory
     }

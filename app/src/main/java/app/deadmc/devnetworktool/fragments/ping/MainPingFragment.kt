@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.fragment_ping.view.*
 import java.io.Serializable
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import kotlinx.android.synthetic.main.fragment_ping.*
+import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 class MainPingFragment : BaseFragment(), PingView {
 
@@ -57,6 +59,7 @@ class MainPingFragment : BaseFragment(), PingView {
     fun initElements() {
         initViewPager()
         initButton()
+        hideProgress()
     }
 
     override fun setStartButtonOn() {
@@ -66,6 +69,15 @@ class MainPingFragment : BaseFragment(), PingView {
     override fun setStartButtonOff() {
         myFragmentView.startButton.text = getString(R.string.stop)
     }
+
+    override fun showProgress() {
+        myFragmentView.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        myFragmentView.progressBar.visibility = View.INVISIBLE
+    }
+
 
     private fun initViewPager() {
         pingPagerAdapter = PingPagerAdapter(fragmentManager, activity)

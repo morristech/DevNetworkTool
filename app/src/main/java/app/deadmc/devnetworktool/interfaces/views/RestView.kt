@@ -10,4 +10,6 @@ import com.arellomobile.mvp.MvpView
 interface RestView:MvpView {
     fun setResponse(responseDev: ResponseDev)
     fun loadRequestHistory(restRequestHistory: RestRequestHistory)
+    fun showProgress()
+    fun hideProgress()
 }

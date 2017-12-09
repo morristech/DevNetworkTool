@@ -3,10 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/default_item_padding_left"
-    android:paddingRight="@dimen/default_item_padding_right"
-    android:paddingTop="@dimen/default_item_padding_top"
-    android:paddingBottom="@dimen/default_item_padding_bottom">
+>
 
     <TextView
         android:layout_width="match_parent"
@@ -15,10 +12,10 @@
         android:text="Some name here"
         android:id="@+id/textView"
         android:textColor="@color/textColor"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:paddingLeft="@dimen/default_item_padding_left"
+        android:paddingRight="@dimen/default_item_padding_right"
+        android:paddingTop="@dimen/default_item_padding_top"
+        android:paddingBottom="@dimen/default_item_padding_bottom"/>
 
     <include layout="@layout/divider"/>
 

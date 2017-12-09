@@ -9,7 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestPagerAdapter
-import app.deadmc.devnetworktool.constants.DevConsts
+import app.deadmc.devnetworktool.constants.REST
+
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.ConnectionHistory
@@ -21,38 +22,20 @@ import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_rest.view.*
-import java.io.Serializable
 import com.arellomobile.mvp.presenter.ProvidePresenterTag
-
-
+import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 
 class MainRestFragment : BaseFragment(), RestView {
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
     lateinit var restPresenter: RestPresenter
     private lateinit var restPagerAdapter: RestPagerAdapter
-
-    companion object {
-        fun getInstance(serializable: Serializable): MainRestFragment {
-            val fragment = MainRestFragment()
-            val args = Bundle()
-            args.putSerializable("connection_history", serializable)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val currentConnectionHistory = this.arguments.getSerializable("connection_history") as ConnectionHistory
-        restPresenter.currentUrl = currentConnectionHistory.ipAddress
-        Log.e(TAG,"currentUrl = "+currentConnectionHistory.ipAddress)
-    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest, container, false)
         initViewPager()
+        hideProgress()
         return myFragmentView
     }
 
@@ -63,7 +46,15 @@ class MainRestFragment : BaseFragment(), RestView {
 
     @ProvidePresenterTag(presenterClass = RestPresenter::class, type = PresenterType.GLOBAL)
     fun providePresenterTag(): String {
-        return DevConsts.REST
+        return REST
+    }
+
+    override fun showProgress() {
+        myFragmentView.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        myFragmentView.progressBar.visibility = View.INVISIBLE
     }
 
     private fun initViewPager() {

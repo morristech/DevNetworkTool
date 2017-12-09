@@ -26,13 +26,16 @@ class RestPresenter : BasePresenter<RestView>() {
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun sendRequest() {
+        viewState.showProgress()
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
+                    viewState.hideProgress()
                     viewState.setResponse(it)
                 }, {
+                    viewState.hideProgress()
                     Log.e(TAG, Log.getStackTraceString(it))
                 })
 
@@ -40,7 +43,6 @@ class RestPresenter : BasePresenter<RestView>() {
     }
 
     fun loadRestHistory(restRequestHistory: RestRequestHistory) {
-        Log.e(TAG,"loadRestHistory currentUrl "+currentUrl)
         viewState.loadRequestHistory(restRequestHistory)
     }
 

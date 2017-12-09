@@ -19,21 +19,26 @@ import java.util.ArrayList
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
-import app.deadmc.devnetworktool.constants.DevConsts
+import app.deadmc.devnetworktool.constants.REST
+
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
 import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.crashlytics.android.Crashlytics
+import com.orm.SugarRecord
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
+import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 class RequestRestFragment : BaseFragment(), RestView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = DevConsts.REST)
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
     lateinit var restPresenter: RestPresenter
 
     private var methodSpinner: Spinner? = null
@@ -57,6 +62,12 @@ class RequestRestFragment : BaseFragment(), RestView {
         return myFragmentView
     }
 
+    override fun showProgress() {
+    }
+
+    override fun hideProgress() {
+    }
+
     fun initElements() {
         //super.initElements();
         initButtons()
@@ -70,8 +81,8 @@ class RequestRestFragment : BaseFragment(), RestView {
         Log.e(TAG,"loadRequestHistory called "+restRequestHistory.method)
         restPresenter.currentMethod = restRequestHistory.method
         restPresenter.currentUrl = restRequestHistory.url
-        restPresenter.headersArrayList = restRequestHistory.headers
-        restPresenter.requestArrayList = restRequestHistory.requests
+        restPresenter.headersArrayList = restRequestHistory.getHeaders()
+        restPresenter.requestArrayList = restRequestHistory.getRequests()
         initElements()
     }
 
@@ -79,10 +90,13 @@ class RequestRestFragment : BaseFragment(), RestView {
         myFragmentView.sendButton.setOnClickListener {
             try {
                 restPresenter.currentUrl = myFragmentView.urlEditText.text.toString()
+                restPresenter.currentMethod = myFragmentView.materialSpinner.selectedItem.toString()
                 restPresenter.sendRequest()
-                val restRequestHistory = RestRequestHistory(restPresenter.currentUrl, restPresenter.currentUrl, restPresenter.headersArrayList, restPresenter.requestArrayList)
-                restRequestHistory.save()
+                Log.e(TAG,"before rest request history size "+ SugarRecord.listAll(ConnectionHistory::class.java).size)
+                RestRequestHistory(restPresenter.currentUrl, restPresenter.currentMethod, restPresenter.headersArrayList, restPresenter.requestArrayList).save()
+                Log.e(TAG,"after rest request history size "+ SugarRecord.listAll(RestRequestHistory::class.java).size)
             } catch (e: Exception) {
+                Crashlytics.logException(e)
             }
         }
 
@@ -113,7 +127,7 @@ class RequestRestFragment : BaseFragment(), RestView {
         initRecyclerView(myFragmentView.headersRecyclerView)
         keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
             override fun onEditItem(element: KeyValueModel, position: Int) {
-                initDialogForEditRequest(element, position)
+                initDialogForEditHeader(element, position)
             }
         }
 
@@ -206,7 +220,7 @@ class RequestRestFragment : BaseFragment(), RestView {
      */
     private fun initDialogVariablesHeader() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = activity.layoutInflater.inflate(R.layout.add_key_value_layout_header, null)
+        alertView = activity.layoutInflater.inflate(R.layout.dialog_key_value_header, null)
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
         editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
@@ -220,7 +234,7 @@ class RequestRestFragment : BaseFragment(), RestView {
      */
     private fun initDialogVariablesRequest() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = activity.layoutInflater.inflate(R.layout.add_key_value_layout_request, null)
+        alertView = activity.layoutInflater.inflate(R.layout.dialog_add_key_value_request, null)
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
         editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
