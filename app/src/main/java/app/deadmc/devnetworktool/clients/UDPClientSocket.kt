@@ -10,9 +10,6 @@ import java.net.InetAddress
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.models.ConnectionHistory
 
-/**
- * Created by Feren on 23.07.2016.
- */
 abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
 
     @Volatile private var datagramSocket: DatagramSocket? = null

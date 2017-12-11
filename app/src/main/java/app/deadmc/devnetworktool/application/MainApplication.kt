@@ -7,7 +7,6 @@ import com.orm.SugarContext
 
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
-import app.deadmc.devnetworktool.singletons.SharedData
 import io.fabric.sdk.android.Fabric
 
 import app.deadmc.devnetworktool.constants.PING
@@ -20,7 +19,6 @@ class MainApplication : Application() {
         Fabric.with(this, Crashlytics())
         SugarContext.init(applicationContext)
         DevPreferences.init(applicationContext)
-        SharedData.init(applicationContext)
 
         if (DevPreferences.getFirstLaunch()) {
             createDefaultData()

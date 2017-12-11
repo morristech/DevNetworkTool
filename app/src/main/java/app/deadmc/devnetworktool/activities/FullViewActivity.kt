@@ -1,19 +1,17 @@
 package app.deadmc.devnetworktool.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.support.v7.widget.Toolbar
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.FULL_VIEW
-import app.deadmc.devnetworktool.helpers.StringHelper
+import app.deadmc.devnetworktool.helpers.formatString
 import app.deadmc.devnetworktool.interfaces.views.FullView
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.activity_full_view.*
-import app.deadmc.devnetworktool.R.id.webView
-
-
 
 class FullViewActivity : BaseActivity(), FullView {
 
@@ -54,15 +52,15 @@ class FullViewActivity : BaseActivity(), FullView {
         toolbar?.setTitle(stringId)
         setTitle(stringId)
         scrollView.visibility = View.VISIBLE
-        jsonTextView.text = StringHelper.formatString(text)
+        jsonTextView.text = formatString(text)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun setResultWebView(stringId: Int, text: String, url:String) {
         toolbar?.setTitle(stringId)
         setTitle(stringId)
-        webView.getSettings().javaScriptEnabled = true
+        webView.settings.javaScriptEnabled = true
         webView.visibility = View.VISIBLE
-        //webView.loadData(text, "text/html; charset=utf-8", "UTF-8")
         val mimeType = "text/html"
         val encoding = "UTF-8"
         webView.loadDataWithBaseURL(url, text, mimeType, encoding, url)

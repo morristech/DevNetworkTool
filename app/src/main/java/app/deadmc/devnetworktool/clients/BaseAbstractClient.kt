@@ -4,9 +4,6 @@ import android.content.Context
 
 import app.deadmc.devnetworktool.models.ConnectionHistory
 
-/**
- * Created by Feren on 23.07.2016.
- */
 abstract class BaseAbstractClient(protected var context: Context, protected var connectionHistory: ConnectionHistory) : Runnable {
     protected var line: String? = null
     abstract val description: String

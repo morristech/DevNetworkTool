@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-/**
- * Created by DEADMC on 12.11.2016.
- */
 public class DevPreferences {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor preferencesEditor;
@@ -20,7 +17,6 @@ public class DevPreferences {
      * @param context
      */
     public static void init(Context context) {
-        Log.e("DevPreferences","init called");
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
@@ -35,7 +31,7 @@ public class DevPreferences {
     public static void setFirstLaunch(Boolean value) {
         preferencesEditor = sharedPreferences.edit();
         preferencesEditor.putBoolean(PREFERENCES_FIRST_LAUNCH, value);
-        preferencesEditor.commit();
+        preferencesEditor.apply();
     }
 
     /**
@@ -49,6 +45,6 @@ public class DevPreferences {
     public static void setPingDelay(int value) {
         preferencesEditor = sharedPreferences.edit();
         preferencesEditor.putInt(PREFERENCES_PING_DELAY, value);
-        preferencesEditor.commit();
+        preferencesEditor.apply();
     }
 }

@@ -20,12 +20,11 @@ import app.deadmc.devnetworktool.adapters.ParametersAdapter
 import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.helpers.FileFormatHelper
-import app.deadmc.devnetworktool.helpers.StringHelper
+import app.deadmc.devnetworktool.helpers.*
+
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
 
-import app.deadmc.devnetworktool.helpers.ImageHelpers.rotateImage
 import app.deadmc.devnetworktool.interfaces.views.FullView
 import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -40,10 +39,10 @@ import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 
 class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
+    @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter: RestPresenter
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = FULL_VIEW)
+    @InjectPresenter(type = PresenterType.WEAK, tag = FULL_VIEW)
     lateinit var fullViewPresenter: FullViewPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -53,12 +52,12 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
         return myFragmentView
     }
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter(type = PresenterType.WEAK)
     fun providePresenter(): FullViewPresenter {
         return FullViewPresenter()
     }
 
-    @ProvidePresenterTag(presenterClass = FullViewPresenter::class, type = PresenterType.GLOBAL)
+    @ProvidePresenterTag(presenterClass = FullViewPresenter::class, type = PresenterType.WEAK)
     fun providePresenterTag(): String {
         return FULL_VIEW
     }
@@ -79,12 +78,12 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
     fun initButton(responseDev: ResponseDev) {
         myFragmentView.watchButton.visibility = View.VISIBLE
 
-        val type = FileFormatHelper.getTypeOfString(responseDev.body)
+        val type = getTypeOfString(responseDev.body)
         when (type) {
-            FileFormatHelper.JSON -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.json)
-            FileFormatHelper.XML -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.xml)
-            FileFormatHelper.HTML -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.html)
-            FileFormatHelper.UNDEFINED -> myFragmentView.watchButton.visibility = View.GONE
+            JSON -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.json)
+            XML -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.xml)
+            HTML -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.html)
+            UNDEFINED -> myFragmentView.watchButton.visibility = View.GONE
         }
 
 
@@ -96,7 +95,7 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
         })
     }
 
-    fun initLayout(collapseLinearLayout: CollapseLinearLayout, titleLayout: LinearLayout, imageView: ImageView?) {
+    fun initLayout(collapseLinearLayout: CollapseLinearLayout, titleLayout: LinearLayout, imageView: ImageView) {
         collapseLinearLayout.collapse()
 
         titleLayout.setOnClickListener {
@@ -112,11 +111,11 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
 
     override fun setResponse(responseDev: ResponseDev) {
-        Log.e("Response", "setResponse")
         initHeadersRecyclerView(responseDev.headers)
         initStatsRecyclerView(responseDev.code, responseDev.delay)
         bodyTextView!!.text = responseDev.body
         initButton(responseDev)
+        collapseLinearLayoutStats.expand()
 
     }
 
@@ -129,8 +128,8 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
     private fun initStatsRecyclerView(code: Int, responseTime: Int) {
         val arrayList = ArrayList<Spanned>()
-        arrayList.add(StringHelper.fromHtml(getString(R.string.response_code) + " " + code))
-        arrayList.add(StringHelper.fromHtml(getString(R.string.response_time) + " " + responseTime + " " + getString(R.string.ms)))
+        arrayList.add(fromHtml(getString(R.string.response_code) + " " + code))
+        arrayList.add(fromHtml(getString(R.string.response_time) + " " + responseTime + " " + getString(R.string.ms)))
         val parametersAdapter = ParametersAdapter(context, arrayList)
         initRecyclerViews(statsRecyclerView, parametersAdapter)
     }
@@ -142,7 +141,7 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
             val index = head.indexOf(":")
             val key = head.substring(0, index)
             val value = head.substring(index, head.length)
-            arrayList.add(StringHelper.fromHtml("<b>$key</b>$value"))
+            arrayList.add(fromHtml("<b>$key</b>$value"))
         }
 
         val parametersAdapter = ParametersAdapter(context, arrayList)

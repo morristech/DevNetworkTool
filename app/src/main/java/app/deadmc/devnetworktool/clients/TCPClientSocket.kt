@@ -12,13 +12,10 @@ import java.net.Socket
 import java.net.URL
 
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.helpers.CheckHelper
+import app.deadmc.devnetworktool.helpers.isValidIp
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import okio.Okio
 
-/**
- * Created by Feren on 09.06.2016.
- */
 abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
 
     @Volatile private var socket: Socket? = null
@@ -34,20 +31,18 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
                 return
             }
 
-            if (CheckHelper.isValidIp(connectionHistory.ipAddress)) {
+            if (isValidIp(connectionHistory.ipAddress)) {
                 socket?.connect(InetSocketAddress(connectionHistory.ipAddress, connectionHistory.port), 2000)
             } else {
                 if (!connectionHistory.ipAddress.contains("http://") && !connectionHistory.ipAddress.contains("https://"))
                     connectionHistory.ipAddress = "http://" + connectionHistory.ipAddress
                 val address = InetAddress.getByName(URL(connectionHistory.ipAddress).host)
-                Log.e("customAddress", " = " + address.hostAddress)
                 socket?.connect(InetSocketAddress(address, connectionHistory.port), 2000)
             }
 
             val bufferedSource = Okio.buffer(Okio.source(socket!!))
 
             successfulConnectCallback()
-            Log.e("TCP", "looks like everything is ok")
             while (!bufferedSource.exhausted()) {
                 line = bufferedSource.readUtf8(bufferedSource.buffer().size())
                 addLine(line!!, true)

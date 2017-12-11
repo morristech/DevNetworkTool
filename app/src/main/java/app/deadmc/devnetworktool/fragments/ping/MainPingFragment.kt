@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 class MainPingFragment : BaseFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.WEAK)
     lateinit var pingPresenter:PingPresenter
     lateinit var pingPagerAdapter: PingPagerAdapter
     private var scrolling = false
@@ -38,7 +38,7 @@ class MainPingFragment : BaseFragment(), PingView {
         }
     }
 
-    @ProvidePresenter(type = PresenterType.LOCAL)
+    @ProvidePresenter(type = PresenterType.WEAK)
     fun providePresenter(): PingPresenter {
         return PingPresenter()
     }

@@ -9,10 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 
-/**
- * Created by adanilov on 20.03.2017.
- */
-
 public class CollapseLinearLayout extends LinearLayout {
 
     private boolean collapsed = false;

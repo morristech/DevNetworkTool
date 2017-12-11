@@ -26,8 +26,10 @@ import kotlinx.android.synthetic.main.fragment_rest_history.view.*
 
 class RestHistoryFragment : BaseFragment(), RestView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
+    @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter:RestPresenter
+
+
 
     private var restRequestHistoryArrayList: List<RestRequestHistory>? = null
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
@@ -40,7 +42,6 @@ class RestHistoryFragment : BaseFragment(), RestView {
     }
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
-        Log.e(TAG,"loadRequestHistory ")
     }
 
     fun initElements() {
@@ -48,7 +49,6 @@ class RestHistoryFragment : BaseFragment(), RestView {
         val layoutManager = LinearLayoutManager(context)
         myFragmentView.recyclerViewHistory.layoutManager = layoutManager
         restRequestHistoryArrayList = SugarRecord.listAll(RestRequestHistory::class.java)
-        Log.e(TAG,"size "+restRequestHistoryArrayList!!.size)
         restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context, ArrayList(restRequestHistoryArrayList)) {
             override fun onDeleteItem(element: RestRequestHistory) {
                 element.delete()
@@ -64,6 +64,7 @@ class RestHistoryFragment : BaseFragment(), RestView {
     }
 
     override fun setResponse(responseDev: ResponseDev) {
+
     }
 
     override fun hideProgress() {

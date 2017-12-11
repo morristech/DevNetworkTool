@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 
 class MainRestFragment : BaseFragment(), RestView {
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
+    @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter: RestPresenter
     private lateinit var restPagerAdapter: RestPagerAdapter
 
@@ -44,12 +44,12 @@ class MainRestFragment : BaseFragment(), RestView {
         activity.setTitle(R.string.rest_client)
     }
 
-    @ProvidePresenter(type = PresenterType.GLOBAL)
+    @ProvidePresenter(type = PresenterType.WEAK)
     fun providePresenter(): RestPresenter {
         return RestPresenter()
     }
 
-    @ProvidePresenterTag(presenterClass = RestPresenter::class, type = PresenterType.GLOBAL)
+    @ProvidePresenterTag(presenterClass = RestPresenter::class, type = PresenterType.WEAK)
     fun providePresenterTag(): String {
         return REST
     }

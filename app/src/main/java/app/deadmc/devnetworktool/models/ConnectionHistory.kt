@@ -6,9 +6,6 @@ import java.io.Serializable
 
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 
-/**
- * Created by Feren on 21.06.2016.
- */
 class ConnectionHistory : SugarRecord, Serializable, BaseModel {
 
     var port: Int = 0

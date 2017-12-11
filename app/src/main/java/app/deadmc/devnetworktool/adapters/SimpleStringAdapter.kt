@@ -13,9 +13,6 @@ import java.util.ArrayList
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.models.SimpleString
 
-/**
- * Created by Feren on 30.11.2016.
- */
 class SimpleStringAdapter(private var context: Context, private var arrayList: ArrayList<SimpleString>) : RecyclerView.Adapter<SimpleStringAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

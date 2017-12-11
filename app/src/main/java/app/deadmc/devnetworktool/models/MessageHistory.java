@@ -2,9 +2,6 @@ package app.deadmc.devnetworktool.models;
 
 import com.orm.SugarRecord;
 
-/**
- * Created by Feren on 25.09.2016.
- */
 public class MessageHistory extends SugarRecord{
     private long timeAdded;
     private int port;

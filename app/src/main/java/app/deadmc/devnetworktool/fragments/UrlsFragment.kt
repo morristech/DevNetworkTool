@@ -37,8 +37,6 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         getPresenter().fillRecyclerView()
     }
 
-
-
     override fun fillRecyclerView(list:List<ConnectionHistory>) {
         val arrayListConnectionHistory = ArrayList(list)
         connectionHistoryAdapter = object : UrlHistoryAdapter(arrayListConnectionHistory) {

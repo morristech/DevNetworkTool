@@ -9,6 +9,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Actually it`s a copy of https://github.com/chthai64/SwipeRevealLayout
+ * just want to make it a bit better using kotlin
+ */
+
 public class ViewBinderHelper {
     private static final String BUNDLE_MAP_KEY = "ViewBinderHelper_Bundle_Map_Key";
 

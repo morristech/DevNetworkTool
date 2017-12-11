@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.helpers.DateTimeHelper
 import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
 import app.deadmc.devnetworktool.models.JsonInput
 import app.deadmc.devnetworktool.models.MessageHistory
@@ -24,6 +23,7 @@ import android.widget.Toast
 import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
 import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
+import app.deadmc.devnetworktool.helpers.getTimeFromTimestamp
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
@@ -126,7 +126,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     override fun fillReceivedMessageList(arrayListMessageHistory: ArrayList<MessageHistory>) {
         for (messageHistory in arrayListMessageHistory) {
             receivedMessageArrayList.add(ReceivedMessage(messageHistory.message,
-                    DateTimeHelper.getTimeFromTimestamp(messageHistory.timeAdded), messageHistory.id!!, messageHistory.isFromServer))
+                    getTimeFromTimestamp(messageHistory.timeAdded), messageHistory.id!!, messageHistory.isFromServer))
             receivedMessagesAdapter.notifyItemInserted(receivedMessageArrayList.size - 1)
         }
     }

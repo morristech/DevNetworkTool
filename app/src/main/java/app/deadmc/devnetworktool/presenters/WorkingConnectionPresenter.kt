@@ -2,7 +2,7 @@ package app.deadmc.devnetworktool.presenters
 
 import android.util.Log
 import app.deadmc.devnetworktool.clients.BaseAbstractClient
-import app.deadmc.devnetworktool.helpers.DateTimeHelper
+import app.deadmc.devnetworktool.helpers.currentTime
 import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.MessageHistory
@@ -22,7 +22,7 @@ class WorkingConnectionPresenter : BasePresenter<WorkingConnectionView>() {
     }
 
     fun addLineToAdapter(line: String, id: Long, fromServer: Boolean) {
-        viewState.addLineToAdapter(ReceivedMessage(line, DateTimeHelper.getCurrentTime(), id, fromServer))
+        viewState.addLineToAdapter(ReceivedMessage(line, currentTime, id, fromServer))
     }
 
     fun errorCallback() {

@@ -5,9 +5,6 @@ import app.deadmc.devnetworktool.models.ReceivedMessage
 import com.arellomobile.mvp.MvpView
 import java.util.ArrayList
 
-/**
- * Created by DEADMC on 11/19/2017.
- */
 interface WorkingConnectionView : MvpView {
     fun successfulCallback()
     fun errorCallback()

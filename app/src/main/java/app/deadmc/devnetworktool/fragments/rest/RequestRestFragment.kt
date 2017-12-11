@@ -23,23 +23,25 @@ import app.deadmc.devnetworktool.constants.REST
 
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
+import app.deadmc.devnetworktool.interfaces.views.RestDialogsView
 import app.deadmc.devnetworktool.interfaces.views.RestView
-import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
+import app.deadmc.devnetworktool.presenters.RestDialogsPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.crashlytics.android.Crashlytics
-import com.orm.SugarRecord
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
-import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
-class RequestRestFragment : BaseFragment(), RestView {
+class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
+    @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter: RestPresenter
+
+    @InjectPresenter
+    lateinit var restDialogsPresenter:RestDialogsPresenter
 
     private var methodSpinner: Spinner? = null
     private lateinit var keyValueAdapterHeaders: KeyValueAdapter
@@ -48,17 +50,20 @@ class RequestRestFragment : BaseFragment(), RestView {
     //for dialog
     private var alertDialogBuilder: AlertDialog.Builder? = null
     private var alertView: View? = null
+    private var currentDialog:AlertDialog? = null
     private var editTextKey: EditText? = null
     private var editTextValue: EditText? = null
     private var keySpinner: Spinner? = null
     private var valueSpinner: Spinner? = null
     private var keyParamsList: ArrayList<String> = ArrayList()
     private var valueParamsList: ArrayList<String> = ArrayList()
+    private var savedInstanceLaunch = false
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_request, container, false)
         initElements()
+        savedInstanceLaunch = false
         return myFragmentView
     }
 
@@ -92,16 +97,14 @@ class RequestRestFragment : BaseFragment(), RestView {
                 restPresenter.currentUrl = myFragmentView.urlEditText.text.toString()
                 restPresenter.currentMethod = myFragmentView.materialSpinner.selectedItem.toString()
                 restPresenter.sendRequest()
-                Log.e(TAG,"before rest request history size "+ SugarRecord.listAll(ConnectionHistory::class.java).size)
                 RestRequestHistory(restPresenter.currentUrl, restPresenter.currentMethod, restPresenter.headersArrayList, restPresenter.requestArrayList).save()
-                Log.e(TAG,"after rest request history size "+ SugarRecord.listAll(RestRequestHistory::class.java).size)
             } catch (e: Exception) {
                 Crashlytics.logException(e)
             }
         }
 
-        myFragmentView.addHeaderButton.setOnClickListener { initDialogForHeader() }
-        myFragmentView.addRequestButton.setOnClickListener { initDialogForRequest() }
+        myFragmentView.addHeaderButton.setOnClickListener { restDialogsPresenter.showDialogForHeader() }
+        myFragmentView.addRequestButton.setOnClickListener { restDialogsPresenter.showDialogForRequest() }
     }
 
     private fun initEditText() {
@@ -127,7 +130,7 @@ class RequestRestFragment : BaseFragment(), RestView {
         initRecyclerView(myFragmentView.headersRecyclerView)
         keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
             override fun onEditItem(element: KeyValueModel, position: Int) {
-                initDialogForEditHeader(element, position)
+                restDialogsPresenter.showDialogForEditHeader(element, position)
             }
         }
 
@@ -139,7 +142,7 @@ class RequestRestFragment : BaseFragment(), RestView {
         initRecyclerView(myFragmentView.requestRecyclerView)
         keyValueAdapterRequest = object : KeyValueAdapter(restPresenter.requestArrayList) {
             override fun onEditItem(element: KeyValueModel, position: Int) {
-                initDialogForEditRequest(element, position)
+                restDialogsPresenter.showDialogForEditRequest(element, position)
             }
         }
         myFragmentView.requestRecyclerView.adapter = keyValueAdapterRequest
@@ -158,49 +161,65 @@ class RequestRestFragment : BaseFragment(), RestView {
     /**
      * Dialog where you can add new header
      */
-    private fun initDialogForHeader() {
+    override fun showDialogForHeader() {
         initDialogVariablesHeader()
-        alertDialogBuilder!!.setPositiveButton(R.string.add) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.add) { dialog, which ->
             val keyValueModel = KeyValueModel()
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterHeaders.addItem(keyValueModel)
-            dialog.dismiss()
+            restDialogsPresenter.hideDialogForHeader()
         }
-        alertDialogBuilder!!.show()
 
+        alertDialogBuilder?.setOnDismissListener {
+            Log.e(TAG,"savedInstanceLaunch $savedInstanceLaunch")
+            if (!savedInstanceLaunch)
+                restDialogsPresenter.hideDialogForHeader()
+        }
+        currentDialog = alertDialogBuilder?.create()
+        currentDialog?.show()
     }
 
-    private fun initDialogForEditHeader(keyValueModel: KeyValueModel, position: Int) {
+    override fun hideDialogForHeader() {
+        restDialogsPresenter.currentKey = ""
+        restDialogsPresenter.currentValue = ""
+        currentDialog?.dismiss()
+    }
 
+    override fun showDialogForEditHeader(keyValueModel: KeyValueModel, position: Int) {
         initDialogVariablesHeader()
         fillDialogVariables(keyValueModel, true)
-        alertDialogBuilder!!.setPositiveButton(R.string.edit) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterHeaders.notifyItemChanged(position)
             dialog.dismiss()
         }
-        alertDialogBuilder!!.show()
+
+        initDialogEventsHeader()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        //currentConnectionHistory = collectConnectionHistory()
+        savedInstanceLaunch = true
+
         editTextKey?.let {
-            restPresenter.currentKey = it.text.toString()
+            Log.e(TAG,"editTextKey "+it.text.toString())
+            restDialogsPresenter.currentKey = it.text.toString()
         }
 
         editTextValue?.let {
-            restPresenter.currentValue = it.text.toString()
+            restDialogsPresenter.currentValue = it.text.toString()
         }
+
+        currentDialog?.dismiss()
     }
 
 
     /**
      * Dialog where you can add new request
      */
-    private fun initDialogForRequest() {
+    override fun showDialogForRequest() {
         initDialogVariablesRequest()
 
         alertDialogBuilder?.setPositiveButton(R.string.add) { dialog, which ->
@@ -208,22 +227,37 @@ class RequestRestFragment : BaseFragment(), RestView {
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterRequest.addItem(keyValueModel)
-            dialog.dismiss()
+            hideDialogForRequest()
+        }
+
+        alertDialogBuilder?.setOnDismissListener {
+            if (!savedInstanceLaunch)
+                restDialogsPresenter.hideDialogForRequest()
         }
         alertDialogBuilder?.show()
     }
 
-    private fun initDialogForEditRequest(keyValueModel: KeyValueModel, position: Int) {
+    override fun hideDialogForRequest() {
+        restDialogsPresenter.currentKey = ""
+        restDialogsPresenter.currentValue = ""
+        currentDialog?.dismiss()
+    }
+
+    override fun showDialogForEditRequest(keyValueModel: KeyValueModel, position: Int) {
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterRequest.notifyItemChanged(position)
-            dialog.dismiss()
+            hideDialogForRequest()
+        }
+
+        alertDialogBuilder?.setOnDismissListener {
+            if (!savedInstanceLaunch)
+                restDialogsPresenter.hideDialogForRequest()
         }
         alertDialogBuilder?.show()
-
     }
 
 
@@ -239,6 +273,17 @@ class RequestRestFragment : BaseFragment(), RestView {
         keySpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderKey) as Spinner
         valueSpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderValue) as Spinner
         setDialogSpinnerKey()
+        editTextKey?.setText(restDialogsPresenter.currentKey)
+        editTextValue?.setText(restDialogsPresenter.currentValue)
+    }
+
+    private fun initDialogEventsHeader() {
+        alertDialogBuilder?.setOnDismissListener {
+            if (!savedInstanceLaunch)
+                hideDialogForHeader()
+        }
+        currentDialog = alertDialogBuilder?.create()
+        currentDialog?.show()
     }
 
     /**
@@ -250,8 +295,8 @@ class RequestRestFragment : BaseFragment(), RestView {
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
         editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
-        editTextKey?.setText(restPresenter.currentKey)
-        editTextValue?.setText(restPresenter.currentValue)
+        editTextKey?.setText(restDialogsPresenter.currentKey)
+        editTextValue?.setText(restDialogsPresenter.currentValue)
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
@@ -280,7 +325,7 @@ class RequestRestFragment : BaseFragment(), RestView {
     private fun setDialogSpinnerKey() {
         keyParamsList = ArrayList()
         keyParamsList.add(getString(R.string.custom_header))
-        keyParamsList.addAll(AllHeaders.getHeadersHashmap().keys)
+        keyParamsList.addAll(AllHeaders.headersHashmap.keys)
         val keySpinnerAdapter = ArrayAdapter(context,
                 R.layout.support_simple_spinner_dropdown_item, keyParamsList)
         keySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -306,7 +351,7 @@ class RequestRestFragment : BaseFragment(), RestView {
     private fun setDialogSpinnerValue(key: String) {
         valueParamsList = ArrayList()
         valueParamsList.add(getString(R.string.custom_value))
-        valueParamsList.addAll(AllHeaders.getHeadersHashmap()[key] as ArrayList<String>)
+        valueParamsList.addAll(AllHeaders.headersHashmap[key] as ArrayList<String>)
         if (valueParamsList.size == 1) {
             valueSpinner?.visibility = View.GONE
             return

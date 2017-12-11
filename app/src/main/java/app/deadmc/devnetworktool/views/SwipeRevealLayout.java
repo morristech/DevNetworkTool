@@ -18,7 +18,8 @@ import android.view.ViewGroup;
 import app.deadmc.devnetworktool.R;
 
 /**
- * Created by DEADMC on 11/19/2017.
+ * Actually it`s a copy of https://github.com/chthai64/SwipeRevealLayout
+ * just want to make it a bit better using kotlin
  */
 
 @SuppressLint("RtlHardcoded")

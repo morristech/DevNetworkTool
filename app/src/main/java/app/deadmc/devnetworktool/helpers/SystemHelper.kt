@@ -4,9 +4,6 @@ import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-/**
- * Created by Feren on 08.11.2016.
- */
 object SystemHelper {
 
     fun executeCmd(cmd: String, sudo: Boolean): String {

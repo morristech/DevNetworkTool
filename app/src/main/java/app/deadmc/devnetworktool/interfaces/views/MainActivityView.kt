@@ -2,11 +2,13 @@ package app.deadmc.devnetworktool.interfaces.views
 
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import java.io.Serializable
 
-/**
- * Created by DEADMC on 11/11/2017.
- */
+@StateStrategyType(AddToEndSingleStrategy::class)
 interface MainActivityView : MvpView {
     fun runFragmentDependsOnClickedItem(item: Int)
     fun runFragmentDependsOnId(id: Int)
@@ -19,5 +21,4 @@ interface MainActivityView : MvpView {
     fun stopService()
     fun setCustomTitle(stringId: Int)
     fun setCustomTitle(title: String)
-
 }

@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 
 import app.deadmc.devnetworktool.R;
 
-/**
- * Created by DEADMC on 6/7/2017.
- */
-
 public class SettingsFragment extends BaseFragment {
 
     @Override

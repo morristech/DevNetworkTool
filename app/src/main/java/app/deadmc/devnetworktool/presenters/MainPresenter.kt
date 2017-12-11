@@ -5,10 +5,6 @@ import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 import java.io.Serializable
 
-
-/**
- * Created by DEADMC on 11/11/2017.
- */
 @InjectViewState
 class MainPresenter : BasePresenter<MainActivityView>() {
 

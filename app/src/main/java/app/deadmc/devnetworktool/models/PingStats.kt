@@ -1,8 +1,5 @@
 package app.deadmc.devnetworktool.models
 
-/**
- * Created by Feren on 30.11.2016.
- */
 class PingStats {
 
     var sended: Int = 0

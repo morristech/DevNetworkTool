@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
 
 class PingStatsPageFragment : BasePingFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.WEAK)
     lateinit var pingPresenter:PingPresenter
     private var pingStats: PingStats = PingStats()
     private lateinit var simpleStringAdapter: SimpleStringAdapter

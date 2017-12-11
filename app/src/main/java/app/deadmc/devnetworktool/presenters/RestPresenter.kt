@@ -12,9 +12,6 @@ import io.reactivex.schedulers.Schedulers
 import java.util.ArrayList
 import java.util.HashMap
 
-/**
- * Created by DEADMC on 11/29/2017.
- */
 @InjectViewState
 class RestPresenter : BasePresenter<RestView>() {
     var currentUrl = ""
@@ -22,8 +19,7 @@ class RestPresenter : BasePresenter<RestView>() {
     var currentMethod: String = "GET"
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
-    var currentKey = ""
-    var currentValue = ""
+
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 

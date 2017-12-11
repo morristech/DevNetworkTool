@@ -3,7 +3,10 @@ package app.deadmc.devnetworktool.models;
 import android.content.Context;
 
 import app.deadmc.devnetworktool.R;
-import app.deadmc.devnetworktool.helpers.StringHelper;
+
+import static app.deadmc.devnetworktool.helpers.StringHelperKt.getIpAddressFromString;
+import static app.deadmc.devnetworktool.helpers.StringHelperKt.getPingFromString;
+import static app.deadmc.devnetworktool.helpers.StringHelperKt.getTtlFromString;
 
 /**
  * Created by Feren on 14.11.2016.
@@ -19,9 +22,9 @@ public class PingStructure {
 
 
     public PingStructure(String rawString) {
-        this.ping = StringHelper.getPingFromString(rawString);
-        this.ipAddress = StringHelper.getIpAddressFromString(rawString);
-        this.ttl = StringHelper.getTtlFromString(rawString);
+        this.ping = getPingFromString(rawString);
+        this.ipAddress = getIpAddressFromString(rawString);
+        this.ttl = getTtlFromString(rawString);
         this.rawString = rawString;
         setTimeAddedDefault();
     }

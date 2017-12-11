@@ -3,7 +3,8 @@ package app.deadmc.devnetworktool.fragments.socket_connections
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
-import app.deadmc.devnetworktool.helpers.CheckHelper
+import app.deadmc.devnetworktool.helpers.portFromString
+
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.presenters.UdpConnectionsPresenter
@@ -24,13 +25,12 @@ class UdpConnectionsFragment : ConnectionsFragment() {
         activity.setTitle(R.string.udp_client)
     }
 
-
     override fun collectConnectionHistory():ConnectionHistory {
         val connectionHistory = ConnectionHistory()
         if (alertDialog?.isShowing == true) {
             connectionHistory.ipAddress = alertView.editTextIpAddress.text.toString()
             connectionHistory.name = alertView.editTextName.text.toString()
-            connectionHistory.port = CheckHelper.portFromString(alertView.editTextPort.text.toString())
+            connectionHistory.port = portFromString(alertView.editTextPort.text.toString())
             connectionHistory.setLastUsageDefault()
             connectionHistory.type = UDP_CLIENT
         }

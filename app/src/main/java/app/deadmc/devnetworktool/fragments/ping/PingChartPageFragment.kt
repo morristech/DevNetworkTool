@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
 
 class PingChartPageFragment : BasePingFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.WEAK)
     lateinit var pingPresenter: PingPresenter
     private lateinit var lineDataSet: LineDataSet
 

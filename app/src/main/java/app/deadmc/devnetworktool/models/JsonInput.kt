@@ -3,9 +3,6 @@ package app.deadmc.devnetworktool.models
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import java.util.*
 
-/**
- * Created by Feren on 24.09.2016.
- */
 class JsonInput(var key: String, var value: String) : BaseModel {
     var id = Random().nextLong()
 

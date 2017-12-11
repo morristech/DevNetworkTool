@@ -11,9 +11,6 @@ import app.deadmc.devnetworktool.presenters.PingConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.dialog_add_url.view.*
 
-/**
- * Created by DEADMC on 11/26/2017.
- */
 class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
 
     @InjectPresenter
