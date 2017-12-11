@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
 
+import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.helpers.CheckHelper
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
@@ -18,6 +19,11 @@ open class TcpConnectionsFragment : ConnectionsFragment(), ConnectionsView {
 
     override fun getPresenter(): ConnectionsPresenter {
         return presenter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity.setTitle(R.string.tcp_client)
     }
 
     override fun collectConnectionHistory():ConnectionHistory {

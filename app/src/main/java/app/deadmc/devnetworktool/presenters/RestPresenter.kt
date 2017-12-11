@@ -22,6 +22,8 @@ class RestPresenter : BasePresenter<RestView>() {
     var currentMethod: String = "GET"
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
+    var currentKey = ""
+    var currentValue = ""
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 

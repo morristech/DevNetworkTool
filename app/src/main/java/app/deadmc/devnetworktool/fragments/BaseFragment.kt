@@ -7,9 +7,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 
 import app.deadmc.devnetworktool.activities.MainActivity
 
-/**
- * Created by Feren on 12.01.2017.
- */
+
 open class BaseFragment : MvpAppCompatFragment() {
 
     protected lateinit var myFragmentView: View
@@ -21,7 +19,4 @@ open class BaseFragment : MvpAppCompatFragment() {
         return this.javaClass.simpleName
     }
 
-    fun setTitle() {
-
-    }
-}// Required empty public constructor
+}

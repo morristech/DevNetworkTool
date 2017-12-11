@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
 
+import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
 import app.deadmc.devnetworktool.helpers.CheckHelper
 import app.deadmc.devnetworktool.models.ConnectionHistory
@@ -17,6 +18,12 @@ class UdpConnectionsFragment : ConnectionsFragment() {
     override fun getPresenter(): ConnectionsPresenter {
         return presenter
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity.setTitle(R.string.udp_client)
+    }
+
 
     override fun collectConnectionHistory():ConnectionHistory {
         val connectionHistory = ConnectionHistory()

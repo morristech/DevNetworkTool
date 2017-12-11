@@ -1,6 +1,7 @@
 package app.deadmc.devnetworktool.fragments.ping
 
 
+import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.fragments.UrlsFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
@@ -20,6 +21,11 @@ class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
 
     override fun getPresenter(): ConnectionsPresenter {
         return presenter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity.setTitle(R.string.ping)
     }
 
     override fun collectConnectionHistory(): ConnectionHistory {

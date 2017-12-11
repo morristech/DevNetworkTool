@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 tools:text="@string/general" />
 
@@ -55,11 +55,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px"
-                    android:layout_width="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="30dp" />
             </LinearLayout>
 
             <TextView
@@ -103,12 +98,6 @@
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content" />
-
-                <ImageView
-                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px"
-                    android:layout_width="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="30dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -184,6 +184,18 @@ class RequestRestFragment : BaseFragment(), RestView {
         alertDialogBuilder!!.show()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        //currentConnectionHistory = collectConnectionHistory()
+        editTextKey?.let {
+            restPresenter.currentKey = it.text.toString()
+        }
+
+        editTextValue?.let {
+            restPresenter.currentValue = it.text.toString()
+        }
+    }
+
 
     /**
      * Dialog where you can add new request
@@ -238,6 +250,8 @@ class RequestRestFragment : BaseFragment(), RestView {
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
         editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
+        editTextKey?.setText(restPresenter.currentKey)
+        editTextValue?.setText(restPresenter.currentValue)
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {

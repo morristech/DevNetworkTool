@@ -19,6 +19,8 @@ import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import com.orm.SugarRecord
 import kotlinx.android.synthetic.main.fragment_rest_history.view.*
 
@@ -29,13 +31,13 @@ class RestHistoryFragment : BaseFragment(), RestView {
 
     private var restRequestHistoryArrayList: List<RestRequestHistory>? = null
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_history, container, false)
         initElements()
         return myFragmentView
     }
-
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
         Log.e(TAG,"loadRequestHistory ")

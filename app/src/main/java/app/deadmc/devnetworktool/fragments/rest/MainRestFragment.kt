@@ -39,6 +39,11 @@ class MainRestFragment : BaseFragment(), RestView {
         return myFragmentView
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity.setTitle(R.string.rest_client)
+    }
+
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun providePresenter(): RestPresenter {
         return RestPresenter()

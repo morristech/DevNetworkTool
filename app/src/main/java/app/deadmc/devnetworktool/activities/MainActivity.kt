@@ -75,7 +75,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             stopService()
         }
         when (item) {
-            R.id.tcp_client -> runFragment(TcpConnectionsFragment())
+            R.id.tcp_client -> {runFragment(TcpConnectionsFragment())}
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
             R.id.ping -> runFragment(PingConnectionsFragment())
             R.id.rest -> runFragment(MainRestFragment())

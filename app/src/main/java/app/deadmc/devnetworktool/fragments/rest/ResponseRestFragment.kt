@@ -17,6 +17,7 @@ import java.util.ArrayList
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.adapters.ParametersAdapter
+import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.FileFormatHelper
@@ -25,24 +26,41 @@ import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
 
 import app.deadmc.devnetworktool.helpers.ImageHelpers.rotateImage
+import app.deadmc.devnetworktool.interfaces.views.FullView
 import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.RestRequestHistory
+import app.deadmc.devnetworktool.presenters.FullViewPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import kotlinx.android.synthetic.main.fragment_rest_response.*
 import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 
-class ResponseRestFragment : BaseFragment(), RestView {
+class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = REST)
     lateinit var restPresenter: RestPresenter
+
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = FULL_VIEW)
+    lateinit var fullViewPresenter: FullViewPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_response, container, false)
         initElements()
         return myFragmentView
+    }
+
+    @ProvidePresenter(type = PresenterType.GLOBAL)
+    fun providePresenter(): FullViewPresenter {
+        return FullViewPresenter()
+    }
+
+    @ProvidePresenterTag(presenterClass = FullViewPresenter::class, type = PresenterType.GLOBAL)
+    fun providePresenterTag(): String {
+        return FULL_VIEW
     }
 
     fun initElements() {
@@ -71,6 +89,8 @@ class ResponseRestFragment : BaseFragment(), RestView {
 
 
         myFragmentView.watchButton.setOnClickListener({
+            fullViewPresenter.text = responseDev.body
+            fullViewPresenter.url = restPresenter.currentUrl
             val intent = Intent(context, FullViewActivity::class.java)
             startActivity(intent)
         })
@@ -136,5 +156,14 @@ class ResponseRestFragment : BaseFragment(), RestView {
     }
 
     override fun showProgress() {
+    }
+
+    override fun hide() {
+    }
+
+    override fun setResult(stringId: Int, text: String) {
+    }
+
+    override fun setResultWebView(stringId: Int, text: String, url:String) {
     }
 }

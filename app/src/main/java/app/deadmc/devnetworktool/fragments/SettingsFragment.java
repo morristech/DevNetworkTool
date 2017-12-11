@@ -16,8 +16,7 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        myFragmentView =  inflater.inflate(R.layout.fragment_parent, container, false);
+        myFragmentView =  inflater.inflate(R.layout.fragment_settings, container, false);
         return myFragmentView;
     }
 
