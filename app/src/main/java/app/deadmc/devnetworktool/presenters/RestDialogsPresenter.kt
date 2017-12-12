@@ -25,10 +25,7 @@ class RestDialogsPresenter : BasePresenter<RestDialogsView>() {
         viewState.showDialogForEditHeader(element,position)
     }
 
-    fun hideDialogForHeader() {
-        viewState.hideDialogForHeader()
-    }
-    fun hideDialogForRequest() {
-        viewState.hideDialogForRequest()
+    fun hideDialog() {
+        viewState.hideDialog()
     }
 }

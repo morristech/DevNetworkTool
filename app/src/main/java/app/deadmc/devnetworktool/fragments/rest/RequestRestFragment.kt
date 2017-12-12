@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.fragments.rest
 
+
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -10,17 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-
 import android.widget.EditText
 import android.widget.Spinner
-
-import java.util.ArrayList
-
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.constants.REST
-
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
 import app.deadmc.devnetworktool.interfaces.views.RestDialogsView
@@ -34,6 +29,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
+import java.util.*
 
 class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
@@ -163,33 +159,25 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      */
     override fun showDialogForHeader() {
         initDialogVariablesHeader()
-        alertDialogBuilder?.setPositiveButton(R.string.add) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.add) { _, _ ->
             val keyValueModel = KeyValueModel()
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterHeaders.addItem(keyValueModel)
-            restDialogsPresenter.hideDialogForHeader()
+            restDialogsPresenter.hideDialog()
         }
-
         initDialogEventsHeader()
-    }
-
-    override fun hideDialogForHeader() {
-        restDialogsPresenter.currentKey = ""
-        restDialogsPresenter.currentValue = ""
-        currentDialog?.dismiss()
     }
 
     override fun showDialogForEditHeader(keyValueModel: KeyValueModel, position: Int) {
         initDialogVariablesHeader()
         fillDialogVariables(keyValueModel, true)
-        alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterHeaders.notifyItemChanged(position)
-            dialog.dismiss()
+            restDialogsPresenter.hideDialog()
         }
-
         initDialogEventsHeader()
     }
 
@@ -216,7 +204,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun showDialogForRequest() {
         initDialogVariablesRequest()
 
-        alertDialogBuilder?.setPositiveButton(R.string.add) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.add) { _, _ ->
             val keyValueModel = KeyValueModel()
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
@@ -226,12 +214,12 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
         alertDialogBuilder?.setOnDismissListener {
             if (!savedInstanceLaunch)
-                restDialogsPresenter.hideDialogForRequest()
+                restDialogsPresenter.hideDialog()
         }
         alertDialogBuilder?.show()
     }
 
-    override fun hideDialogForRequest() {
+    override fun hideDialog() {
         restDialogsPresenter.currentKey = ""
         restDialogsPresenter.currentValue = ""
         currentDialog?.dismiss()
@@ -240,11 +228,11 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun showDialogForEditRequest(keyValueModel: KeyValueModel, position: Int) {
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
-        alertDialogBuilder?.setPositiveButton(R.string.edit) { dialog, which ->
+        alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterRequest.notifyItemChanged(position)
-            hideDialogForRequest()
+            restDialogsPresenter.hideDialog()
         }
 
         initDialogEventsRequest()
@@ -270,7 +258,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     private fun initDialogEventsHeader() {
         alertDialogBuilder?.setOnDismissListener {
             if (!savedInstanceLaunch)
-                hideDialogForHeader()
+                hideDialog()
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()
@@ -292,7 +280,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     private fun initDialogEventsRequest() {
         alertDialogBuilder?.setOnDismissListener {
             if (!savedInstanceLaunch)
-                hideDialogForRequest()
+                hideDialog()
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()
