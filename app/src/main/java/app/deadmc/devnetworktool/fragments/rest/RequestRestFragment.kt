@@ -167,7 +167,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             keyValueAdapterHeaders.addItem(keyValueModel)
             restDialogsPresenter.hideDialog()
         }
-        initDialogEventsHeader()
+        initDialogEvents()
     }
 
     override fun showDialogForEditHeader(keyValueModel: KeyValueModel, position: Int) {
@@ -179,7 +179,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             keyValueAdapterHeaders.notifyItemChanged(position)
             restDialogsPresenter.hideDialog()
         }
-        initDialogEventsHeader()
+        initDialogEvents()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -208,8 +208,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
         alertDialogBuilder?.setPositiveButton(R.string.add) { _, _ ->
             val keyValueModel = KeyValueModel()
-            keyValueModel.key = editTextKey!!.text.toString()
-            keyValueModel.value = editTextValue!!.text.toString()
+            keyValueModel.key = editTextKey?.text.toString()
+            keyValueModel.value = editTextValue?.text.toString()
             keyValueAdapterRequest.addItem(keyValueModel)
         }
 
@@ -240,26 +240,14 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      * Init all views in dialog
      */
     private fun initDialogVariablesHeader() {
-        Log.e(TAG,"initDialogVariablesHeader.currentKey "+restDialogsPresenter.currentKey)
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
         alertView = activity.layoutInflater.inflate(R.layout.dialog_key_value_header, null)
         alertDialogBuilder?.setView(alertView)
-        editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
-        editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
-        keySpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderKey) as Spinner
-        valueSpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderValue) as Spinner
+        editTextKey = alertView?.findViewById(R.id.editTextKey)
+        editTextValue = alertView?.findViewById(R.id.editTextValue)
+        keySpinner = alertView?.findViewById(R.id.materialSpinnerHeaderKey)
+        valueSpinner = alertView?.findViewById(R.id.materialSpinnerHeaderValue)
         setDialogSpinnerKey()
-        editTextKey!!.setText(restDialogsPresenter.currentKey)
-        editTextValue!!.setText(restDialogsPresenter.currentValue)
-    }
-
-    private fun initDialogEventsHeader() {
-        alertDialogBuilder?.setOnDismissListener {
-            if (!savedInstanceLaunch)
-                restDialogsPresenter.hideDialog()
-        }
-        currentDialog = alertDialogBuilder?.create()
-        currentDialog?.show()
     }
 
     /**
@@ -269,10 +257,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
         alertView = activity.layoutInflater.inflate(R.layout.dialog_add_key_value_request, null)
         alertDialogBuilder?.setView(alertView)
-        editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
-        editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
-        editTextKey!!.setText(restDialogsPresenter.currentKey)
-        editTextValue!!.setText(restDialogsPresenter.currentValue)
+        editTextKey = alertView?.findViewById(R.id.editTextKey)
+        editTextValue = alertView?.findViewById(R.id.editTextValue)
     }
 
     private fun initDialogEvents() {
@@ -282,6 +268,9 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()
+        Log.e(TAG,"restDialogsPresenter.currentKey "+restDialogsPresenter.currentKey)
+        editTextKey?.setText(restDialogsPresenter.currentKey)
+        editTextValue?.setText(restDialogsPresenter.currentValue)
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
