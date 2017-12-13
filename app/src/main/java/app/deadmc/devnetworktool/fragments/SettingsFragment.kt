@@ -15,5 +15,4 @@ class SettingsFragment : BaseFragment() {
         return myFragmentView
     }
 
-
 }

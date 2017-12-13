@@ -36,7 +36,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter: RestPresenter
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.WEAK)
     lateinit var restDialogsPresenter: RestDialogsPresenter
 
     private var methodSpinner: Spinner? = null
@@ -76,6 +76,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initSpinner()
         initRequestRecyclerView()
         initHeadersRecyclerView()
+        Log.e(TAG,"key "+restDialogsPresenter.currentKey)
     }
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
@@ -184,7 +185,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         savedInstanceLaunch = true
-
+        if (editTextKey == null)
+            Log.e(TAG, "editTextKey is null")
         editTextKey?.let {
             Log.e(TAG, "editTextKey " + it.text.toString())
             restDialogsPresenter.currentKey = it.text.toString()
@@ -209,17 +211,13 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             keyValueModel.key = editTextKey!!.text.toString()
             keyValueModel.value = editTextValue!!.text.toString()
             keyValueAdapterRequest.addItem(keyValueModel)
-            initDialogEventsRequest()
         }
 
-        alertDialogBuilder?.setOnDismissListener {
-            if (!savedInstanceLaunch)
-                restDialogsPresenter.hideDialog()
-        }
-        alertDialogBuilder?.show()
+        initDialogEvents()
     }
 
     override fun hideDialog() {
+        Log.e(TAG,"called")
         restDialogsPresenter.currentKey = ""
         restDialogsPresenter.currentValue = ""
         currentDialog?.dismiss()
@@ -234,8 +232,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             keyValueAdapterRequest.notifyItemChanged(position)
             restDialogsPresenter.hideDialog()
         }
-
-        initDialogEventsRequest()
+        initDialogEvents()
     }
 
 
@@ -243,6 +240,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      * Init all views in dialog
      */
     private fun initDialogVariablesHeader() {
+        Log.e(TAG,"initDialogVariablesHeader.currentKey "+restDialogsPresenter.currentKey)
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
         alertView = activity.layoutInflater.inflate(R.layout.dialog_key_value_header, null)
         alertDialogBuilder?.setView(alertView)
@@ -251,14 +249,14 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         keySpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderKey) as Spinner
         valueSpinner = alertView?.findViewById<View>(R.id.materialSpinnerHeaderValue) as Spinner
         setDialogSpinnerKey()
-        editTextKey?.setText(restDialogsPresenter.currentKey)
-        editTextValue?.setText(restDialogsPresenter.currentValue)
+        editTextKey!!.setText(restDialogsPresenter.currentKey)
+        editTextValue!!.setText(restDialogsPresenter.currentValue)
     }
 
     private fun initDialogEventsHeader() {
         alertDialogBuilder?.setOnDismissListener {
             if (!savedInstanceLaunch)
-                hideDialog()
+                restDialogsPresenter.hideDialog()
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()
@@ -273,14 +271,14 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById<View>(R.id.editTextKey) as EditText
         editTextValue = alertView?.findViewById<View>(R.id.editTextValue) as EditText
-        editTextKey?.setText(restDialogsPresenter.currentKey)
-        editTextValue?.setText(restDialogsPresenter.currentValue)
+        editTextKey!!.setText(restDialogsPresenter.currentKey)
+        editTextValue!!.setText(restDialogsPresenter.currentValue)
     }
 
-    private fun initDialogEventsRequest() {
+    private fun initDialogEvents() {
         alertDialogBuilder?.setOnDismissListener {
             if (!savedInstanceLaunch)
-                hideDialog()
+                restDialogsPresenter.hideDialog()
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()
@@ -301,7 +299,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
                 } else {
                     valueSpinner!!.setSelection(0)
                 }
-
             } else {
                 keySpinner?.setSelection(0)
                 valueSpinner?.visibility = View.GONE
