@@ -177,14 +177,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun onSaveInstanceState(outState: Bundle?) {
         //super.onSaveInstanceState(outState)
         Log.e(TAG,"onSaveInstanceState")
-        currentDialog?.setOnDismissListener(null)
-        currentDialog?.dismiss()
-    }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e(TAG,"on pause")
-        /*
         if (editTextKey == null)
             Log.e(TAG, "editTextKey is null")
         editTextKey?.let {
@@ -195,9 +188,10 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         editTextValue?.let {
             restDialogsPresenter.keyValueModel.key = it.text.toString()
         }
-        */
-    }
 
+        currentDialog?.setOnDismissListener(null)
+        currentDialog?.dismiss()
+    }
 
 
     override fun hideDialog() {

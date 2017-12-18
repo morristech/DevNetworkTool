@@ -240,4 +240,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         doUnbindService()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        // super.onSaveInstanceState(outState);
+        mvpDelegate.onSaveInstanceState(outState)
+        mvpDelegate.onDetach()
+    }
+
 }
