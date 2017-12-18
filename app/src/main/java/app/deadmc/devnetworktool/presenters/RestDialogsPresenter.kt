@@ -7,22 +7,14 @@ import com.arellomobile.mvp.InjectViewState
 @InjectViewState
 class RestDialogsPresenter : BasePresenter<RestDialogsView>() {
 
-    var currentKey = ""
-    var currentValue = ""
+    var keyValueModel = KeyValueModel()
 
-    fun showDialogForHeader() {
-        viewState.showDialogForHeader()
-    }
-    fun showDialogForRequest() {
-        viewState.showDialogForRequest()
+    fun showDialogForHeader(element:KeyValueModel, position:Int = -1) {
+        viewState.showDialogForHeader(element,position)
     }
 
-    fun showDialogForEditRequest(element:KeyValueModel, position:Int) {
-        viewState.showDialogForEditRequest(element,position)
-    }
-
-    fun showDialogForEditHeader(element:KeyValueModel, position:Int) {
-        viewState.showDialogForEditHeader(element,position)
+    fun showDialogForRequest(element:KeyValueModel, position:Int = -1) {
+        viewState.showDialogForRequest(element,position)
     }
 
     fun hideDialog() {
