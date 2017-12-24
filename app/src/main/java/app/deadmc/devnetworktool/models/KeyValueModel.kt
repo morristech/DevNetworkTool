@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.models
 
+import android.util.Log
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import java.util.*
 
@@ -9,10 +10,18 @@ import java.util.*
 
 class KeyValueModel : BaseModel {
     var key: String = ""
+        set(value)  {
+            Log.e("KeyValueModel","value $value")
+            field = value
+        }
     var value: String = ""
     var id = Random().nextLong()
 
     override fun getUniqueId(): String {
         return id.toString()
+    }
+
+    override fun toString(): String {
+        return "key = $key , value = $value"
     }
 }

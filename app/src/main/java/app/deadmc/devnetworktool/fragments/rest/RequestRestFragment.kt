@@ -64,6 +64,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         Log.e(TAG,"onCreateView")
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_request, container, false)
         initElements()
+        Log.e(TAG,"presenter value "+restDialogsPresenter.keyValueModel)
         return myFragmentView
     }
 
@@ -117,7 +118,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     private fun initSpinner() {
         methodSpinner = myFragmentView.findViewById<View>(R.id.materialSpinner) as Spinner
         methodSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 restPresenter.currentMethod = parent.getItemAtPosition(position).toString()
             }
 
@@ -156,13 +157,20 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         recyclerView?.isNestedScrollingEnabled = false
     }
 
+    private fun checkActivityIsFinishing():Boolean {
+        if (activity.isFinishing)
+            return true
+        return false
+    }
+
     ///////////////////////////////////////////////////Dialog Part
 
     /**
      * Dialog where you can add new header
      */
-
     override fun showDialogForHeader(keyValueModel: KeyValueModel, position: Int) {
+        if (checkActivityIsFinishing())
+            return
         initDialogVariablesHeader()
         fillDialogVariables(keyValueModel, true)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
@@ -175,7 +183,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        //super.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
         Log.e(TAG,"onSaveInstanceState")
 
         if (editTextKey == null)
@@ -186,7 +194,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         }
 
         editTextValue?.let {
-            restDialogsPresenter.keyValueModel.key = it.text.toString()
+            restDialogsPresenter.keyValueModel.value = it.text.toString()
         }
 
         currentDialog?.setOnDismissListener(null)
@@ -205,6 +213,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      * @param position has -1 value if not specified
      */
     override fun showDialogForRequest(keyValueModel: KeyValueModel, position:Int) {
+        if (checkActivityIsFinishing())
+            return
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
@@ -252,8 +262,11 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
+        Log.e(TAG,"fillDialogVariables $keyValueModel")
         editTextKey!!.setText(keyValueModel.key)
         editTextValue!!.setText(keyValueModel.value)
+
+        editTextKey!!.postDelayed({editTextKey!!.setText(keyValueModel.key)},0)
         if (hasSpinners) {
             val keyIndex = keyParamsList.indexOf(keyValueModel.key)
             if (keyIndex > 0) {
@@ -271,6 +284,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
                 valueSpinner?.visibility = View.GONE
             }
         }
+
     }
 
     private fun setDialogSpinnerKey() {

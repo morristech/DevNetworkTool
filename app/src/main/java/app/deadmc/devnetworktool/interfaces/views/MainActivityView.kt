@@ -8,7 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import java.io.Serializable
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@StateStrategyType(SkipStrategy::class)
 interface MainActivityView : MvpView {
     fun runFragmentDependsOnClickedItem(item: Int)
     fun runFragmentDependsOnId(id: Int)

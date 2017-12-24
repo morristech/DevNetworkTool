@@ -241,7 +241,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        // super.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState)
         mvpDelegate.onSaveInstanceState(outState)
         mvpDelegate.onDetach()
     }
