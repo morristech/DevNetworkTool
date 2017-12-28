@@ -117,7 +117,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
     private fun initSpinner() {
         methodSpinner = myFragmentView.findViewById<View>(R.id.materialSpinner) as Spinner
-        methodSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        methodSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 restPresenter.currentMethod = parent.getItemAtPosition(position).toString()
             }
@@ -174,8 +174,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initDialogVariablesHeader()
         fillDialogVariables(keyValueModel, true)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
-            keyValueModel.key = editTextKey!!.text.toString()
-            keyValueModel.value = editTextValue!!.text.toString()
+            keyValueModel.key = editTextKey?.text.toString()
+            keyValueModel.value = editTextValue?.text.toString()
             keyValueAdapterHeaders.notifyItemChanged(position)
             restDialogsPresenter.hideDialog()
         }
@@ -218,8 +218,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
-            keyValueModel.key = editTextKey!!.text.toString()
-            keyValueModel.value = editTextValue!!.text.toString()
+            keyValueModel.key = editTextKey?.text.toString()
+            keyValueModel.value = editTextValue?.text.toString()
             if (position != -1)
                 keyValueAdapterRequest.notifyItemChanged(position)
             restDialogsPresenter.hideDialog()
@@ -229,7 +229,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
 
     /**
-     * Init all views in dialog
+     * Init all views in header dialog
      */
     private fun initDialogVariablesHeader() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
@@ -243,7 +243,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     }
 
     /**
-     * Init all views in dialog
+     * Init all views in request dialog
      */
     private fun initDialogVariablesRequest() {
         alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
@@ -263,27 +263,28 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
         Log.e(TAG,"fillDialogVariables $keyValueModel")
-        editTextKey!!.setText(keyValueModel.key)
-        editTextValue!!.setText(keyValueModel.value)
 
-        editTextKey!!.postDelayed({editTextKey!!.setText(keyValueModel.key)},0)
         if (hasSpinners) {
             val keyIndex = keyParamsList.indexOf(keyValueModel.key)
             if (keyIndex > 0) {
-                keySpinner!!.setSelection(keyIndex)
-                valueSpinner!!.visibility = View.VISIBLE
+                keySpinner?.setSelection(keyIndex)
+                valueSpinner?.visibility = View.VISIBLE
                 setDialogSpinnerValue(keyValueModel.key)
                 val valueIndex = valueParamsList.indexOf(keyValueModel.value)
                 if (valueIndex > 0) {
-                    valueSpinner!!.setSelection(valueIndex)
+                    valueSpinner?.setSelection(valueIndex)
                 } else {
-                    valueSpinner!!.setSelection(0)
+                    valueSpinner?.setSelection(0)
                 }
             } else {
                 keySpinner?.setSelection(0)
                 valueSpinner?.visibility = View.GONE
             }
         }
+
+        editTextKey?.setText(keyValueModel.key)
+        editTextValue?.setText(keyValueModel.value)
+
 
     }
 
@@ -300,13 +301,11 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val item = parent.getItemAtPosition(position).toString()
                 if (item == getString(R.string.custom_header)) {
-                    editTextKey?.setText("")
                     valueSpinner?.visibility = View.GONE
                 } else {
                     editTextKey?.setText(item)
                     setDialogSpinnerValue(item)
                 }
-                editTextValue?.setText("")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -327,10 +326,9 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         valueSpinner?.visibility = View.VISIBLE
         valueSpinner?.adapter = valueSpinnerAdapter
         valueSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val item = parent.getItemAtPosition(position).toString()
                 if (item == getString(R.string.custom_value)) {
-                    editTextValue?.setText("")
                 } else {
                     editTextValue?.setText(item)
                 }
