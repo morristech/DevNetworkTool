@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <app.deadmc.devnetworktool.views.SwipeRevealLayout
+    <app.deadmc.devnetworktool.views.SwipeLayout
 
-        android:id="@+id/swipeRevealLayout"
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:dragEdge="right"
@@ -17,7 +17,7 @@
 
         <include layout="@layout/item_received_message" />
 
-    </app.deadmc.devnetworktool.views.SwipeRevealLayout>
+    </app.deadmc.devnetworktool.views.SwipeLayout>
 
     <include layout="@layout/divider" />
 </LinearLayout>

@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutEditDelete"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="end"
     android:weightSum="1"
+    android:background="@color/textColor"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/layoutEdit"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:tag="hide"
         android:background="@color/colorPrimary">
 
         <ImageView

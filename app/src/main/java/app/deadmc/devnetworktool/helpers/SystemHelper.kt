@@ -37,24 +37,4 @@ object SystemHelper {
         return executeCmd("ping -c 1 -w 1 " + url, false)
     }
 
-    /*
-    fun getPing(url: String): String {
-        return pingRequest()
-    }
-    */
-
-    external fun stringFromJNI(): String
-
-
-    fun pingRequest(): String {
-        return stringFromJNI()
-    }
-
-
-    // Used to load the 'native-lib' library on application startup.
-    init {
-        System.loadLibrary("native-lib")
-    }
-
-
 }

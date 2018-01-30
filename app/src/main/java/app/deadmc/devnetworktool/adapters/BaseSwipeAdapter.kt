@@ -4,18 +4,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
-import app.deadmc.devnetworktool.views.ViewBinderHelper
+import app.deadmc.devnetworktool.views.SwipeLayout
 import kotlinx.android.synthetic.main.item_connection_swipe.view.*
 import kotlinx.android.synthetic.main.item_edit_delete.view.*
-import kotlinx.android.synthetic.main.divider.*
 import kotlinx.android.synthetic.main.divider.view.*
+import kotlinx.android.synthetic.main.item_key_value_swipe.view.*
 import java.util.ArrayList
 
 
 abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<T>, val layoutId:Int, val onlyDelete:Boolean=false) : RecyclerView.Adapter<BaseSwipeAdapter<T>.ViewHolder>() {
-
-    protected val viewBinderHelper = ViewBinderHelper()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -30,9 +29,9 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
         return ViewHolder(view)
     }
     override fun onBindViewHolder(viewHolder: BaseSwipeAdapter<T>.ViewHolder, position: Int) {
-        viewBinderHelper.bind(viewHolder.itemView.swipeRevealLayout, arrayList[position].getUniqueId())
         viewHolder.itemView.layoutEditDelete.layoutDelete.setOnClickListener {removeItem(position)}
         viewHolder.itemView.layoutEditDelete.layoutEdit.setOnClickListener { onEditItem(arrayList[position],position)}
+        viewHolder.itemView.findViewById<SwipeLayout>(R.id.swipeLayout).swipeLayoutCallback = {removeItem(position)}
 
         if (onlyDelete)
             viewHolder.itemView.layoutEditDelete.layoutEdit.visibility = View.GONE

@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/default_item_padding_right"
     android:paddingTop="@dimen/default_item_padding_top"
     android:paddingBottom="@dimen/default_item_padding_bottom"
+    android:background="@color/white"
     android:id="@+id/layoutKeyValue"
     android:layout_height="wrap_content"
     >

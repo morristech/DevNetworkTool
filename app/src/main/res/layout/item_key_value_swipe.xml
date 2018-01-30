@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <app.deadmc.devnetworktool.views.SwipeRevealLayout
+    <app.deadmc.devnetworktool.views.SwipeLayout
 
-        android:id="@+id/swipeRevealLayout"
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:dragEdge="right"
-        app:mode="same_level">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/item_edit_delete" />
 
         <include layout="@layout/item_key_value" />
 
-    </app.deadmc.devnetworktool.views.SwipeRevealLayout>
+    </app.deadmc.devnetworktool.views.SwipeLayout>
 
     <include layout="@layout/divider" />
 </LinearLayout>

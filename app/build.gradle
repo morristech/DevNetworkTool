@@ -28,17 +28,6 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
-    externalNativeBuild {
-        cmake {
-            // When you specify a version of CMake, as shown below,
-            // the Android plugin searches for its binary within your
-            // PATH environmental variable.
-
-            path "CMakeLists.txt"
-        }
-    }
-
-
     defaultConfig {
         applicationId "app.deadmc.devnetworktool"
         minSdkVersion 15
@@ -47,11 +36,6 @@ android {
         versionName "1.12 kotlin"
         vectorDrawables.useSupportLibrary = true
         generatedDensities = []
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
     }
     buildTypes {
         release {
@@ -82,7 +66,7 @@ dependencies {
     compile "com.android.support:support-v4:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile "com.squareup.okio:okio:1.11.0"
+    compile "com.squareup.okio:okio:1.12.0"
     compile 'com.sothree.slidinguppanel:library:3.4.0'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.7'
 

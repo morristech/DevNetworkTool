@@ -19,7 +19,7 @@ abstract class UrlHistoryAdapter(private val connectionArrayList: ArrayList<Conn
 
         super.onBindViewHolder(viewHolder,position)
         /*
-        viewBinderHelper.bind(viewHolder.itemView.swipeRevealLayout, connectionArrayList[position].id.toString())
+        viewBinderHelper.bind(viewHolder.itemView.SwipeLayout, connectionArrayList[position].id.toString())
         viewHolder.itemView.layoutEditDelete.layoutDelete.setOnClickListener {removeItem(position)}
         viewHolder.itemView.layoutEditDelete.layoutEdit.setOnClickListener {onEditItem(connectionArrayList[position],position)}
         */

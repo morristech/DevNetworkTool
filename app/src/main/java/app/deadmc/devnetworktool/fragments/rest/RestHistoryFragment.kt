@@ -64,7 +64,7 @@ class RestHistoryFragment : BaseFragment(), RestView {
     }
 
     override fun setResponse(responseDev: ResponseDev) {
-
+        initElements()
     }
 
     override fun hideProgress() {

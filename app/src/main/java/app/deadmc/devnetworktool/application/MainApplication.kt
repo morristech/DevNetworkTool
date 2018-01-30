@@ -12,6 +12,8 @@ import io.fabric.sdk.android.Fabric
 import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
+import com.orm.SchemaGenerator
+import com.orm.SugarDb
 
 class MainApplication : Application() {
     override fun onCreate() {
@@ -20,13 +22,14 @@ class MainApplication : Application() {
         SugarContext.init(applicationContext)
         DevPreferences.init(applicationContext)
 
-        if (DevPreferences.getFirstLaunch()) {
+        if (DevPreferences.firstLaunch) {
             createDefaultData()
             DevPreferences.setFirstLaunch(false)
         }
     }
 
-    fun createDefaultData() {
+    private fun createDefaultData() {
+        SchemaGenerator(this).createDatabase(SugarDb(this).db)
         ConnectionHistory("test tcp connection", "http://google.com", 80, TCP_CLIENT).save()
         ConnectionHistory("test udp connection", "127.0.0.1", 1055, UDP_CLIENT).save()
         ConnectionHistory("test ping", "http://google.com", 80, PING).save()

@@ -30,7 +30,7 @@
     </attr>
   </declare-styleable>
 
-  <declare-styleable name="SwipeRevealLayout">
+  <declare-styleable name="SwipeLayout">
     <attr name="dragEdge">
       <flag name="left" value="1" />
       <flag name="right" value="2" />

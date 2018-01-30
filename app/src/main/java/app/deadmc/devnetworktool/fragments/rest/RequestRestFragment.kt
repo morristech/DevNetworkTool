@@ -169,6 +169,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      * Dialog where you can add new header
      */
     override fun showDialogForHeader(keyValueModel: KeyValueModel, position: Int) {
+        Log.e(TAG,"showDialogForHeader")
         if (checkActivityIsFinishing())
             return
         initDialogVariablesHeader()

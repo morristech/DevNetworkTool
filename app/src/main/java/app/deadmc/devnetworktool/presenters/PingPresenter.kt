@@ -38,7 +38,7 @@ class PingPresenter : BasePresenter<PingView>() {
         pingThread = Thread {
             while (working) {
                 try {
-                    Thread.sleep(DevPreferences.getPingDelay().toLong())
+                    Thread.sleep(DevPreferences.pingDelay.toLong())
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }

@@ -7,9 +7,6 @@ import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 import com.orm.SugarRecord
 
-/**
- * Created by DEADMC on 11/26/2017.
- */
 @InjectViewState
 class PingConnectionsPresenter : ConnectionsPresenter() {
 
