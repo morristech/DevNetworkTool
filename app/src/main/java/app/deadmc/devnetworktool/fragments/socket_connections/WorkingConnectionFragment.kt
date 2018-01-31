@@ -41,7 +41,8 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        workingConnectionPresenter.currentConnectionHistory = this.arguments.getSerializable("connection_history") as ConnectionHistory
+        if (this.arguments != null)
+            workingConnectionPresenter.currentConnectionHistory = this.arguments.getSerializable("connection_history") as ConnectionHistory
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -93,7 +94,6 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
             }
 
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-                Log.e(TAG,"onPanelStateChanged $previousState | $newState")
             }
         })
     }
@@ -152,12 +152,14 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     }
 
     override fun addLineToAdapter(receivedMessage: ReceivedMessage) {
+        Log.e(TAG,"addLineToAdapter")
         try {
             activity.runOnUiThread {
-                receivedMessageArrayList.add(receivedMessage)
+                //receivedMessageArrayList.add(receivedMessage)
+                receivedMessagesAdapter.addItem(receivedMessage)
                 receivedMessagesAdapter.notifyItemInserted(receivedMessageArrayList.size - 1)
             }
-        } catch (e: NullPointerException) {
+        } catch (e: Exception) {
         }
     }
 

@@ -18,6 +18,7 @@ class WorkingConnectionPresenter : BasePresenter<WorkingConnectionView>() {
     var currentClient: BaseAbstractClient? = null
 
     fun successfulCallback() {
+        Log.e(TAG,"successfulCallback")
         viewState.successfulCallback()
     }
 
@@ -26,6 +27,7 @@ class WorkingConnectionPresenter : BasePresenter<WorkingConnectionView>() {
     }
 
     fun errorCallback() {
+        Log.e(TAG,"errorCallback")
         viewState.errorCallback()
     }
 

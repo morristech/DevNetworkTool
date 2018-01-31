@@ -12,17 +12,29 @@ import kotlinx.android.synthetic.main.item_edit_delete.view.*
 import kotlinx.android.synthetic.main.divider.view.*
 import kotlinx.android.synthetic.main.item_key_value_swipe.view.*
 import java.util.ArrayList
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
 
 
 abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<T>, val layoutId:Int, val onlyDelete:Boolean=false) : RecyclerView.Adapter<BaseSwipeAdapter<T>.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
+    val TAG = this.javaClass.simpleName
+
+    protected lateinit var recyclerView: RecyclerView
+
     abstract fun onClickItem(element: T, position: Int)
 
     abstract fun onDeleteItem(element: T)
 
     abstract fun onEditItem(element: T, position: Int)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView!!
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): BaseSwipeAdapter<T>.ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(layoutId, viewGroup, false)
@@ -35,10 +47,6 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
 
         if (onlyDelete)
             viewHolder.itemView.layoutEditDelete.layoutEdit.visibility = View.GONE
-
-        if (position == arrayList.size-1) {
-            viewHolder.itemView.divider.visibility = View.GONE
-        }
     }
 
 
@@ -49,9 +57,12 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
     fun addItem(element: T) {
         arrayList.add(element)
         notifyItemInserted(arrayList.size)
+        notifyItemRangeChanged(arrayList.size-1, arrayList.size)
     }
 
     fun removeItem(position: Int) {
+        if (position == arrayList.size)
+            return
         val element = arrayList[position]
         arrayList.removeAt(position)
         notifyItemRemoved(position)
@@ -62,6 +73,7 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
     fun editItem(position: Int) {
         notifyItemChanged(position)
     }
+
 
 
 }

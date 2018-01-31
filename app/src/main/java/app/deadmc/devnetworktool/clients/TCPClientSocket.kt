@@ -15,6 +15,8 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.helpers.isValidIp
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import okio.Okio
+import java.io.BufferedWriter
+import java.io.OutputStreamWriter
 
 abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
 
@@ -26,10 +28,6 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
     override fun run() {
         try {
             socket = Socket()
-            if (connectionHistory.ipAddress == null) {
-                errorConnectCallback()
-                return
-            }
 
             if (isValidIp(connectionHistory.ipAddress)) {
                 socket?.connect(InetSocketAddress(connectionHistory.ipAddress, connectionHistory.port), 2000)
@@ -50,7 +48,7 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
 
 
         } catch (e: Exception) {
-            Log.e("TCP","exceotion "+Log.getStackTraceString(e))
+            Log.e("TCP","exception "+Log.getStackTraceString(e))
             errorConnectCallback()
         }
 
@@ -68,16 +66,21 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
 
     override fun sendMessage(message: String) {
         Log.e("TCPClient",message)
+        val messageLn =message+"\n"
         try {
-            val dataOutputStream = DataOutputStream(socket?.getOutputStream())
-            dataOutputStream.writeChars(message + "\n")
-            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-            StrictMode.setThreadPolicy(policy)
+            //val dataOutputStream = DataOutputStream(socket!!.getOutputStream())
+            val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), "UTF-8")
+            outputStreamWriter.write(messageLn)
+            Log.e(TAG,"socket "+socket!!.inetAddress.toString())
+            outputStreamWriter.flush()
+            Log.e(TAG,"flush")
+            //outputStreamWriter.flush()
+            //outputStreamWriter.append(message).append("\n").flush()
             addLine(message, false)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: NullPointerException) {
+            Log.e(TAG,"finally")
         } catch (e: Exception) {
+            Log.e(TAG,"exception")
+            Log.e(TAG,Log.getStackTraceString(e))
         }
 
     }
