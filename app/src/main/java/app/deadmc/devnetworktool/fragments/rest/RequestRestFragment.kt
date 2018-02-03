@@ -56,15 +56,12 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e(TAG,"onCreate")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        Log.e(TAG,"onCreateView")
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_request, container, false)
         initElements()
-        Log.e(TAG,"presenter value "+restDialogsPresenter.keyValueModel)
         return myFragmentView
     }
 
@@ -84,7 +81,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     }
 
     override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
-        Log.e(TAG, "loadRequestHistory called " + restRequestHistory.method)
         restPresenter.currentMethod = restRequestHistory.method
         restPresenter.currentUrl = restRequestHistory.url
         restPresenter.headersArrayList = restRequestHistory.getHeaders()
@@ -169,7 +165,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
      * Dialog where you can add new header
      */
     override fun showDialogForHeader(keyValueModel: KeyValueModel, position: Int) {
-        Log.e(TAG,"showDialogForHeader")
         if (checkActivityIsFinishing())
             return
         initDialogVariablesHeader()
@@ -185,12 +180,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        Log.e(TAG,"onSaveInstanceState")
-
-        if (editTextKey == null)
-            Log.e(TAG, "editTextKey is null")
         editTextKey?.let {
-            Log.e(TAG, "editTextKey " + it.text.toString())
             restDialogsPresenter.keyValueModel.key = it.text.toString()
         }
 
@@ -204,7 +194,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
 
     override fun hideDialog() {
-        Log.e(TAG,"called")
         restDialogsPresenter.keyValueModel = KeyValueModel()
         currentDialog?.dismiss()
     }
@@ -263,8 +252,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     }
 
     private fun fillDialogVariables(keyValueModel: KeyValueModel, hasSpinners: Boolean) {
-        Log.e(TAG,"fillDialogVariables $keyValueModel")
-
         if (hasSpinners) {
             val keyIndex = keyParamsList.indexOf(keyValueModel.key)
             if (keyIndex > 0) {

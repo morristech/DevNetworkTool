@@ -67,21 +67,23 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
     override fun sendMessage(message: String) {
         Log.e("TCPClient",message)
         val messageLn =message+"\n"
-        try {
-            //val dataOutputStream = DataOutputStream(socket!!.getOutputStream())
-            val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), "UTF-8")
-            outputStreamWriter.write(messageLn)
-            Log.e(TAG,"socket "+socket!!.inetAddress.toString())
-            outputStreamWriter.flush()
-            Log.e(TAG,"flush")
-            //outputStreamWriter.flush()
-            //outputStreamWriter.append(message).append("\n").flush()
-            addLine(message, false)
-            Log.e(TAG,"finally")
-        } catch (e: Exception) {
-            Log.e(TAG,"exception")
-            Log.e(TAG,Log.getStackTraceString(e))
-        }
+        Thread {
+            try {
+                //val dataOutputStream = DataOutputStream(socket!!.getOutputStream())
+                val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), "UTF-8")
+                outputStreamWriter.write(messageLn)
+                Log.e(TAG, "socket " + socket!!.inetAddress.toString())
+                outputStreamWriter.flush()
+                Log.e(TAG, "flush")
+                //outputStreamWriter.flush()
+                //outputStreamWriter.append(message).append("\n").flush()
+                addLine(message, false)
+                Log.e(TAG, "finally")
+            } catch (e: Exception) {
+                Log.e(TAG, "exception")
+                Log.e(TAG, Log.getStackTraceString(e))
+            }
+        }.start()
 
     }
 }

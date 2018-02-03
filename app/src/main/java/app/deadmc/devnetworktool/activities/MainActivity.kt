@@ -24,6 +24,7 @@ import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
+import app.deadmc.devnetworktool.helpers.startServiceForeground
 import app.deadmc.devnetworktool.interfaces.views.MainActivityView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.MainPresenter
@@ -142,7 +143,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             return
         val intent = Intent(this,
                 ConnectionService::class.java)
-        startService(intent)
+        startServiceForeground(this,intent)
+
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(className: ComponentName, binder: IBinder) {

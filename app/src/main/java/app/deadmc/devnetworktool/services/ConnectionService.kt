@@ -18,6 +18,7 @@ import app.deadmc.devnetworktool.clients.TCPClientSocket
 import app.deadmc.devnetworktool.clients.UDPClientSocket
 import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
+import app.deadmc.devnetworktool.helpers.getNotification
 
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.MessageHistory
@@ -41,16 +42,6 @@ class ConnectionService : Service() {
     inner class LocalBinder : Binder() {
         val service: ConnectionService
             get() = this@ConnectionService
-    }
-
-
-    fun setCurrentClient(currentClient: BaseAbstractClient) {
-        //Log.e("service","setCurrentClient");
-        this.currentClient = currentClient
-        setServiceForeground(currentClient.description)
-        //Log.e("service", "description " + currentClient.getDescription());
-        thread = Thread(currentClient)
-        thread?.start()
     }
 
     fun startClient() {
@@ -128,41 +119,12 @@ class ConnectionService : Service() {
         return currentClient
     }
 
-    override fun onCreate() {
-
-        setServiceForeground(application.getString(R.string.empty_service_description))
-
-    }
-
     /**
      * You can run this method multiple times to update notification
      * @param description
      */
     private fun setServiceForeground(description: String) {
-        val notificationIntent = Intent(this, MainActivity::class.java)
-
-        val pendingIntent = PendingIntent.getActivity(this, 0,
-                notificationIntent, 0)
-        val notification: Notification
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            notification = NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.main_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.main_icon_w))
-                    .setContentTitle(getString(R.string.app_name))
-                    .setContentText(description)
-                    .setContentIntent(pendingIntent).build()
-        } else {
-            notification = NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.main_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.main_icon))
-                    .setContentTitle(getString(R.string.app_name))
-                    .setColor(0x00ffffff)
-                    .setContentText(description)
-                    .setContentIntent(pendingIntent).build()
-        }
-
-
-        startForeground(1613, notification)
+        startForeground(1613, getNotification(this,description))
     }
 
     fun stopService() {
@@ -174,6 +136,7 @@ class ConnectionService : Service() {
 
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        setServiceForeground(application.getString(R.string.empty_service_description))
         return Service.START_NOT_STICKY
     }
 
