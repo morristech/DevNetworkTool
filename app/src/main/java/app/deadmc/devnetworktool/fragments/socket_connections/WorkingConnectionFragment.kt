@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -25,6 +26,7 @@ import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.getTimeFromTimestamp
 import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
@@ -51,6 +53,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         initElements()
         mainActivity.workingConnectionsPresenter = workingConnectionPresenter
         mainActivity.mainPresenter.doBindService(workingConnectionPresenter.currentConnectionHistory)
+        Log.e(TAG,"onCreateView")
         return myFragmentView
     }
 
@@ -100,9 +103,11 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
     private fun sendMessage() {
         val message = messageEditText.text.toString()
-        if (!message.isEmpty())
-            workingConnectionPresenter.sendMessage(message)
-        else
+        if (!message.isEmpty()) {
+            if (DevPreferences.clearEditTextAfterSend)
+                messageEditText.setText("")
+                workingConnectionPresenter.sendMessage(message)
+        } else
             Toast.makeText(context, R.string.string_is_empty, Toast.LENGTH_SHORT).show()
     }
 

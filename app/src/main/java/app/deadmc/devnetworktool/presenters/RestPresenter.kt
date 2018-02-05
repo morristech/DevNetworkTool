@@ -5,6 +5,7 @@ import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

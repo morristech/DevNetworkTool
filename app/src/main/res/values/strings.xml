@@ -81,7 +81,12 @@
     <string name="html">HTML</string>
     <string name="undefined">Undefined type</string>
     <string name="settings">Settings</string>
-    <string name="set_encoding">Set encoding</string>
+    <string name="encoding">Encoding</string>
+    <string name="timeout">Timeout</string>
+    <string name="time_unit">Time unit</string>
+    <string name="timeout_description">Interrupt request after specific time</string>
+    <string name="ssl_check">Disable SSL check</string>
+    <string name="ssl_check_description">Use for sites with invalid certificates</string>
     <string name="rest">Rest</string>
 
     <!-- default fill -->

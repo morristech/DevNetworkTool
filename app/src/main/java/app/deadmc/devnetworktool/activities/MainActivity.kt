@@ -155,7 +155,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (connectionService?.getCurrentClient() == null)
                     connectionService?.initConnection(connectionHistory)
                 serviceBound = true
-                Log.e("main activity","working resenter == null "+(workingConnectionsPresenter == null))
+                Log.e("main activity","working presenter == null "+(workingConnectionsPresenter == null))
+                Log.e("main activity", "connectionService?.isRunning "+connectionService?.isRunning)
                 if (workingConnectionsPresenter == null && connectionService?.isRunning == true)
                     mainPresenter.runFragmentDependsOnId(WORKING_CONNECTION_FRAGMENT)
                 connectionService?.workingConnectionPresenter = workingConnectionsPresenter
@@ -163,6 +164,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     workingConnectionsPresenter?.currentConnectionHistory = connectionService?.connectionHistory
                 }
                 workingConnectionsPresenter?.currentClient = connectionService?.getCurrentClient()
+                Log.e("main activity","second working presenter == null "+(workingConnectionsPresenter == null))
                 workingConnectionsPresenter?.successfulCallback()
             }
 

@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="@string/general" />
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/general" />
+
+            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:id="@+id/setEncoding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -41,34 +47,43 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/set_encoding"
+                        android:text="@string/encoding"
                         android:textColor="@color/textColor"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/default_primary_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/set_encoding"
+                        android:text="@string/encoding"
                         android:textColor="@color/textColorLight"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/default_secondary_text" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
+
             <TextView
-                android:text="@string/rest"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="@string/rest"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textStyle="bold" />
+
+            <include layout="@layout/divider" />
 
             <LinearLayout
-                android:id="@+id/disableSsl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -80,24 +95,53 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/set_encoding"
+                        android:text="@string/ssl_check"
                         android:textColor="@color/textColor"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/default_primary_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/set_encoding"
+                        android:text="@string/ssl_check_description"
                         android:textColor="@color/textColorLight"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/default_secondary_text" />
 
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/disableSslSwitchCompat"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <include layout="@layout/divider" />
+
+            <LinearLayout
+                android:id="@+id/timeoutLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeout"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/default_primary_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeout_description"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="@dimen/default_secondary_text" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,28 +1,26 @@
 package app.deadmc.devnetworktool.observables
 
-import android.util.Log
-
 import java.io.IOException
 import java.util.HashMap
-import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 
 import app.deadmc.devnetworktool.models.ResponseDev
-import app.deadmc.devnetworktool.observables.OkHttpObservable.buildRequest
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.*
 
 object OkHttpObservable {
 
     fun getObservable(url: String, requestMethod: String, headers: HashMap<String, String>, body: HashMap<String, String>): Observable<ResponseDev> {
-        val okHttpClient = OkHttpClient.Builder()
+        var okHttpClient = getOkHttpBuilder()
                 .retryOnConnectionFailure(true)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(DevPreferences.restTimeoutAmount, DevPreferences.restTimeoutUnit)
                 .build()
 
         return Observable.defer<ResponseDev>( {
@@ -84,6 +82,40 @@ object OkHttpObservable {
             urlParams += bodyKey + " " + body[bodyKey]
         }
         return urlParams
+    }
+
+    private fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+
+                override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+            })
+
+            val sslContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+            val sslSocketFactory = sslContext.socketFactory
+            val builder = OkHttpClient.Builder()
+            builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            builder.hostnameVerifier { _, _ -> true }
+
+            return builder
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+    }
+
+    private fun getOkHttpBuilder():OkHttpClient.Builder {
+        if (DevPreferences.disableSsl)
+            return getUnsafeOkHttpClient()
+        return OkHttpClient.Builder()
     }
 
 }

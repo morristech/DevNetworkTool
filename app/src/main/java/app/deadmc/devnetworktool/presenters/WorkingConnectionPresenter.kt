@@ -17,6 +17,10 @@ class WorkingConnectionPresenter : BasePresenter<WorkingConnectionView>() {
     var currentConnectionHistory: ConnectionHistory? = null
     var currentClient: BaseAbstractClient? = null
 
+    init {
+        Log.e(TAG,"created")
+    }
+
     fun successfulCallback() {
         Log.e(TAG,"successfulCallback")
         viewState.successfulCallback()

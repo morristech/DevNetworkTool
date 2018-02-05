@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_vertical_margin">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/timeout"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/default_primary_text" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/timeoutSpinnerTextInputLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/timeoutEditText"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/time_unit"
+            android:layout_width="100dp"
+            android:textSize="@dimen/default_primary_text"
+            android:textColor="@color/textColor"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/timeoutUnitSpinner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

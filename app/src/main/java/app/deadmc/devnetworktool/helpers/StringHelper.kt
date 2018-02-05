@@ -93,3 +93,7 @@ fun fromHtml(html: String): Spanned {
     }
     return result
 }
+
+fun String.toCapitalizedFirstLetterString():String {
+    return this.substring(0, 1).toUpperCase() + this.substring(1)
+}
