@@ -76,7 +76,6 @@ class ConnectionService : Service() {
                 currentClient = null
                 isRunning = false
                 stopService()
-                workingConnectionPresenter?.successfulCallback()
             }
         }
     }

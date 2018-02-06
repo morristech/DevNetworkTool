@@ -8,4 +8,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 @StateStrategyType(SingleStateStrategy::class)
 interface SettingsView: MvpView {
     fun showRestTimeoutDialog()
+    fun closeDialog()
 }

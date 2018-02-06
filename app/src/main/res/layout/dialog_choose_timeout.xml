@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="@dimen/activity_vertical_margin">
 
     <LinearLayout
@@ -20,39 +20,31 @@
             android:textColor="@color/textColor"
             android:textSize="@dimen/default_primary_text" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/timeoutSpinnerTextInputLayout"
+        <EditText
+            android:id="@+id/timeoutEditText"
             android:layout_width="150dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/timeoutEditText"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
-            android:text="@string/time_unit"
             android:layout_width="100dp"
-            android:textSize="@dimen/default_primary_text"
+            android:layout_height="wrap_content"
+            android:text="@string/time_unit"
             android:textColor="@color/textColor"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/default_primary_text" />
 
         <Spinner
             android:id="@+id/timeoutUnitSpinner"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

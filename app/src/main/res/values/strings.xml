@@ -89,15 +89,6 @@
     <string name="ssl_check_description">Use for sites with invalid certificates</string>
     <string name="rest">Rest</string>
 
-    <!-- default fill -->
-    <string name="default_ip_address">178.33.250.62</string>
-    <string name="default_port">8080</string>
-    <string name="click_to_open_connection">Click to open connection</string>
-    <string name="long_click_to_see_formatted_json">{
-  "Long": ["Click","To","See" ],"Formatted": "JSON"}</string>
-    <string name="swipe_to_delete">Swipe to delete</string>
-    <string name="long_click_to_edit">Long click to edit</string>
-
     <!-- end of default fill -->
 
     <string-array name="methods">

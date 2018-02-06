@@ -153,12 +153,6 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         recyclerView?.isNestedScrollingEnabled = false
     }
 
-    private fun checkActivityIsFinishing():Boolean {
-        if (activity.isFinishing)
-            return true
-        return false
-    }
-
     ///////////////////////////////////////////////////Dialog Part
 
     /**

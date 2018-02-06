@@ -32,10 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -80,10 +80,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -115,17 +115,16 @@
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
 
-            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:id="@+id/timeoutLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:orientation="vertical">
 
                 <TextView

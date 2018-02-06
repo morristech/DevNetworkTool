@@ -14,9 +14,16 @@ open class BaseFragment : MvpAppCompatFragment() {
     protected lateinit var mainActivity: MainActivity
     val TAG = javaClass.simpleName
 
+    fun checkActivityIsFinishing():Boolean {
+        if (activity.isFinishing)
+            return true
+        return false
+    }
 
     override fun toString(): String {
         return this.javaClass.simpleName
     }
+
+
 
 }

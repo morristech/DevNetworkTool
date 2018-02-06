@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
         android:text="127.0.0.1 : 9090"
+        android:layout_marginTop="3dp"
         android:textSize="@dimen/default_secondary_text" />
 
 </LinearLayout>

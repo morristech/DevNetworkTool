@@ -17,5 +17,5 @@
 
     </app.deadmc.devnetworktool.views.SwipeLayout>
 
-    <include layout="@layout/divider" />
+    <include layout="@layout/divider"/>
 </LinearLayout>
