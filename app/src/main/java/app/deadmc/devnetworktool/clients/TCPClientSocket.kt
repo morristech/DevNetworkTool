@@ -14,6 +14,7 @@ import java.net.URL
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.helpers.isValidIp
 import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import okio.Okio
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
@@ -70,7 +71,7 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
         Thread {
             try {
                 //val dataOutputStream = DataOutputStream(socket!!.getOutputStream())
-                val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), "UTF-8")
+                val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), DevPreferences.tcpUdpEncoding)
                 outputStreamWriter.write(messageLn)
                 Log.e(TAG, "socket " + socket!!.inetAddress.toString())
                 outputStreamWriter.flush()

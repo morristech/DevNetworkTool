@@ -9,6 +9,8 @@ import java.net.InetAddress
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import java.nio.charset.Charset
 
 abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
 
@@ -20,7 +22,6 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
     override fun run() {
 
         try {
-            Log.e("datagramSocket", "started port = "+connectionHistory.port)
             datagramSocket = DatagramSocket(connectionHistory.port)
             val buffer = ByteArray(65536)
             val incomingDatagramPacket = DatagramPacket(buffer, buffer.size)
@@ -45,9 +46,7 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
 
     override fun sendMessage(message: String) {
         val sendedMessage = message + "\n"
-        val sendData = sendedMessage.toByteArray()
-
-        Log.e("sendUdp", sendData.toString() + " " + sendData.size + " " + connectionHistory.ipAddress + " " + connectionHistory.port)
+        val sendData = sendedMessage.toByteArray(Charset.forName(DevPreferences.tcpUdpEncoding))
         val thread = Thread(Runnable {
             try {
                 val sendPacket = DatagramPacket(sendData, sendData.size, InetAddress.getByName(connectionHistory.ipAddress), connectionHistory.port)
@@ -58,8 +57,6 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
             }
         })
         thread.start()
-
-        Log.e("sendMessage", "before add line")
         addLine(message, false)
 
     }

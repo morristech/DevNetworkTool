@@ -13,9 +13,9 @@ import android.widget.EditText
 import android.widget.Spinner
 
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.extensions.convertToString
+import app.deadmc.devnetworktool.extensions.toTimeUnit
 import app.deadmc.devnetworktool.helpers.getStringArrayListOfUnits
-import app.deadmc.devnetworktool.helpers.getStringFromTimeUnit
-import app.deadmc.devnetworktool.helpers.getTimeUnitFromString
 import app.deadmc.devnetworktool.helpers.toCapitalizedFirstLetterString
 import app.deadmc.devnetworktool.interfaces.views.SettingsView
 import app.deadmc.devnetworktool.presenters.SettingsPresenter
@@ -74,7 +74,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
         timeoutUnitSpinner?.adapter = valueSpinnerAdapter
 
 
-        val currentAdapterPosition = valueSpinnerAdapter.getPosition(getStringFromTimeUnit(DevPreferences.restTimeoutUnit).toCapitalizedFirstLetterString())
+        val currentAdapterPosition = valueSpinnerAdapter.getPosition(DevPreferences.restTimeoutUnit.convertToString().toCapitalizedFirstLetterString())
         timeoutUnitSpinner?.setSelection(currentAdapterPosition)
 
         alertDialogBuilder.setOnDismissListener {
@@ -82,7 +82,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
         }
         alertDialogBuilder.setPositiveButton(R.string.edit,{_, _ ->
             timeoutUnitSpinner?.let {
-                DevPreferences.restTimeoutUnit = getTimeUnitFromString(it.selectedItem as String)
+                DevPreferences.restTimeoutUnit = (it.selectedItem as String).toTimeUnit()
             }
 
             timeoutEditText?.let {

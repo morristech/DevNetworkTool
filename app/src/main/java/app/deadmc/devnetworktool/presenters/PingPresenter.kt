@@ -2,7 +2,7 @@ package app.deadmc.devnetworktool.presenters
 
 import android.os.Handler
 import android.util.Log
-import app.deadmc.devnetworktool.helpers.SystemHelper
+import app.deadmc.devnetworktool.helpers.getPing
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
@@ -44,7 +44,7 @@ class PingPresenter : BasePresenter<PingView>() {
                 }
                 handler.post {
                     try {
-                        addMessage(SystemHelper.getPing(currentUrl))
+                        addMessage(getPing(currentUrl))
                     } catch (e: IllegalStateException) {
                         Log.e("",Log.getStackTraceString(e))
                     }

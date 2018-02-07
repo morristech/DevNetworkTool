@@ -88,6 +88,7 @@
     <string name="ssl_check">Disable SSL check</string>
     <string name="ssl_check_description">Use for sites with invalid certificates</string>
     <string name="rest">Rest</string>
+    <string name="tcp_udp">TCP/UDP</string>
 
     <!-- end of default fill -->
 
@@ -99,6 +100,15 @@
         <item>HEAD</item>
         <item>OPTIONS</item>
         <item>PATCH</item>
+    </string-array>
+
+    <string-array name="encodings">
+        <item>UTF_8</item>
+        <item>US_ASCII</item>
+        <item>ISO_8859_1</item>
+        <item>UTF_16</item>
+        <item>UTF_16BE</item>
+        <item>UTF_16LE</item>
     </string-array>
 
 </resources>

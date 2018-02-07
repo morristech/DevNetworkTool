@@ -3,21 +3,23 @@ package app.deadmc.devnetworktool.shared_preferences
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import app.deadmc.devnetworktool.helpers.getStringFromTimeUnit
-import app.deadmc.devnetworktool.helpers.getTimeUnitFromString
+import app.deadmc.devnetworktool.extensions.convertToString
+import app.deadmc.devnetworktool.extensions.toTimeUnit
 import java.util.concurrent.TimeUnit
 
 object DevPreferences {
     private var sharedPreferences: SharedPreferences? = null
-    private var preferencesEditor: SharedPreferences.Editor? = null
-    val SHARED_PREFERENCES_NAME = "DevNetworkToolPreferences"
+    private val SHARED_PREFERENCES_NAME = "DevNetworkToolPreferences"
 
-    val PREFERENCES_FIRST_LAUNCH = "firstLaunch"
-    val PREFERENCES_PING_DELAY = "pingDelay"
-    val PREFERENCES_REST_TIMEOUT_AMOUNT = "restTimeoutAmount"
-    val PREFERENCES_REST_TIMEOUT_UNIT = "restTimeoutUnit"
-    val PREFERENCES_CLEAR_EDIT_TEXT_AFTER_SEND = "clearEditTextAfterSend"
-    val PREFERENCES_DISABLE_SSL = "disableSsl"
+    private val PREFERENCES_FIRST_LAUNCH = "firstLaunch"
+    private val PREFERENCES_PING_DELAY = "pingDelay"
+    private val PREFERENCES_REST_TIMEOUT_AMOUNT = "restTimeoutAmount"
+    private val PREFERENCES_REST_TIMEOUT_UNIT = "restTimeoutUnit"
+    private val PREFERENCES_TCP_TIMEOUT_AMOUNT = "tcpTimeoutAmount"
+    private val PREFERENCES_TCP_TIMEOUT_UNIT = "udpTimeoutUnit"
+    private val PREFERENCES_CLEAR_EDIT_TEXT_AFTER_SEND = "clearEditTextAfterSend"
+    private val PREFERENCES_TCP_UDP_ENCODING = "tcpUdpEncoding"
+    private val PREFERENCES_DISABLE_SSL = "disableSsl"
 
     /**
      * provides information about is it first launch or not
@@ -60,10 +62,31 @@ object DevPreferences {
     var restTimeoutUnit: TimeUnit
         get() {
             val value = sharedPreferences!!.getString(PREFERENCES_REST_TIMEOUT_UNIT, "SECONDS")
-            return getTimeUnitFromString(value)
+            return value.toTimeUnit()
         }
         set(value) {
-            sharedPreferences?.edit()?.putString(PREFERENCES_REST_TIMEOUT_UNIT, getStringFromTimeUnit(value))?.apply()
+            sharedPreferences?.edit()?.putString(PREFERENCES_REST_TIMEOUT_UNIT, value.convertToString())?.apply()
+        }
+
+    var tcpUdpEncoding
+        get() = sharedPreferences!!.getString(PREFERENCES_TCP_UDP_ENCODING, "UTF-8")
+        set(value) {
+            sharedPreferences?.edit()?.putString(PREFERENCES_TCP_UDP_ENCODING, value)?.apply()
+        }
+
+    var tcpTimeoutAmount: Long
+        get() = sharedPreferences!!.getLong(PREFERENCES_TCP_TIMEOUT_AMOUNT, 2L)
+        set(value) {
+            sharedPreferences?.edit()?.putLong(PREFERENCES_TCP_TIMEOUT_AMOUNT, value)?.apply()
+        }
+
+    var tcpTimeoutUnit: TimeUnit
+        get() {
+            val value = sharedPreferences!!.getString(PREFERENCES_TCP_TIMEOUT_UNIT, "SECONDS")
+            return value.toTimeUnit()
+        }
+        set(value) {
+            sharedPreferences?.edit()?.putString(PREFERENCES_TCP_TIMEOUT_UNIT, value.convertToString())?.apply()
         }
 
     /**
