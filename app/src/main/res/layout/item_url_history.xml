@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutUrlHistory"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="vertical"
@@ -12,6 +12,15 @@
     android:paddingTop="@dimen/default_item_padding_top">
 
     <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Some name here"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/default_date_text" />
+
+    <TextView
         android:id="@+id/urlTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +28,6 @@
         android:textColor="@color/textColor"
         android:textSize="@dimen/default_primary_text" />
 
-    <include layout="@layout/divider"/>
+
 
 </LinearLayout>

@@ -31,6 +31,7 @@ open class ConnectionsPresenter : BasePresenter<ConnectionsView>() {
     }
 
     open fun openNextFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
+        connectionHistory.setLastUsageDefault()
         mainPresenter.runFragmentDependsOnId(WORKING_CONNECTION_FRAGMENT,connectionHistory)
     }
 

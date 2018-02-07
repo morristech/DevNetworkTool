@@ -51,6 +51,7 @@
                 android:id="@+id/statsRecyclerView"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -98,6 +99,7 @@
                     android:id="@+id/headersRecyclerView"
                     android:layout_width="match_parent"
                     android:paddingLeft="10dp"
+                    android:nestedScrollingEnabled="false"
                     android:paddingRight="10dp"
                     android:layout_height="wrap_content"/>
 

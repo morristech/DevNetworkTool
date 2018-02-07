@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-
-import java.util.ArrayList
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.adapters.ParametersAdapter
@@ -21,21 +17,20 @@ import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.*
-
-import app.deadmc.devnetworktool.models.ResponseDev
-import app.deadmc.devnetworktool.views.CollapseLinearLayout
-
 import app.deadmc.devnetworktool.interfaces.views.FullView
 import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
+import app.deadmc.devnetworktool.views.CollapseLinearLayout
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import kotlinx.android.synthetic.main.fragment_rest_response.*
 import kotlinx.android.synthetic.main.fragment_rest_response.view.*
+import java.util.*
 
 class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
@@ -123,6 +118,7 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
         val layoutManager = LinearLayoutManager(context)
         recyclerView!!.layoutManager = layoutManager
         recyclerView.adapter = adapter
+        recyclerView.isNestedScrollingEnabled = false
     }
 
 

@@ -14,7 +14,7 @@ class PingStructure(val rawString: String) {
     val ttl: Int
 
     val ipAddress: String
-    var timeAdded: Int = 0
+    var timeAdded: Long = 0
         private set
 
 
@@ -22,24 +22,11 @@ class PingStructure(val rawString: String) {
         this.ping = getPingFromString(rawString)
         this.ipAddress = getIpAddressFromString(rawString)
         this.ttl = getTtlFromString(rawString)
-        setTimeAddedDefault()
-    }
-
-    fun setTimeAddedDefault() {
-        val epoch = System.currentTimeMillis() / 1000
-        this.timeAdded = epoch.toInt()
+        this.timeAdded = System.currentTimeMillis()
     }
 
     fun stringForRecyclerView(context: Context): String {
-        //Log.e("raw string",rawString);
         val pingInt = Math.round(ping)
-        /*
-        String recyclerViewMessage =
-                context.getString(R.string.from)+" "+ipAddress+
-                " ttl = "+ttl+
-                " "+context.getString(R.string.time)+" = "+ping;
-                */
-
         var recyclerViewMessage = context.getString(R.string.time_ms, pingInt)
         if (ping == 0f)
             recyclerViewMessage = context.getString(R.string.packet_lost)

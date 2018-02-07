@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:text="Some name here"
         android:id="@+id/textView"
         android:textColor="@color/textColor"

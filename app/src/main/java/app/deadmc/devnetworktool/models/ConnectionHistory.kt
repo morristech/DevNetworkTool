@@ -1,18 +1,18 @@
 package app.deadmc.devnetworktool.models
 
-import com.orm.SugarRecord
-
-import java.io.Serializable
-
+import app.deadmc.devnetworktool.helpers.getDateTimeFromTimestamp
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
+import com.orm.SugarRecord
+import java.io.Serializable
 
 class ConnectionHistory : SugarRecord, Serializable, BaseModel {
 
     var port: Int = 0
-    var lastUsage: Int = 0
+    var lastUsage: Long = 0
     var ipAddress: String = ""
     var name: String = ""
     var lastUsageTime: String = ""
+        get() = getDateTimeFromTimestamp(lastUsage)
     var type: String = ""
 
     val isEmpty: Boolean
@@ -30,8 +30,8 @@ class ConnectionHistory : SugarRecord, Serializable, BaseModel {
     }
 
     fun setLastUsageDefault() {
-        val epoch = System.currentTimeMillis() / 1000
-        this.lastUsage = epoch.toInt()
+        this.lastUsage = System.currentTimeMillis()
+        this.save()
     }
 
     override fun getUniqueId(): String {

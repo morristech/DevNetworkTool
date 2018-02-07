@@ -11,6 +11,7 @@ import com.orm.SugarRecord
 class PingConnectionsPresenter : ConnectionsPresenter() {
 
     override fun openNextFragment(mainPresenter:MainPresenter,connectionHistory: ConnectionHistory) {
+        connectionHistory.setLastUsageDefault()
         mainPresenter.runFragmentDependsOnId(PING_FRAGMENT,connectionHistory)
     }
 

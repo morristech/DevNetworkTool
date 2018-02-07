@@ -12,10 +12,10 @@
         android:text="Some name here"
         android:id="@+id/textView"
         android:textColor="@color/textColor"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+        android:paddingLeft="@dimen/default_item_padding_left"
+        android:paddingRight="@dimen/default_item_padding_right"
+        android:paddingTop="@dimen/default_item_padding_top"
+        android:paddingBottom="@dimen/default_item_padding_bottom"/>
 
     <include layout="@layout/divider"/>
 
