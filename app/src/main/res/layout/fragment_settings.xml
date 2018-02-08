@@ -23,7 +23,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="@string/general" />
+                android:text="@string/tcp_udp" />
 
             <include layout="@layout/divider" />
 
@@ -45,6 +45,7 @@
                     android:orientation="vertical">
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/encoding"
@@ -52,6 +53,7 @@
                         android:textSize="@dimen/default_primary_text" />
 
                     <TextView
+                        android:id="@+id/currentTcpUdpEncodintTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/encoding"

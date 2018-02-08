@@ -18,7 +18,6 @@ fun isValidIp(ip: String?): Boolean {
             }
         }
         return !ip.endsWith(".")
-
     } catch (nfe: NumberFormatException) {
         return false
     }
@@ -30,11 +29,9 @@ fun isValidPort(port: Int): Boolean = port in 0..65536
 fun portFromString(portString: String): Int {
     var port = 80
     if (!portString.isEmpty()) {
-        try {
+        safe {
             port = Integer.parseInt(portString)
-        } catch (e: Exception) {
         }
-
     }
     return port
 }

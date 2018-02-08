@@ -4,7 +4,6 @@ import android.content.Context
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 val TIME_FORMAT: DateFormat = SimpleDateFormat("HH:mm:ss")
 val DATE_TIME_FORMAT: DateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
@@ -16,10 +15,10 @@ val currentTime: String
     }
 
 fun getTimeFromTimestamp(timestamp: Long): String {
-    try {
+    safe {
         val date = Date(timestamp)
         return TIME_FORMAT.format(date)
-    } catch (e:Exception) {}
+    }
     return ""
 }
 
@@ -41,15 +40,8 @@ fun getDateFromTimestamp(timestamp: Long, context: Context): String {
 fun getDateAndTime(timestamp: Long, context: Context): String {
     val date = getDateFromTimestamp(timestamp, context)
     val time = getTimeFromTimestamp(timestamp)
-    //return time+System.getProperty("line.separator")+date;
     return date + " " + time
 }
 
 
-
-
-
-fun getStringArrayListOfUnits():ArrayList<String> {
-    return arrayListOf("Days","Hours","Minutes","Seconds","Microseconds","Milliseconds","Nanoseconds")
-}
 

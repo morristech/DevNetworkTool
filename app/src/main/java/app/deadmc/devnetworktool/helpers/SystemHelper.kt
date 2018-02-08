@@ -1,12 +1,10 @@
 package app.deadmc.devnetworktool.helpers
 
-import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 fun executeCmd(cmd: String, sudo: Boolean): String {
-    try {
-
+    safe {
         val p: Process
         if (!sudo)
             p = Runtime.getRuntime().exec(cmd)
@@ -23,8 +21,6 @@ fun executeCmd(cmd: String, sudo: Boolean): String {
         }
         p.destroy()
         return res
-    } catch (e: Exception) {
-        e.printStackTrace()
     }
 
     return ""

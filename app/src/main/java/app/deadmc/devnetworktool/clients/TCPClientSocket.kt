@@ -1,23 +1,18 @@
 package app.deadmc.devnetworktool.clients
 
 import android.content.Context
-import android.os.StrictMode
 import android.util.Log
-
-import java.io.DataOutputStream
-import java.io.IOException
+import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.helpers.isValidIp
+import app.deadmc.devnetworktool.helpers.safe
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import okio.Okio
+import java.io.OutputStreamWriter
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.URL
-
-import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.helpers.isValidIp
-import app.deadmc.devnetworktool.models.ConnectionHistory
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
-import okio.Okio
-import java.io.BufferedWriter
-import java.io.OutputStreamWriter
 
 abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
 
@@ -31,12 +26,12 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
             socket = Socket()
 
             if (isValidIp(connectionHistory.ipAddress)) {
-                socket?.connect(InetSocketAddress(connectionHistory.ipAddress, connectionHistory.port), 2000)
+                socket?.connect(InetSocketAddress(connectionHistory.ipAddress, connectionHistory.port), DevPreferences.tcpTimeoutAmount)
             } else {
                 if (!connectionHistory.ipAddress.contains("http://") && !connectionHistory.ipAddress.contains("https://"))
                     connectionHistory.ipAddress = "http://" + connectionHistory.ipAddress
                 val address = InetAddress.getByName(URL(connectionHistory.ipAddress).host)
-                socket?.connect(InetSocketAddress(address, connectionHistory.port), 2000)
+                socket?.connect(InetSocketAddress(address, connectionHistory.port), DevPreferences.tcpTimeoutAmount)
             }
 
             val bufferedSource = Okio.buffer(Okio.source(socket!!))
@@ -46,8 +41,6 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
                 line = bufferedSource.readUtf8(bufferedSource.buffer().size())
                 addLine(line!!, true)
             }
-
-
         } catch (e: Exception) {
             Log.e("TCP","exception "+Log.getStackTraceString(e))
             errorConnectCallback()
@@ -56,33 +49,19 @@ abstract class TCPClientSocket(context: Context, connectionHistory: ConnectionHi
     }
 
     override fun close() {
-        try {
-            Log.e("close", "tcp socket closed")
+        safe {
             socket?.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-
     }
 
     override fun sendMessage(message: String) {
-        Log.e("TCPClient",message)
-        val messageLn =message+"\n"
+        val messageLn = message+"\n"
         Thread {
-            try {
-                //val dataOutputStream = DataOutputStream(socket!!.getOutputStream())
+            safe {
                 val outputStreamWriter = OutputStreamWriter(socket!!.getOutputStream(), DevPreferences.tcpUdpEncoding)
                 outputStreamWriter.write(messageLn)
-                Log.e(TAG, "socket " + socket!!.inetAddress.toString())
                 outputStreamWriter.flush()
-                Log.e(TAG, "flush")
-                //outputStreamWriter.flush()
-                //outputStreamWriter.append(message).append("\n").flush()
                 addLine(message, false)
-                Log.e(TAG, "finally")
-            } catch (e: Exception) {
-                Log.e(TAG, "exception")
-                Log.e(TAG, Log.getStackTraceString(e))
             }
         }.start()
 

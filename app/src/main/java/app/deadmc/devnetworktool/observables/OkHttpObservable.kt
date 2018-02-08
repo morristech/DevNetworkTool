@@ -1,9 +1,5 @@
 package app.deadmc.devnetworktool.observables
 
-import java.io.IOException
-import java.util.HashMap
-import java.util.concurrent.TimeUnit
-
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import io.reactivex.Observable
@@ -11,16 +7,20 @@ import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.security.cert.CertificateException
+import java.io.IOException
 import java.security.cert.X509Certificate
-import javax.net.ssl.*
+import java.util.*
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 object OkHttpObservable {
 
     fun getObservable(url: String, requestMethod: String, headers: HashMap<String, String>, body: HashMap<String, String>): Observable<ResponseDev> {
         var okHttpClient = getOkHttpBuilder()
                 .retryOnConnectionFailure(true)
-                .connectTimeout(DevPreferences.restTimeoutAmount, DevPreferences.restTimeoutUnit)
+                .connectTimeout(DevPreferences.restTimeoutAmount,TimeUnit.MILLISECONDS)
                 .build()
 
         return Observable.defer<ResponseDev>( {

@@ -2,14 +2,13 @@ package app.deadmc.devnetworktool.clients
 
 import android.content.Context
 import android.util.Log
-
+import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.helpers.safe
+import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
-
-import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.models.ConnectionHistory
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import java.nio.charset.Charset
 
 abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHistory) : BaseAbstractClient(context, connectionHistory) {
@@ -48,12 +47,10 @@ abstract class UDPClientSocket(context: Context, connectionHistory: ConnectionHi
         val sendedMessage = message + "\n"
         val sendData = sendedMessage.toByteArray(Charset.forName(DevPreferences.tcpUdpEncoding))
         val thread = Thread(Runnable {
-            try {
+            safe {
                 val sendPacket = DatagramPacket(sendData, sendData.size, InetAddress.getByName(connectionHistory.ipAddress), connectionHistory.port)
                 val datagramSocket = DatagramSocket()
                 datagramSocket.send(sendPacket)
-            } catch (e: Exception) {
-                Log.e("UDP",Log.getStackTraceString(e))
             }
         })
         thread.start()

@@ -14,12 +14,11 @@ import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.fragment_ping.view.*
-import java.io.Serializable
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import kotlinx.android.synthetic.main.fragment_ping.*
+import kotlinx.android.synthetic.main.fragment_ping.view.*
 import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
+import java.io.Serializable
 
 class MainPingFragment : BaseFragment(), PingView {
 

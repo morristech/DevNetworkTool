@@ -35,13 +35,10 @@ fun getPingFromString(rawStringArg: String): Float {
     val index = rawString.lastIndexOf("time=")
     val lastIndex = rawString.lastIndexOf("ms---")
     var value = 0f
-    try {
+    safe {
         val result = rawString.substring(index + 5, lastIndex)
         value = java.lang.Float.parseFloat(result)
-    } catch (e: Exception) {
-
     }
-
     return value
 
 }
@@ -52,17 +49,11 @@ fun getTtlFromString(rawStringArg: String): Int {
     val index = rawString.lastIndexOf("ttl=")
     val lastIndex = rawString.lastIndexOf("time=")
     var value = 0
-    //Log.e("ping1", pingString);
-    //Log.e("ping2", "lastIndex ="+ lastIndex);
-    try {
+    safe {
         val result = rawString.substring(index + 4, lastIndex)
         value = Integer.parseInt(result)
-    } catch (e: Exception) {
-
     }
-
     return value
-
 }
 
 fun getIpAddressFromString(rawStringArg: String): String {
@@ -70,15 +61,10 @@ fun getIpAddressFromString(rawStringArg: String): String {
     rawString = rawString.trim { it <= ' ' }.replace(" ", "")
     val index = rawString.indexOf("(")
     val lastIndex = rawString.indexOf(")")
-    //Log.e("ping1", pingString);
-    //Log.e("ping2", "lastIndex ="+ lastIndex);
     var result = ""
-    try {
+    safe {
         result = rawString.substring(index + 1, lastIndex)
-    } catch (e: Exception) {
-
     }
-
     return result
 
 }
