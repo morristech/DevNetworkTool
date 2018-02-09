@@ -1,7 +1,5 @@
 package app.deadmc.devnetworktool.presenters
 
-import android.util.Log
-import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.interfaces.views.SettingsView
 import com.arellomobile.mvp.InjectViewState
 
@@ -9,6 +7,14 @@ import com.arellomobile.mvp.InjectViewState
 class SettingsPresenter : BasePresenter<SettingsView>() {
     fun showRestTimeoutDialog() {
         viewState.showRestTimeoutDialog()
+    }
+
+    fun showTcpTimeoutDialog() {
+        viewState.showTcpTimeoutDialog()
+    }
+
+    fun showTcpEncodingDialog() {
+        viewState.showTcpEncodingDialog()
     }
 
     fun closeDialog() {

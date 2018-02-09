@@ -5,8 +5,8 @@
     <color name="colorAccent">#FF893A</color>
     <color name="toolBarColor">#FF893A</color>
     <color name="toolBarColorDark">#df7833</color>
-    <color name="textColor">#4f4f4f</color>
-    <color name="textColorLight">#616161</color>
+    <color name="textColor">#DD000000</color>
+    <color name="textColorLight">#8A616161</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#c4c4c4</color>
     <color name="lightGrey">#eeeeee</color>

@@ -44,6 +44,7 @@
     <string name="from">From</string>
     <string name="time_ms">time =  %1$d ms</string>
     <string name="ms">ms</string>
+    <string name="value_ms">%1$d ms</string>
     <string name="alert_close_connection">Connection will be closed. Are you sure?</string>
     <string name="connection_service">DevNetworkTool connection service</string>
     <string name="tcp_connected_description">TCP connection is currently active</string>
@@ -87,7 +88,7 @@
     <string name="timeout_description">Interrupt request after specific time</string>
     <string name="ssl_check">Disable SSL check</string>
     <string name="ssl_check_description">Use for sites with invalid certificates</string>
-    <string name="rest">Rest</string>
+    <string name="rest">REST</string>
     <string name="tcp_udp">TCP/UDP</string>
 
     <!-- end of default fill -->

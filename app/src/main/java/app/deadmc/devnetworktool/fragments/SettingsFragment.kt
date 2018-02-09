@@ -2,13 +2,12 @@ package app.deadmc.devnetworktool.fragments
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Spinner
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.helpers.showSpinnerDialog
+import app.deadmc.devnetworktool.helpers.showTimeoutDialog
 import app.deadmc.devnetworktool.interfaces.views.SettingsView
 import app.deadmc.devnetworktool.presenters.SettingsPresenter
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
@@ -38,40 +37,45 @@ class SettingsFragment : BaseFragment(), SettingsView {
             DevPreferences.disableSsl = isChecked
         })
 
-        myFragmentView.timeoutLayout.setOnClickListener {
+        myFragmentView.restTimeoutTextView.text = getString(R.string.value_ms,DevPreferences.restTimeoutAmount)
+        myFragmentView.restTimeoutLayout.setOnClickListener {
             settingsPresenter.showRestTimeoutDialog()
         }
     }
 
     private fun initTcpUdp() {
-        myFragmentView.currentTcpUdpEncodintTextView.text = DevPreferences.tcpUdpEncoding
+        myFragmentView.currentTcpUdpEncodingTextView.text = DevPreferences.tcpUdpEncoding
+        myFragmentView.tcpTimeoutTextView.text = getString(R.string.value_ms,DevPreferences.tcpTimeoutAmount)
+        myFragmentView.tcpTimeoutLayout.setOnClickListener {
+            settingsPresenter.showTcpTimeoutDialog()
+        }
+        myFragmentView.tcpUdpEncodingLayout.setOnClickListener {
+            settingsPresenter.showTcpEncodingDialog()
+        }
     }
 
     override fun showRestTimeoutDialog() {
-        Log.e(TAG,"checkActivityIsFinishing() "+checkActivityIsFinishing())
-        if (checkActivityIsFinishing())
-            return
-        val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        val alertView = activity.layoutInflater.inflate(R.layout.dialog_choose_timeout, null)
-        alertDialogBuilder.setView(alertView)
-        val timeoutEditText = alertView?.findViewById<EditText>(R.id.timeoutEditText)
-        timeoutEditText?.setText(DevPreferences.restTimeoutAmount.toString())
-        val timeoutUnitSpinner = alertView?.findViewById<Spinner>(R.id.timeoutUnitSpinner)
-
-        alertDialogBuilder.setOnDismissListener {
-            settingsPresenter.closeDialog()
-        }
-        alertDialogBuilder.setPositiveButton(R.string.edit,{_, _ ->
-            timeoutEditText?.let {
-                if (!it.text.toString().isBlank())
-                    DevPreferences.restTimeoutAmount = it.text.toString().toLong()
-            }
-
-            settingsPresenter.closeDialog()
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.restTimeoutAmount.toString(), {
+            DevPreferences.restTimeoutAmount = it.toLong()
+            myFragmentView.restTimeoutTextView.text = getString(R.string.value_ms,it)
         })
-        currentDialog = alertDialogBuilder.create()
-        currentDialog?.show()
     }
+
+    override fun showTcpTimeoutDialog() {
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.tcpTimeoutAmount.toString(), {
+            DevPreferences.tcpTimeoutAmount = it
+            myFragmentView.tcpTimeoutTextView.text = getString(R.string.value_ms,it)
+        })
+    }
+
+    override fun showTcpEncodingDialog() {
+        currentDialog = showSpinnerDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.tcpUdpEncoding, {
+            DevPreferences.tcpUdpEncoding = it
+            myFragmentView.currentTcpUdpEncodingTextView.text = it
+        })
+    }
+
+
 
     override fun closeDialog() {
         currentDialog?.dismiss()
