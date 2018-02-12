@@ -37,7 +37,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter: RestPresenter
 
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var restDialogsPresenter: RestDialogsPresenter
 
     private var methodSpinner: Spinner? = null

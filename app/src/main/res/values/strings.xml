@@ -90,6 +90,7 @@
     <string name="ssl_check_description">Use for sites with invalid certificates</string>
     <string name="rest">REST</string>
     <string name="tcp_udp">TCP/UDP</string>
+    <string name="last_usage">Last usage: %1$s</string>
 
     <!-- end of default fill -->
 

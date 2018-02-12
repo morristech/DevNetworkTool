@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.item_url_history.view.*
 abstract class UrlHistoryAdapter(private val connectionArrayList: ArrayList<ConnectionHistory>) : BaseSwipeAdapter<ConnectionHistory>(connectionArrayList,R.layout.item_url_history_swipe) {
     override fun onBindViewHolder(viewHolder: BaseSwipeAdapter<ConnectionHistory>.ViewHolder, position: Int) {
         viewHolder.itemView.urlTextView.text = connectionArrayList[position].ipAddress
-        viewHolder.itemView.dateTextView.text = connectionArrayList[position].lastUsageTime
+        viewHolder.itemView.dateTextView.text = viewHolder.itemView.context.getString(R.string.last_usage,connectionArrayList[position].lastUsageTime)
         viewHolder.itemView.layoutUrlHistory.setOnClickListener {
             Log.e("click","position "+position)
             onClickItem(connectionArrayList[position], position)

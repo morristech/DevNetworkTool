@@ -46,6 +46,7 @@ class MainRestFragment : BaseFragment(), RestView {
 
     @ProvidePresenter(type = PresenterType.WEAK)
     fun providePresenter(): RestPresenter {
+        Log.e(TAG,"rest presenter created")
         return RestPresenter()
     }
 

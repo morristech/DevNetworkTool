@@ -12,21 +12,20 @@
     android:paddingTop="@dimen/default_item_padding_top">
 
     <TextView
-        android:id="@+id/dateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Some name here"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/default_date_text" />
-
-    <TextView
         android:id="@+id/urlTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Some name here"
         android:textColor="@color/textColor"
         android:textSize="@dimen/default_primary_text" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Some name here"
+        android:textColor="@color/textColorLight"
+        android:textSize="@dimen/default_date_text" />
 
 
 

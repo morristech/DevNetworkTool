@@ -17,6 +17,7 @@ abstract class ConnectionHistoryAdapter(private val connectionArrayList: ArrayLi
             Log.e("click","position "+position)
             onClickItem(connectionArrayList[position], position)
         }
+        viewHolder.itemView.textViewTime.text = viewHolder.itemView.context.getString(R.string.last_usage,connectionArrayList[position].lastUsageTime)
 
         super.onBindViewHolder(viewHolder,position)
         /*
