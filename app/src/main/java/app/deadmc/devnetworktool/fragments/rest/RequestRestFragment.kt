@@ -16,6 +16,7 @@ import android.widget.Spinner
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.constants.REST
+import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
 import app.deadmc.devnetworktool.interfaces.views.RestDialogsView
@@ -109,6 +110,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             restPresenter.currentUrl = "http://" + restPresenter.currentUrl
         }
         myFragmentView.urlEditText.setText(restPresenter.currentUrl)
+        myFragmentView.urlEditText.setSelection(myFragmentView.urlEditText.text.length)
     }
 
     private fun initSpinner() {
@@ -164,9 +166,16 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initDialogVariablesHeader()
         fillDialogVariables(keyValueModel, true)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
+            Log.e(TAG,"apply")
+            val isNew = keyValueModel.isEmpty()
             keyValueModel.key = editTextKey?.text.toString()
             keyValueModel.value = editTextValue?.text.toString()
-            keyValueAdapterHeaders.notifyItemChanged(position)
+            if (isNew) {
+                keyValueAdapterHeaders.addItem(keyValueModel)
+                keyValueAdapterHeaders.notifyItemInserted(keyValueAdapterHeaders.itemCount-1)
+            } else {
+                keyValueAdapterHeaders.notifyItemChanged(position)
+            }
             restDialogsPresenter.hideDialog()
         }
         initDialogEvents()
@@ -190,6 +199,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun hideDialog() {
         restDialogsPresenter.keyValueModel = KeyValueModel()
         currentDialog?.dismiss()
+        activity.hideKeyboard()
     }
 
     /**
@@ -199,13 +209,18 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun showDialogForRequest(keyValueModel: KeyValueModel, position:Int) {
         if (checkActivityIsFinishing())
             return
+        val isNew = keyValueModel.isEmpty()
         initDialogVariablesRequest()
         fillDialogVariables(keyValueModel, false)
         alertDialogBuilder?.setPositiveButton(R.string.edit) { _, _ ->
             keyValueModel.key = editTextKey?.text.toString()
             keyValueModel.value = editTextValue?.text.toString()
-            if (position != -1)
+            if (isNew || position ==-1) {
+                keyValueAdapterRequest.addItem(keyValueModel)
+                keyValueAdapterRequest.notifyItemInserted(keyValueAdapterRequest.itemCount-1)
+            } else {
                 keyValueAdapterRequest.notifyItemChanged(position)
+            }
             restDialogsPresenter.hideDialog()
         }
         initDialogEvents()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.helpers.showSpinnerDialog
 import app.deadmc.devnetworktool.helpers.showTimeoutDialog
 import app.deadmc.devnetworktool.interfaces.views.SettingsView
@@ -79,6 +80,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
 
     override fun closeDialog() {
         currentDialog?.dismiss()
+        activity.hideKeyboard()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

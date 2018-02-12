@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/toolBarColorDark</item>
         <item name="colorAccent">@color/toolBarColor</item>
         <item name="colorButtonNormal">@color/toolBarColor</item>
+        <item name="titleTextAppearance">@color/white</item>
     </style>
 
     <style name="AppThemeActivityControl" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -24,9 +25,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="AppThemeActivityControl" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="AppThemeActivityControl" />
 
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->

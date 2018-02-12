@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.adapters.ConnectionHistoryAdapter
+import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import kotlinx.android.synthetic.main.dialog_add_connection.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
-import java.util.ArrayList
+import java.util.*
 
 abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     var alertDialog: AlertDialog? = null
@@ -99,6 +100,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     override fun hideDialog() {
         alertDialog?.dismiss()
         getPresenter().currentConnectionHistory = ConnectionHistory()
+        activity.hideKeyboard()
     }
 
 

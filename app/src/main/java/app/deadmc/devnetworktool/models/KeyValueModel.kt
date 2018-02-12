@@ -21,6 +21,10 @@ class KeyValueModel : BaseModel {
         return id.toString()
     }
 
+    fun isEmpty():Boolean {
+        return key.isEmpty() && value.isEmpty()
+    }
+
     override fun toString(): String {
         return "key = $key , value = $value"
     }

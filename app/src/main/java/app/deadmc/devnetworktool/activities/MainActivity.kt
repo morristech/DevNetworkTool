@@ -16,10 +16,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.constants.*
-import app.deadmc.devnetworktool.fragments.*
-import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
+import app.deadmc.devnetworktool.constants.PING_FRAGMENT
+import app.deadmc.devnetworktool.constants.REST_FRAGMENT
+import app.deadmc.devnetworktool.constants.WORKING_CONNECTION_FRAGMENT
+import app.deadmc.devnetworktool.extensions.hideKeyboard
+import app.deadmc.devnetworktool.fragments.SettingsFragment
 import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
+import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
 import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
@@ -83,6 +86,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.settings -> runFragment(SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
+        hideKeyboard()
     }
 
     override fun runFragmentDependsOnId(id: Int) {
