@@ -29,8 +29,6 @@ class RestHistoryFragment : BaseFragment(), RestView {
     @InjectPresenter(type = PresenterType.WEAK, tag = REST)
     lateinit var restPresenter:RestPresenter
 
-
-
     private var restRequestHistoryArrayList: List<RestRequestHistory>? = null
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
 

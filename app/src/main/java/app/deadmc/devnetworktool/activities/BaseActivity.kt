@@ -29,8 +29,8 @@ abstract class BaseActivity : MvpAppCompatActivity() {
         } else super.onOptionsItemSelected(item)
     }
 
-    fun runFragment(fragment: BaseFragment) {
+    fun runFragment(fragment: BaseFragment, addToBackStack: Boolean = true) {
         Log.e("runFragment",fragment.javaClass.simpleName)
-        openFragment(fragment, true)
+        openFragment(fragment, addToBackStack)
     }
 }

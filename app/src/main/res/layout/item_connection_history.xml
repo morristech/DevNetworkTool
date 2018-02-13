@@ -22,9 +22,18 @@
         android:id="@+id/ipAddressAndPortTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/textColorLight"
         android:text="127.0.0.1 : 9090"
         android:layout_marginTop="3dp"
         android:textSize="@dimen/default_secondary_text" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:text="14:15:20"
+        android:textColor="@color/textColorLight"
+        android:textSize="@dimen/default_date_text" />
 
 </LinearLayout>

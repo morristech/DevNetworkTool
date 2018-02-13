@@ -78,6 +78,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (isServiceRunning(ConnectionService::class.java.name)) {
             stopService()
         }
+
+        val fm = supportFragmentManager
+        for (i in 0 until fm.backStackEntryCount) {
+            fm.popBackStack()
+        }
+
         when (item) {
             R.id.tcp_client -> {runFragment(TcpConnectionsFragment())}
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
@@ -86,6 +92,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.settings -> runFragment(SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
+
         hideKeyboard()
     }
 
