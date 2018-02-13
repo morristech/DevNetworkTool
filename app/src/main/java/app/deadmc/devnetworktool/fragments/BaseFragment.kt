@@ -1,11 +1,8 @@
 package app.deadmc.devnetworktool.fragments
 
-import android.support.v4.app.Fragment
 import android.view.View
-
-import com.arellomobile.mvp.MvpAppCompatFragment
-
 import app.deadmc.devnetworktool.activities.MainActivity
+import com.arellomobile.mvp.MvpAppCompatFragment
 
 
 open class BaseFragment : MvpAppCompatFragment() {
@@ -18,6 +15,10 @@ open class BaseFragment : MvpAppCompatFragment() {
         if (activity.isFinishing)
             return true
         return false
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun toString(): String {
