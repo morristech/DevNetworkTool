@@ -3,7 +3,7 @@ package app.deadmc.devnetworktool.observables
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
-inline fun <T>getObserver(crossinline onNext:(value:Any?)->Unit): Observer<T> {
+inline fun <T>getObserver(crossinline onNextLambda:(value:T)->Unit): Observer<T> {
     return object: Observer<T> {
         override fun onError(e: Throwable?) {
         }
@@ -15,7 +15,7 @@ inline fun <T>getObserver(crossinline onNext:(value:Any?)->Unit): Observer<T> {
         }
 
         override fun onNext(value: T) {
-            onNext(value)
+            onNextLambda(value)
         }
 
     }
