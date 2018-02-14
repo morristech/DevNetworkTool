@@ -1,26 +1,24 @@
 package app.deadmc.devnetworktool.presenters
 
 import android.util.Log
+import app.deadmc.devnetworktool.events.RestResponseEvent
 import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 @InjectViewState
 class RestPresenter : BasePresenter<RestView>() {
     var currentUrl = ""
-    var currentPage = 0
     var currentMethod: String = "GET"
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
-
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -32,7 +30,7 @@ class RestPresenter : BasePresenter<RestView>() {
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
                     viewState.hideProgress()
-                    viewState.setResponse(it)
+                    RxBus.post(RestResponseEvent(it))
                 }, {
                     viewState.hideProgress()
                     Log.e(TAG, Log.getStackTraceString(it))

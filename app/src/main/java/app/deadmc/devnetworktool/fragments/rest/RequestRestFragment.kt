@@ -15,29 +15,26 @@ import android.widget.EditText
 import android.widget.Spinner
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.KeyValueAdapter
-import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
 import app.deadmc.devnetworktool.interfaces.views.RestDialogsView
 import app.deadmc.devnetworktool.interfaces.views.RestView
 import app.deadmc.devnetworktool.models.KeyValueModel
-import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.RestDialogsPresenter
 import app.deadmc.devnetworktool.presenters.RestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
 import java.util.*
 
 class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
-    @InjectPresenter(type = PresenterType.LOCAL, tag = REST)
+    @InjectPresenter
     lateinit var restPresenter: RestPresenter
 
-    @InjectPresenter(type = PresenterType.LOCAL)
+    @InjectPresenter
     lateinit var restDialogsPresenter: RestDialogsPresenter
 
     private var methodSpinner: Spinner? = null
@@ -333,9 +330,5 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-    }
-
-    override fun setResponse(responseDev: ResponseDev) {
-
     }
 }

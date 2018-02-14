@@ -14,15 +14,13 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.adapters.ParametersAdapter
 import app.deadmc.devnetworktool.constants.FULL_VIEW
-import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.*
 import app.deadmc.devnetworktool.interfaces.views.FullView
-import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.interfaces.views.ResponseRestView
 import app.deadmc.devnetworktool.models.ResponseDev
-import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
-import app.deadmc.devnetworktool.presenters.RestPresenter
+import app.deadmc.devnetworktool.presenters.ResponseRestPresenter
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -32,10 +30,10 @@ import kotlinx.android.synthetic.main.fragment_rest_response.*
 import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 import java.util.*
 
-class ResponseRestFragment : BaseFragment(), RestView, FullView {
+class ResponseRestFragment : BaseFragment(), ResponseRestView, FullView {
 
-    @InjectPresenter(type = PresenterType.WEAK, tag = REST)
-    lateinit var restPresenter: RestPresenter
+    @InjectPresenter
+    lateinit var responseRestPresenter: ResponseRestPresenter
 
     @InjectPresenter(type = PresenterType.WEAK, tag = FULL_VIEW)
     lateinit var fullViewPresenter: FullViewPresenter
@@ -45,6 +43,15 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_response, container, false)
         initElements()
         return myFragmentView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        responseRestPresenter.initObserver()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     @ProvidePresenter(type = PresenterType.WEAK)
@@ -84,7 +91,7 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
 
         myFragmentView.watchButton.setOnClickListener({
             fullViewPresenter.text = responseDev.body
-            fullViewPresenter.url = restPresenter.currentUrl
+            //fullViewPresenter.url = restPresenter.currentUrl
             val intent = Intent(context, FullViewActivity::class.java)
             startActivity(intent)
         })
@@ -144,21 +151,13 @@ class ResponseRestFragment : BaseFragment(), RestView, FullView {
         initRecyclerViews(headersRecyclerView, parametersAdapter)
     }
 
-    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
-    }
-
-    override fun hideProgress() {
-    }
-
-    override fun showProgress() {
-    }
-
     override fun hide() {
+    }
+
+    override fun setResultWebView(stringId: Int, text: String, url: String) {
     }
 
     override fun setResult(stringId: Int, text: String) {
     }
 
-    override fun setResultWebView(stringId: Int, text: String, url:String) {
-    }
 }

@@ -2,36 +2,25 @@ package app.deadmc.devnetworktool.fragments.rest
 
 import android.os.Bundle
 import android.support.v4.view.ViewPager
-import android.util.Log
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestPagerAdapter
-import app.deadmc.devnetworktool.constants.REST
 import app.deadmc.devnetworktool.events.PageChangedEvent
-
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.interfaces.views.RestView
-import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.RxBus
-import app.deadmc.devnetworktool.presenters.RestPresenter
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_rest.view.*
-import com.arellomobile.mvp.presenter.ProvidePresenterTag
-import io.reactivex.Observer
 import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 
 class MainRestFragment : BaseFragment(), RestView {
     private lateinit var restPagerAdapter: RestPagerAdapter
-    private lateinit var observer:Observer
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -71,7 +60,7 @@ class MainRestFragment : BaseFragment(), RestView {
         //myFragmentView.viewPager.currentItem = restPresenter.currentPage
     }
 
-    override fun setResponse(responseDev: ResponseDev) {
+    fun setResponse(responseDev: ResponseDev) {
         viewPager.setCurrentItem(1, true)
     }
 

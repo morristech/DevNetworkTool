@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
-import java.util.ArrayList
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.models.SimpleString
+import java.util.*
 
 class SimpleStringAdapter(private var context: Context, private var arrayList: ArrayList<SimpleString>) : RecyclerView.Adapter<SimpleStringAdapter.ViewHolder>() {
 
@@ -26,6 +24,7 @@ class SimpleStringAdapter(private var context: Context, private var arrayList: A
             viewHolder.text.setTypeface(null, Typeface.BOLD)
         else
             viewHolder.text.setTypeface(null, Typeface.NORMAL)
+
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): SimpleStringAdapter.ViewHolder {
