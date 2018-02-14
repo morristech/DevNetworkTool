@@ -42,11 +42,11 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
         restRequestHistoryArrayList = SugarRecord.listAll(RestRequestHistory::class.java)
         restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context, ArrayList(restRequestHistoryArrayList)) {
             override fun onDeleteItem(element: RestRequestHistory) {
-                element.delete()
+                restHistoryPresenter.deleteItem(element)
             }
 
             override fun onClickItem(restRequestHistory: RestRequestHistory, position: Int) {
-                //restPresenter.loadRestHistory(restRequestHistory)
+                restHistoryPresenter.loadRestHistory(restRequestHistory)
             }
         }
 

@@ -32,7 +32,7 @@ object OkHttpObservable {
                 val code = response.code()
                 val headers = response.headers().toString()
                 val body = response.body().string()
-                val responseDev = ResponseDev(headers, body, code, time)
+                val responseDev = ResponseDev(headers, body, code, time,url)
                 Observable.just(responseDev)
             } catch (e: IOException) {
                 Observable.error(e)
