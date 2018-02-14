@@ -9,7 +9,6 @@ import app.deadmc.devnetworktool.observables.OkHttpObservable
 import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -19,8 +18,6 @@ class RestPresenter : BasePresenter<RestView>() {
     var currentMethod: String = "GET"
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
-
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun sendRequest() {
         viewState.showProgress()
@@ -64,10 +61,5 @@ class RestPresenter : BasePresenter<RestView>() {
         }
 
         return requests
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 }

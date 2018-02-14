@@ -32,7 +32,7 @@ import java.util.*
 
 class ResponseRestFragment : BaseFragment(), ResponseRestView, FullView {
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var responseRestPresenter: ResponseRestPresenter
 
     @InjectPresenter(type = PresenterType.WEAK, tag = FULL_VIEW)
