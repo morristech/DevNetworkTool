@@ -18,24 +18,20 @@ import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
-import app.deadmc.devnetworktool.interfaces.views.RestDialogsView
-import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
-import app.deadmc.devnetworktool.presenters.RestDialogsPresenter
-import app.deadmc.devnetworktool.presenters.RestPresenter
+import app.deadmc.devnetworktool.presenters.BasePresenter
+import app.deadmc.devnetworktool.presenters.RestRequestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.fragment_rest_request.view.*
 import java.util.*
 
-class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
+class RestRequestFragment : BaseFragment(), RestRequestView {
 
     @InjectPresenter
-    lateinit var restPresenter: RestPresenter
-
-    @InjectPresenter
-    lateinit var restDialogsPresenter: RestDialogsPresenter
+    lateinit var restPresenter: RestRequestPresenter
 
     private var methodSpinner: Spinner? = null
     private lateinit var keyValueAdapterHeaders: KeyValueAdapter
@@ -56,17 +52,15 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         super.onCreate(savedInstanceState)
     }
 
+    override fun getPresenter(): BasePresenter<*> {
+        return restPresenter
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         myFragmentView = inflater!!.inflate(R.layout.fragment_rest_request, container, false)
         initElements()
         return myFragmentView
-    }
-
-    override fun showProgress() {
-    }
-
-    override fun hideProgress() {
     }
 
     fun initElements() {
@@ -78,7 +72,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initHeadersRecyclerView()
     }
 
-    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
+    fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
         restPresenter.currentMethod = restRequestHistory.method
         restPresenter.currentUrl = restRequestHistory.url
         restPresenter.headersArrayList = restRequestHistory.getHeaders()
@@ -98,8 +92,8 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             }
         }
 
-        myFragmentView.addHeaderButton.setOnClickListener { restDialogsPresenter.showDialogForHeader(restDialogsPresenter.keyValueModel) }
-        myFragmentView.addRequestButton.setOnClickListener { restDialogsPresenter.showDialogForRequest(restDialogsPresenter.keyValueModel) }
+        myFragmentView.addHeaderButton.setOnClickListener { restPresenter.showDialogForHeader(restPresenter.keyValueModel) }
+        myFragmentView.addRequestButton.setOnClickListener { restPresenter.showDialogForRequest(restPresenter.keyValueModel) }
     }
 
     private fun initEditText() {
@@ -126,7 +120,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initRecyclerView(myFragmentView.headersRecyclerView)
         keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
             override fun onEditItem(element: KeyValueModel, position: Int) {
-                restDialogsPresenter.showDialogForHeader(element, position)
+                restPresenter.showDialogForHeader(element, position)
             }
         }
 
@@ -138,7 +132,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
         initRecyclerView(myFragmentView.requestRecyclerView)
         keyValueAdapterRequest = object : KeyValueAdapter(restPresenter.requestArrayList) {
             override fun onEditItem(element: KeyValueModel, position: Int) {
-                restDialogsPresenter.showDialogForRequest(element, position)
+                restPresenter.showDialogForRequest(element, position)
             }
         }
         myFragmentView.requestRecyclerView.adapter = keyValueAdapterRequest
@@ -173,7 +167,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             } else {
                 keyValueAdapterHeaders.notifyItemChanged(position)
             }
-            restDialogsPresenter.hideDialog()
+            restPresenter.hideDialog()
         }
         initDialogEvents()
     }
@@ -181,11 +175,11 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         editTextKey?.let {
-            restDialogsPresenter.keyValueModel.key = it.text.toString()
+            restPresenter.keyValueModel.key = it.text.toString()
         }
 
         editTextValue?.let {
-            restDialogsPresenter.keyValueModel.value = it.text.toString()
+            restPresenter.keyValueModel.value = it.text.toString()
         }
 
         currentDialog?.setOnDismissListener(null)
@@ -194,7 +188,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
 
     override fun hideDialog() {
-        restDialogsPresenter.keyValueModel = KeyValueModel()
+        restPresenter.keyValueModel = KeyValueModel()
         currentDialog?.dismiss()
         activity.hideKeyboard()
     }
@@ -218,7 +212,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
             } else {
                 keyValueAdapterRequest.notifyItemChanged(position)
             }
-            restDialogsPresenter.hideDialog()
+            restPresenter.hideDialog()
         }
         initDialogEvents()
     }
@@ -251,7 +245,7 @@ class RequestRestFragment : BaseFragment(), RestView, RestDialogsView {
 
     private fun initDialogEvents() {
         alertDialogBuilder?.setOnDismissListener {
-            restDialogsPresenter.hideDialog()
+            restPresenter.hideDialog()
         }
         currentDialog = alertDialogBuilder?.create()
         currentDialog?.show()

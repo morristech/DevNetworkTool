@@ -1,6 +1,5 @@
 package app.deadmc.devnetworktool.fragments.socket_connections
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -8,26 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
-import app.deadmc.devnetworktool.models.JsonInput
-import app.deadmc.devnetworktool.models.MessageHistory
-import app.deadmc.devnetworktool.models.ReceivedMessage
-import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
-import kotlinx.android.synthetic.main.fragment_working_connection.*
-import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.fragment_working_connection.view.*
-import java.io.Serializable
-import java.util.ArrayList
-import android.widget.Toast
 import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
 import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.getTimeFromTimestamp
+import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
 import app.deadmc.devnetworktool.models.ConnectionHistory
+import app.deadmc.devnetworktool.models.JsonInput
+import app.deadmc.devnetworktool.models.MessageHistory
+import app.deadmc.devnetworktool.models.ReceivedMessage
+import app.deadmc.devnetworktool.presenters.BasePresenter
+import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import kotlinx.android.synthetic.main.fragment_working_connection.*
+import kotlinx.android.synthetic.main.fragment_working_connection.view.*
+import java.io.Serializable
+import java.util.*
 
 class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
@@ -55,6 +55,10 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         mainActivity.mainPresenter.doBindService(workingConnectionPresenter.currentConnectionHistory)
         Log.e(TAG,"onCreateView")
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return workingConnectionPresenter
     }
 
     fun initElements() {

@@ -5,19 +5,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import java.util.ArrayList
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.SimpleStringAdapter
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStats
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.models.SimpleString
+import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
+import java.util.*
 
 class PingStatsPageFragment : BasePingFragment(), PingView {
 
@@ -41,6 +40,10 @@ class PingStatsPageFragment : BasePingFragment(), PingView {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
         initElements()
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return pingPresenter
     }
 
     private fun initElements() {

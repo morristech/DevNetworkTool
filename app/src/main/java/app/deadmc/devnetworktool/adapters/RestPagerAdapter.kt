@@ -4,14 +4,10 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.util.Log
-import android.util.SparseArray
-import android.view.ViewGroup
 
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.fragments.rest.RequestRestFragment
-import app.deadmc.devnetworktool.fragments.rest.ResponseRestFragment
-import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
+import app.deadmc.devnetworktool.fragments.rest.RestRequestFragment
+import app.deadmc.devnetworktool.fragments.rest.RestResponseFragment
 import app.deadmc.devnetworktool.fragments.rest.RestHistoryFragment
 
 class RestPagerAdapter(fragmentManager: FragmentManager,
@@ -20,10 +16,10 @@ class RestPagerAdapter(fragmentManager: FragmentManager,
     override fun getItem(position: Int): Fragment? {
         when (position) {
             0 -> {
-                return RequestRestFragment()
+                return RestRequestFragment()
             }
             1 -> {
-                return ResponseRestFragment()
+                return RestResponseFragment()
             }
             2 -> {
                 return RestHistoryFragment()

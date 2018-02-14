@@ -1,8 +1,9 @@
 package app.deadmc.devnetworktool.presenters
 
 import android.util.Log
+import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.events.RestResponseEvent
-import app.deadmc.devnetworktool.interfaces.views.RestView
+import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
@@ -13,23 +14,35 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 @InjectViewState
-class RestPresenter : BasePresenter<RestView>() {
+class RestRequestPresenter : BasePresenter<RestRequestView>() {
     var currentUrl = ""
     var currentMethod: String = "GET"
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
+    var keyValueModel = KeyValueModel()
+
+
+    fun showDialogForHeader(element:KeyValueModel, position:Int = -1) {
+        viewState.showDialogForHeader(element,position)
+    }
+
+    fun showDialogForRequest(element:KeyValueModel, position:Int = -1) {
+        viewState.showDialogForRequest(element,position)
+    }
+
+    fun hideDialog() {
+        viewState.hideDialog()
+    }
 
     fun sendRequest() {
-        viewState.showProgress()
+        RxBus.post(RestRequestEvent())
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
-                    viewState.hideProgress()
                     RxBus.post(RestResponseEvent(it))
                 }, {
-                    viewState.hideProgress()
                     Log.e(TAG, Log.getStackTraceString(it))
                 })
 
@@ -37,7 +50,7 @@ class RestPresenter : BasePresenter<RestView>() {
     }
 
     fun loadRestHistory(restRequestHistory: RestRequestHistory) {
-        viewState.loadRequestHistory(restRequestHistory)
+        //viewState.loadRequestHistory(restRequestHistory)
     }
 
     private fun collectHeaders(): HashMap<String, String> {

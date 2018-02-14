@@ -8,6 +8,11 @@ open class BasePresenter <T : MvpView> : MvpPresenter <T>() {
     val TAG = javaClass.simpleName
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+
+    open fun initObserver() {
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()

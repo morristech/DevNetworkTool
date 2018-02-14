@@ -10,6 +10,7 @@ import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.helpers.showSpinnerDialog
 import app.deadmc.devnetworktool.helpers.showTimeoutDialog
 import app.deadmc.devnetworktool.interfaces.views.SettingsView
+import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.SettingsPresenter
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -30,6 +31,10 @@ class SettingsFragment : BaseFragment(), SettingsView {
         initTcpUdp()
         initRest()
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return settingsPresenter
     }
 
     private fun initRest() {

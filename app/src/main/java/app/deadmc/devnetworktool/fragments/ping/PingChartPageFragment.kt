@@ -7,22 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.interfaces.views.PingView
+import app.deadmc.devnetworktool.models.PingStructure
+import app.deadmc.devnetworktool.presenters.BasePresenter
+import app.deadmc.devnetworktool.presenters.PingPresenter
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IFillFormatter
-
-import java.util.ArrayList
-
-import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.interfaces.views.PingView
-import app.deadmc.devnetworktool.models.PingStructure
-import app.deadmc.devnetworktool.presenters.PingPresenter
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
+import java.util.*
 
 
 class PingChartPageFragment : BasePingFragment(), PingView {
@@ -42,6 +40,10 @@ class PingChartPageFragment : BasePingFragment(), PingView {
         initGraphic()
         initCompleted = true
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return pingPresenter
     }
 
     private fun initGraphic() {
@@ -128,8 +130,10 @@ class PingChartPageFragment : BasePingFragment(), PingView {
         val i = lineDataSet.entryCount
         lineDataSet.addEntry(Entry(i.toFloat(), value))
         myFragmentView.chart.data.notifyDataChanged()
-        myFragmentView.chart.notifyDataSetChanged()
-        myFragmentView.chart.invalidate()
+        //myFragmentView.chart.notifyDataSetChanged()
+        //myFragmentView.chart.invalidate()
+        //myFragmentView.chart.noti
+        //myFragmentView.chart.noti
 
     }
 

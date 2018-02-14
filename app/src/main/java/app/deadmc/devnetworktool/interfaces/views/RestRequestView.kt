@@ -6,7 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(SingleStateStrategy::class)
-interface RestDialogsView: MvpView {
+interface RestRequestView : MvpView {
     fun showDialogForHeader(keyValueModel: KeyValueModel, position: Int = -1)
     fun showDialogForRequest(keyValueModel: KeyValueModel, position: Int = -1)
     fun hideDialog()

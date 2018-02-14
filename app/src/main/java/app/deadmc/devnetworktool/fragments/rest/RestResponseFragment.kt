@@ -17,8 +17,9 @@ import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.*
 import app.deadmc.devnetworktool.interfaces.views.FullView
-import app.deadmc.devnetworktool.interfaces.views.ResponseRestView
+import app.deadmc.devnetworktool.interfaces.views.RestResponseView
 import app.deadmc.devnetworktool.models.ResponseDev
+import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
 import app.deadmc.devnetworktool.presenters.ResponseRestPresenter
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
@@ -30,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_rest_response.*
 import kotlinx.android.synthetic.main.fragment_rest_response.view.*
 import java.util.*
 
-class ResponseRestFragment : BaseFragment(), ResponseRestView, FullView {
+class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
 
     @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var responseRestPresenter: ResponseRestPresenter
@@ -45,9 +46,8 @@ class ResponseRestFragment : BaseFragment(), ResponseRestView, FullView {
         return myFragmentView
     }
 
-    override fun onStart() {
-        super.onStart()
-        responseRestPresenter.initObserver()
+    override fun getPresenter(): BasePresenter<*> {
+        return responseRestPresenter
     }
 
     override fun onStop() {

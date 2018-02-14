@@ -10,6 +10,7 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStructure
+import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -40,6 +41,10 @@ class PingRawPageFragment : BasePingFragment(), PingView {
         myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
         initElements()
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return pingPresenter
     }
 
 

@@ -23,7 +23,7 @@ import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.SettingsFragment
 import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
-import app.deadmc.devnetworktool.fragments.rest.MainRestFragment
+import app.deadmc.devnetworktool.fragments.rest.RestMainFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
@@ -88,7 +88,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.tcp_client -> {runFragment(TcpConnectionsFragment())}
             R.id.udp_client -> runFragment(UdpConnectionsFragment())
             R.id.ping -> runFragment(PingConnectionsFragment())
-            R.id.rest -> runFragment(MainRestFragment())
+            R.id.rest -> runFragment(RestMainFragment())
             R.id.settings -> runFragment(SettingsFragment())
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
@@ -106,12 +106,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (id) {
             PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
             WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
-            REST_FRAGMENT -> runFragment(MainRestFragment())
+            REST_FRAGMENT -> runFragment(RestMainFragment())
         }
     }
 
     override fun runFragmentDefault() {
-        runFragment(MainRestFragment())
+        runFragment(RestMainFragment())
     }
 
     override fun showDialogExitConnection() {

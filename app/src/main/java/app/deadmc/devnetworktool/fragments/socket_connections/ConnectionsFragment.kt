@@ -24,7 +24,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     lateinit var alertView: View
     lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
 
-    abstract fun getPresenter() : ConnectionsPresenter
+    override abstract fun getPresenter() : ConnectionsPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myFragmentView = inflater?.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)

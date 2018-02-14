@@ -7,20 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.RestPagerAdapter
-import app.deadmc.devnetworktool.events.PageChangedEvent
 import app.deadmc.devnetworktool.fragments.BaseFragment
-import app.deadmc.devnetworktool.interfaces.views.RestView
-import app.deadmc.devnetworktool.models.ResponseDev
-import app.deadmc.devnetworktool.models.RestRequestHistory
-import app.deadmc.devnetworktool.observables.RxBus
+import app.deadmc.devnetworktool.interfaces.views.RestMainView
+import app.deadmc.devnetworktool.presenters.BasePresenter
+import app.deadmc.devnetworktool.presenters.RestMainPresenter
+import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_rest.view.*
 import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
 
-class MainRestFragment : BaseFragment(), RestView {
-    private lateinit var restPagerAdapter: RestPagerAdapter
+class RestMainFragment : BaseFragment(), RestMainView {
 
+    @InjectPresenter
+    lateinit var mainRestPresenter: RestMainPresenter
+    lateinit var restPagerAdapter: RestPagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -28,6 +29,10 @@ class MainRestFragment : BaseFragment(), RestView {
         initViewPager()
         hideProgress()
         return myFragmentView
+    }
+
+    override fun getPresenter(): BasePresenter<*> {
+        return mainRestPresenter
     }
 
     override fun onResume() {
@@ -53,18 +58,14 @@ class MainRestFragment : BaseFragment(), RestView {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                //restPresenter.currentPage = position
-                RxBus.post(PageChangedEvent(position))
+                mainRestPresenter.currentPage = position
+                //RxBus.post(PageChangedEvent(position))
             }
         })
-        //myFragmentView.viewPager.currentItem = restPresenter.currentPage
+        myFragmentView.viewPager.currentItem = mainRestPresenter.currentPage
     }
 
-    fun setResponse(responseDev: ResponseDev) {
-        viewPager.setCurrentItem(1, true)
-    }
-
-    override fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
-        viewPager.setCurrentItem(0, true)
+    override fun slideViewPager(position: Int) {
+        viewPager.setCurrentItem(position, true)
     }
 }
