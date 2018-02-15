@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
 import app.deadmc.devnetworktool.interfaces.views.PingView
@@ -13,16 +12,14 @@ import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
 
 /**
  * Created by Feren on 12.01.2017.
  */
-class PingRawPageFragment : BasePingFragment(), PingView {
+class PingRawPageFragment : PingBaseFragment(), PingView {
 
-
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter
     lateinit var pingPresenter: PingPresenter
     lateinit var receivedMessagesAdapter: ReceivedPingsAdapter
     private var linearLayoutManager: LinearLayoutManager? = null

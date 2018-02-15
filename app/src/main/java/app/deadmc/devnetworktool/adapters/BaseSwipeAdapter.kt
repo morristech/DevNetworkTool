@@ -7,15 +7,8 @@ import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import app.deadmc.devnetworktool.views.SwipeLayout
-import kotlinx.android.synthetic.main.item_connection_swipe.view.*
 import kotlinx.android.synthetic.main.item_edit_delete.view.*
-import kotlinx.android.synthetic.main.divider.view.*
-import kotlinx.android.synthetic.main.item_key_value_swipe.view.*
-import java.util.ArrayList
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
-import android.widget.TextView
+import java.util.*
 
 
 abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<T>, val layoutId:Int, val onlyDelete:Boolean=false) : RecyclerView.Adapter<BaseSwipeAdapter<T>.ViewHolder>() {
@@ -62,7 +55,7 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
     }
 
     fun removeItem(position: Int) {
-        if (position == arrayList.size)
+        if (position >= arrayList.size)
             return
         val element = arrayList[position]
         arrayList.removeAt(position)

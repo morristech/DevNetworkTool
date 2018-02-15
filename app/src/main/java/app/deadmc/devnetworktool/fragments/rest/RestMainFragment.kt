@@ -2,6 +2,7 @@ package app.deadmc.devnetworktool.fragments.rest
 
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,10 +42,12 @@ class RestMainFragment : BaseFragment(), RestMainView {
     }
 
     override fun showProgress() {
+        Log.e(TAG,"showProgress")
         myFragmentView.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
+        Log.e(TAG,"hideProgress")
         myFragmentView.progressBar.visibility = View.INVISIBLE
     }
 

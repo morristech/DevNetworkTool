@@ -14,18 +14,28 @@ import app.deadmc.devnetworktool.models.SimpleString
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
+import java.io.Serializable
 import java.util.*
 
-class PingStatsPageFragment : BasePingFragment(), PingView {
+class PingStatsPageFragment : PingBaseFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter
     lateinit var pingPresenter:PingPresenter
     private var pingStats: PingStats = PingStats()
     private lateinit var simpleStringAdapter: SimpleStringAdapter
     private var simpleStringArrayList: ArrayList<SimpleString> = ArrayList()
     private lateinit var linearLayoutManager: LinearLayoutManager
+
+    companion object {
+        fun getInstance(serializable: Serializable): PingStatsPageFragment {
+            val fragment = PingStatsPageFragment()
+            val args = Bundle()
+            args.putSerializable("current_url", serializable)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun addPingStructure(pingStructure: PingStructure) {
         pingStats.ipAddress = pingStructure.ipAddress
@@ -33,6 +43,12 @@ class PingStatsPageFragment : BasePingFragment(), PingView {
         pingStats.addPing(pingStructure.ping)
         if (initCompleted)
             setPingStats(false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val currentUrl = this.arguments.getString("current_url")
+        pingPresenter.currentUrl = currentUrl
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

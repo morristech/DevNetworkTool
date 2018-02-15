@@ -53,4 +53,8 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
         myFragmentView.recyclerViewHistory.adapter = restRequestHistoryAdapter
         restRequestHistoryAdapter.notifyDataSetChanged()
     }
+
+    override fun addItem(restRequestHistory: RestRequestHistory) {
+        restRequestHistoryAdapter.addItem(restRequestHistory)
+    }
 }

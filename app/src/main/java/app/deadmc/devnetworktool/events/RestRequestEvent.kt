@@ -1,3 +1,3 @@
 package app.deadmc.devnetworktool.events
 
-class RestRequestEvent
+class RestRequestEvent(var id:Long)

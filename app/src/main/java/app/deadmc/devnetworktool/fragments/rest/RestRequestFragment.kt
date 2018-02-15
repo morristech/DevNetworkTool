@@ -72,7 +72,7 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
         initHeadersRecyclerView()
     }
 
-    fun loadRequestHistory(restRequestHistory: RestRequestHistory) {
+    override fun loadRestHistory(restRequestHistory: RestRequestHistory) {
         restPresenter.currentMethod = restRequestHistory.method
         restPresenter.currentUrl = restRequestHistory.url
         restPresenter.headersArrayList = restRequestHistory.getHeaders()
@@ -86,7 +86,6 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
                 restPresenter.currentUrl = myFragmentView.urlEditText.text.toString()
                 restPresenter.currentMethod = myFragmentView.materialSpinner.selectedItem.toString()
                 restPresenter.sendRequest()
-                RestRequestHistory(restPresenter.currentUrl, restPresenter.currentMethod, restPresenter.headersArrayList, restPresenter.requestArrayList).save()
             } catch (e: Exception) {
                 Crashlytics.logException(e)
             }

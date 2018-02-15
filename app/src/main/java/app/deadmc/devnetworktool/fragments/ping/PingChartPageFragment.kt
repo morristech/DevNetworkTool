@@ -13,7 +13,6 @@ import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -23,9 +22,9 @@ import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
 import java.util.*
 
 
-class PingChartPageFragment : BasePingFragment(), PingView {
+class PingChartPageFragment : PingBaseFragment(), PingView {
 
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter
     lateinit var pingPresenter: PingPresenter
     private lateinit var lineDataSet: LineDataSet
 
@@ -130,10 +129,8 @@ class PingChartPageFragment : BasePingFragment(), PingView {
         val i = lineDataSet.entryCount
         lineDataSet.addEntry(Entry(i.toFloat(), value))
         myFragmentView.chart.data.notifyDataChanged()
-        //myFragmentView.chart.notifyDataSetChanged()
-        //myFragmentView.chart.invalidate()
-        //myFragmentView.chart.noti
-        //myFragmentView.chart.noti
+        myFragmentView.chart.notifyDataSetChanged()
+        myFragmentView.chart.invalidate()
 
     }
 

@@ -1,8 +1,10 @@
 package app.deadmc.devnetworktool.presenters
 
 import android.util.Log
+import app.deadmc.devnetworktool.events.RestHistoryEvent
 import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.events.RestResponseEvent
+import app.deadmc.devnetworktool.extensions.asyncSave
 import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -11,6 +13,7 @@ import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.launch
 import java.util.*
 
 @InjectViewState
@@ -20,6 +23,14 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     var headersArrayList: ArrayList<KeyValueModel> = ArrayList()
     var requestArrayList: ArrayList<KeyValueModel> = ArrayList()
     var keyValueModel = KeyValueModel()
+
+    override fun initObserver() {
+        compositeDisposable.add(RxBus.subscribe {
+            if (it is RestHistoryEvent) {
+                loadRestHistory(it.restRequestHistory)
+            }
+        })
+    }
 
 
     fun showDialogForHeader(element:KeyValueModel, position:Int = -1) {
@@ -35,22 +46,30 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     }
 
     fun sendRequest() {
-        RxBus.post(RestRequestEvent())
+        runRestHistoryEventAfterSave()
+        Log.e(TAG,"sendRequest")
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
+                    Log.e(TAG,"response")
                     RxBus.post(RestResponseEvent(it))
                 }, {
                     Log.e(TAG, Log.getStackTraceString(it))
                 })
-
         )
     }
 
+    fun runRestHistoryEventAfterSave() {
+        launch {
+            val id = RestRequestHistory(currentUrl, currentMethod, headersArrayList, requestArrayList).asyncSave().await()
+            RxBus.post(RestRequestEvent(id))
+        }
+    }
+
     fun loadRestHistory(restRequestHistory: RestRequestHistory) {
-        //viewState.loadRequestHistory(restRequestHistory)
+        viewState.loadRestHistory(restRequestHistory)
     }
 
     private fun collectHeaders(): HashMap<String, String> {

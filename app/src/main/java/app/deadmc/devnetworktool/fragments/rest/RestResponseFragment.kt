@@ -21,7 +21,7 @@ import app.deadmc.devnetworktool.interfaces.views.RestResponseView
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
-import app.deadmc.devnetworktool.presenters.ResponseRestPresenter
+import app.deadmc.devnetworktool.presenters.RestResponsePresenter
 import app.deadmc.devnetworktool.views.CollapseLinearLayout
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -34,7 +34,7 @@ import java.util.*
 class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
 
     @InjectPresenter(type = PresenterType.LOCAL)
-    lateinit var responseRestPresenter: ResponseRestPresenter
+    lateinit var responseRestPresenter: RestResponsePresenter
 
     @InjectPresenter(type = PresenterType.WEAK, tag = FULL_VIEW)
     lateinit var fullViewPresenter: FullViewPresenter

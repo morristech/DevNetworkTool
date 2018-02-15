@@ -1,5 +1,10 @@
 package app.deadmc.devnetworktool.helpers
 
+import android.util.Log
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -27,7 +32,12 @@ fun executeCmd(cmd: String, sudo: Boolean): String {
 
 }
 
-fun getPing(url: String): String {
-    return executeCmd("ping -c 1 -w 1 " + url, false)
+fun getPing(url: String): Deferred<String> {
+    return async {
+        Log.e("getPing","before delay")
+        delay(DevPreferences.pingDelay.toLong())
+        Log.e("getPing","after delay")
+        executeCmd("ping -c 1 -w 1 " + url, false)
+    }
 }
 

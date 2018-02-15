@@ -21,7 +21,7 @@ import app.deadmc.devnetworktool.constants.REST_FRAGMENT
 import app.deadmc.devnetworktool.constants.WORKING_CONNECTION_FRAGMENT
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.SettingsFragment
-import app.deadmc.devnetworktool.fragments.ping.MainPingFragment
+import app.deadmc.devnetworktool.fragments.ping.PingMainFragment
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
 import app.deadmc.devnetworktool.fragments.rest.RestMainFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun runFragmentDependsOnId(id: Int, serializable: Serializable) {
         when (id) {
-            PING_FRAGMENT -> runFragment(MainPingFragment.getInstance(serializable))
+            PING_FRAGMENT -> runFragment(PingMainFragment.getInstance(serializable))
             WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment.getInstance(serializable))
             REST_FRAGMENT -> runFragment(RestMainFragment())
         }

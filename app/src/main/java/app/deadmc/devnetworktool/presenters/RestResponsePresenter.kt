@@ -7,7 +7,7 @@ import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
 
 @InjectViewState
-class ResponseRestPresenter : BasePresenter<RestResponseView>() {
+class RestResponsePresenter : BasePresenter<RestResponseView>() {
     override fun initObserver() {
         compositeDisposable.add(RxBus.subscribe {
             if (it is RestResponseEvent) {

@@ -1,63 +1,31 @@
 package app.deadmc.devnetworktool.presenters
 
-import android.os.Handler
-import android.util.Log
-import app.deadmc.devnetworktool.helpers.getPing
+import app.deadmc.devnetworktool.events.PingEvent
+import app.deadmc.devnetworktool.events.PingPageChangedEvent
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStructure
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
-import java.util.ArrayList
+import java.util.*
 
 @InjectViewState
 class PingPresenter : BasePresenter<PingView>() {
-    var currentUrl:String = ""
-    var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
-    var currentPage:Int = 0
+
+    var currentUrl = ""
     var currentPosition:Int = 0
-    private var pingThread: Thread? = null
+    var pingStructureArrayList: ArrayList<PingStructure> = ArrayList()
 
-    @Volatile private var working = false
+    override fun initObserver() {
+        compositeDisposable.add(RxBus.subscribe {
+            if (it is PingEvent)
+                addMessage(it.pingStructure)
 
-    fun handleClick() {
-        if (working) {
-            working = false
-            viewState.setStartButtonOn()
-            viewState.hideProgress()
-        } else {
-            getPings()
-            viewState.setStartButtonOff()
-            viewState.showProgress()
-        }
-
+            if (it is PingPageChangedEvent)
+                currentPosition = it.pagePosition
+        })
     }
 
-    private fun getPings() {
-        working = true
-        val handler = Handler()
-        pingThread = Thread {
-            while (working) {
-                try {
-                    Thread.sleep(DevPreferences.pingDelay.toLong())
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-                handler.post {
-                    try {
-                        addMessage(getPing(currentUrl))
-                    } catch (e: IllegalStateException) {
-                        Log.e("",Log.getStackTraceString(e))
-                    }
-                }
-            }
-        }
-        pingThread?.start()
-    }
-
-
-
-    private fun addMessage(message: String) {
-        val pingStructure = PingStructure(message)
+    private fun addMessage(pingStructure: PingStructure) {
         pingStructureArrayList.add(pingStructure)
         viewState.addPingStructure(pingStructure)
     }
