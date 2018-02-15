@@ -18,5 +18,6 @@ class PingConnectionsPresenter : ConnectionsPresenter() {
     override fun fillRecyclerView() {
         val list = SugarRecord.find(ConnectionHistory::class.java, "type = ?", PING)
         viewState.fillRecyclerView(list)
+        //val list = Select.from(ConnectionHistory::class.java).where("type = $PING").orderBy("last_usage DESC").toList()
     }
 }

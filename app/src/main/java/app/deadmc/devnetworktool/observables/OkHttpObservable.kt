@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.observables
 
+import android.util.Log
 import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import io.reactivex.Observable
@@ -35,6 +36,7 @@ object OkHttpObservable {
                 val responseDev = ResponseDev(headers, body, code, time,url)
                 Observable.just(responseDev)
             } catch (e: IOException) {
+                Log.e("OkHttpObservable",Log.getStackTraceString(e))
                 Observable.error(e)
             }
         })

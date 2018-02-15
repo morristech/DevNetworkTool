@@ -4,7 +4,7 @@ import android.util.Log
 import app.deadmc.devnetworktool.events.RestHistoryEvent
 import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.events.RestResponseEvent
-import app.deadmc.devnetworktool.extensions.asyncSave
+import app.deadmc.devnetworktool.extensions.deferredSave
 import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -63,7 +63,7 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
 
     fun runRestHistoryEventAfterSave() {
         launch {
-            val id = RestRequestHistory(currentUrl, currentMethod, headersArrayList, requestArrayList).asyncSave().await()
+            val id = RestRequestHistory(currentUrl, currentMethod, headersArrayList, requestArrayList).deferredSave().await()
             RxBus.post(RestRequestEvent(id))
         }
     }

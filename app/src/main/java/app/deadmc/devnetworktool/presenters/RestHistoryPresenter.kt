@@ -3,7 +3,7 @@ package app.deadmc.devnetworktool.presenters
 import app.deadmc.devnetworktool.events.RestHistoryEvent
 import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.extensions.asyncDelete
-import app.deadmc.devnetworktool.extensions.asyncFindById
+import app.deadmc.devnetworktool.extensions.deferredFindById
 import app.deadmc.devnetworktool.interfaces.views.RestHistoryView
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.RxBus
@@ -23,7 +23,7 @@ class RestHistoryPresenter : BasePresenter<RestHistoryView>() {
 
     fun addElementById(id:Long) {
         launch {
-            val restRequestHistory = asyncFindById(RestRequestHistory::class.java,id).await()
+            val restRequestHistory = deferredFindById(RestRequestHistory::class.java,id).await()
             viewState.addItem(restRequestHistory)
         }
     }

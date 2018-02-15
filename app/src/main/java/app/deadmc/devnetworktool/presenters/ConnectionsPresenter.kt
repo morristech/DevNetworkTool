@@ -2,6 +2,8 @@ package app.deadmc.devnetworktool.presenters
 
 
 import app.deadmc.devnetworktool.constants.WORKING_CONNECTION_FRAGMENT
+import app.deadmc.devnetworktool.extensions.asyncDelete
+import app.deadmc.devnetworktool.extensions.asyncSave
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
@@ -11,11 +13,11 @@ open class ConnectionsPresenter : BasePresenter<ConnectionsView>() {
     var currentConnectionHistory = ConnectionHistory()
 
     fun saveConnectionHistory(connectionHistory: ConnectionHistory) {
-        connectionHistory.save()
+        connectionHistory.asyncSave()
     }
 
     fun deleteConnectionHistory(connectionHistory: ConnectionHistory) {
-        connectionHistory.delete()
+        connectionHistory.asyncDelete()
     }
 
     fun showDialogForCreate() {

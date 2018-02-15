@@ -65,6 +65,8 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
     }
 
     fun editItem(position: Int) {
+        if (position >= arrayList.size)
+            return
         notifyItemChanged(position)
     }
 

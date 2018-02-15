@@ -79,17 +79,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             stopService()
         }
 
-        val fm = supportFragmentManager
-        for (i in 0 until fm.backStackEntryCount) {
-            fm.popBackStack()
-        }
-
         when (item) {
-            R.id.tcp_client -> {runFragment(TcpConnectionsFragment())}
-            R.id.udp_client -> runFragment(UdpConnectionsFragment())
-            R.id.ping -> runFragment(PingConnectionsFragment())
-            R.id.rest -> runFragment(RestMainFragment())
-            R.id.settings -> runFragment(SettingsFragment())
+            R.id.tcp_client -> runFragment(TcpConnectionsFragment(),false)
+            R.id.udp_client -> runFragment(UdpConnectionsFragment(),false)
+            R.id.ping -> runFragment(PingConnectionsFragment(),false)
+            R.id.rest -> runFragment(RestMainFragment(),false)
+            R.id.settings -> runFragment(SettingsFragment(),false)
             R.id.exit -> mainPresenter.showDialogExitConnection()
         }
 
@@ -98,7 +93,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun runFragmentDependsOnId(id: Int) {
         when (id) {
-            WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment())
+            WORKING_CONNECTION_FRAGMENT -> runFragment(WorkingConnectionFragment(),false)
         }
     }
 
@@ -111,7 +106,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun runFragmentDefault() {
-        runFragment(RestMainFragment())
+        runFragment(RestMainFragment(),false)
     }
 
     override fun showDialogExitConnection() {
