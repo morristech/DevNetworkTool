@@ -1,7 +1,6 @@
 package app.deadmc.devnetworktool.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.helpers.getDateAndTime
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -14,7 +13,7 @@ abstract class RestRequestHistoryAdapter(val context: Context, val requestHistor
 
         viewHolder.itemView.layoutRestRequestHistory.urlTextView.text = restRequestHistory.url
         viewHolder.itemView.layoutRestRequestHistory.methodTextView.text = restRequestHistory.method
-        viewHolder.itemView.layoutRestRequestHistory.dateTextView.text = getDateAndTime(restRequestHistory.timeLastUsage,context)
+        viewHolder.itemView.layoutRestRequestHistory.dateTextView.text = getDateAndTime(restRequestHistory.lastUsage,context)
         viewHolder.itemView.layoutRestRequestHistory.setOnClickListener { onClickItem(restRequestHistory,position) }
 
         super.onBindViewHolder(viewHolder,position)

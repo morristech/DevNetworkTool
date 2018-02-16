@@ -1,14 +1,11 @@
 package app.deadmc.devnetworktool.extensions
 
-import app.deadmc.devnetworktool.constants.PING
-import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.orm.SugarRecord
-import com.orm.query.Select
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
-fun SugarRecord.deferredSave():Deferred<Long> {
+fun SugarRecord.deferredSave(): Deferred<Long> {
     return async {
         this@deferredSave.save()
     }
@@ -20,21 +17,22 @@ fun SugarRecord.asyncSave() {
     }
 }
 
-
 fun SugarRecord.asyncDelete() {
     launch {
         this@asyncDelete.delete()
     }
 }
 
-fun <T> deferredFindById(type:Class<T>, id:Long):Deferred<T> {
+fun <T> deferredFindById(type: Class<T>, id: Long): Deferred<T> {
     return async {
         SugarRecord.findById(type, id)
     }
 }
 
-fun <T> deferredSelectDesk(type: Class<T>, whereClause:String):Deferred<List<T>> {
+fun <T> deferredSelectDesk(type: Class<T>, whereClause: String? = null, args: String? = null): Deferred<List<T>> {
     return async {
-        Select.from(type).where(whereClause).orderBy("last_usage DESC").toList() as List<T>
+        //SugarRecord.find(type, whereClause, args, null, null,"lis").toList()
+        SugarRecord.find(type,whereClause, if (args != null) arrayOf(args) else arrayOf(),null,"last_usage DESC",null).toList()
+        //SugarRecord.find(type, whereClause, args).toList()
     }
 }

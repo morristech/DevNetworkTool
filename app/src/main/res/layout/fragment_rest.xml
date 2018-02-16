@@ -13,12 +13,11 @@
             android:layout_height="wrap_content"
             app:tabMode="fixed" />
 
-        <android.support.v4.view.ViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <app.deadmc.devnetworktool.views.SwipeBlockViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-        </android.support.v4.view.ViewPager>
+        </app.deadmc.devnetworktool.views.SwipeBlockViewPager>
 
 </LinearLayout>

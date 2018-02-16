@@ -13,9 +13,7 @@ import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.RestHistoryPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.orm.SugarRecord
 import kotlinx.android.synthetic.main.fragment_rest_history.view.*
-import java.util.*
 
 class RestHistoryFragment : BaseFragment(), RestHistoryView {
 
@@ -39,7 +37,11 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
         myFragmentView.recyclerViewHistory.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         myFragmentView.recyclerViewHistory.layoutManager = layoutManager
-        restRequestHistoryArrayList = SugarRecord.listAll(RestRequestHistory::class.java)
+        restHistoryPresenter.fillRecyclerView()
+    }
+
+    override fun fillRecyclerView(list: List<RestRequestHistory>) {
+        restRequestHistoryArrayList = list
         restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context, ArrayList(restRequestHistoryArrayList)) {
             override fun onDeleteItem(element: RestRequestHistory) {
                 restHistoryPresenter.deleteItem(element)
@@ -53,6 +55,8 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
         myFragmentView.recyclerViewHistory.adapter = restRequestHistoryAdapter
         restRequestHistoryAdapter.notifyDataSetChanged()
     }
+
+
 
     override fun addItem(restRequestHistory: RestRequestHistory) {
         restRequestHistoryAdapter.addItem(restRequestHistory)

@@ -13,7 +13,6 @@ import app.deadmc.devnetworktool.interfaces.views.RestMainView
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.RestMainPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.fragment_ping.*
 import kotlinx.android.synthetic.main.fragment_rest.view.*
 import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 
@@ -55,6 +54,7 @@ class RestMainFragment : BaseFragment(), RestMainView {
         restPagerAdapter = RestPagerAdapter(fragmentManager, activity)
         myFragmentView.viewPager.adapter = restPagerAdapter
         myFragmentView.viewPager.offscreenPageLimit = 5
+        myFragmentView.viewPager.swipeEnabled = false
         myFragmentView.tabLayout.setupWithViewPager(myFragmentView.viewPager)
         myFragmentView.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -62,13 +62,12 @@ class RestMainFragment : BaseFragment(), RestMainView {
 
             override fun onPageSelected(position: Int) {
                 mainRestPresenter.currentPage = position
-                //RxBus.post(PageChangedEvent(position))
             }
         })
         myFragmentView.viewPager.currentItem = mainRestPresenter.currentPage
     }
 
     override fun slideViewPager(position: Int) {
-        viewPager.setCurrentItem(position, true)
+        myFragmentView.viewPager.setCurrentItem(position, true)
     }
 }

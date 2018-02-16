@@ -5,4 +5,5 @@ import com.arellomobile.mvp.MvpView
 
 interface RestHistoryView : MvpView {
     fun addItem(restRequestHistory: RestRequestHistory)
+    fun fillRecyclerView(list:List<RestRequestHistory>)
 }

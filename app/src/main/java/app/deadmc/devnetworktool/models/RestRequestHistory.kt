@@ -4,12 +4,10 @@ import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.orm.SugarRecord
-
-import java.lang.reflect.Type
-import java.util.ArrayList
+import java.util.*
 
 class RestRequestHistory : SugarRecord,BaseModel {
-    var timeLastUsage: Long = System.currentTimeMillis()
+    var lastUsage: Long = System.currentTimeMillis()
     var url: String = ""
     var method: String = ""
     private var headers: String = ""
