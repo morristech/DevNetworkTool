@@ -52,6 +52,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         mainActivity = activity as MainActivity
         initElements()
         mainActivity.workingConnectionsPresenter = workingConnectionPresenter
+        Log.e(TAG,"bind service again")
         mainActivity.mainPresenter.doBindService(workingConnectionPresenter.currentConnectionHistory)
         Log.e(TAG,"onCreateView")
         return myFragmentView

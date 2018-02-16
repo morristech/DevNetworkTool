@@ -21,12 +21,13 @@ import app.deadmc.devnetworktool.constants.REST_FRAGMENT
 import app.deadmc.devnetworktool.constants.WORKING_CONNECTION_FRAGMENT
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.SettingsFragment
-import app.deadmc.devnetworktool.fragments.ping.PingMainFragment
 import app.deadmc.devnetworktool.fragments.ping.PingConnectionsFragment
+import app.deadmc.devnetworktool.fragments.ping.PingMainFragment
 import app.deadmc.devnetworktool.fragments.rest.RestMainFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.TcpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.UdpConnectionsFragment
 import app.deadmc.devnetworktool.fragments.socket_connections.WorkingConnectionFragment
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.helpers.startServiceForeground
 import app.deadmc.devnetworktool.interfaces.views.MainActivityView
 import app.deadmc.devnetworktool.models.ConnectionHistory
@@ -115,7 +116,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             alertDialogBuilder.setMessage(R.string.alert_close_connection)
             alertDialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
                 stopService()
-                onBackPressed()
+                super.onBackPressed()
             }
 
             alertDialogBuilder.setNegativeButton(R.string.no) { _, _ -> mainPresenter.hideDialogExitConnection() }
@@ -160,7 +161,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                 if (connectionService?.getCurrentClient() == null)
                     connectionService?.initConnection(connectionHistory)
-                serviceBound = true
+
                 Log.e("main activity","working presenter == null "+(workingConnectionsPresenter == null))
                 Log.e("main activity", "connectionService?.isRunning "+connectionService?.isRunning)
                 if (workingConnectionsPresenter == null && connectionService?.isRunning == true)
@@ -168,10 +169,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 connectionService?.workingConnectionPresenter = workingConnectionsPresenter
                 if (workingConnectionsPresenter?.currentConnectionHistory == null) {
                     workingConnectionsPresenter?.currentConnectionHistory = connectionService?.connectionHistory
+
                 }
                 workingConnectionsPresenter?.currentClient = connectionService?.getCurrentClient()
                 Log.e("main activity","second working presenter == null "+(workingConnectionsPresenter == null))
                 workingConnectionsPresenter?.successfulCallback()
+
+                workingConnectionsPresenter?.let {
+                    it.successfulCallback()
+                    serviceBound = true
+                }
             }
 
             override fun onServiceDisconnected(className: ComponentName) {
@@ -181,19 +188,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
 
-        serviceBound = bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
     override fun doUnbindService() {
         if (serviceConnection != null) {
-            try {
+            safe {
                 unbindService(serviceConnection)
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
             connectionService = null
-            serviceBound = false
         }
+        serviceBound = false
     }
 
     override fun setCustomTitle(stringId: Int) {
@@ -224,7 +229,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         while (i.hasNext()) {
             val runningServiceInfo = i
                     .next() as ActivityManager.RunningServiceInfo
-
+            Log.e("main_activity","runningServiceInfo.service.className "+runningServiceInfo.service.className )
             if (runningServiceInfo.service.className == serviceName) {
                 serviceRunning = true
             }
