@@ -5,6 +5,7 @@ import android.util.Log
 import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.constants.PING_FRAGMENT
 import app.deadmc.devnetworktool.extensions.deferredSelectDesc
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.launch
@@ -13,15 +14,17 @@ import kotlinx.coroutines.experimental.launch
 class PingConnectionsPresenter : ConnectionsPresenter() {
 
     override fun openNextFragment(mainPresenter: MainPresenter, connectionHistory: ConnectionHistory) {
-        connectionHistory.setLastUsageDefault()
+        //connectionHistory.setLastUsageDefault()
         mainPresenter.runFragmentDependsOnId(PING_FRAGMENT, connectionHistory)
     }
 
     override fun fillRecyclerView() {
         launch {
             Log.e(TAG,"coroutine")
-            val list = deferredSelectDesc(ConnectionHistory::class.java, "type = ?", PING).await()
-            viewState.fillRecyclerView(list)
+            safe {
+                val list = deferredSelectDesc(ConnectionHistory::class.java, "type = ?", PING).await()
+                viewState.fillRecyclerView(list)
+            }
         }
     }
 }

@@ -10,4 +10,6 @@
 
         android:layout_weight="1"/>
 
+    <include layout="@layout/layout_list_is_still_empty"/>
+
 </LinearLayout>

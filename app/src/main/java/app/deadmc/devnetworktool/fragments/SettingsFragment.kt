@@ -92,19 +92,20 @@ class SettingsFragment : BaseFragment(), SettingsView {
     override fun showPingTimeoutDialog() {
         currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.pingDelay.toString(), {
             DevPreferences.pingDelay = it
-            myFragmentView.tcpTimeoutTextView.text = getString(R.string.value_ms,it)
+            myFragmentView.pingTimeoutTextView.text = getString(R.string.value_ms,it)
         })
     }
 
 
 
     override fun closeDialog() {
-        currentDialog?.dismiss()
         activity.hideKeyboard()
+        currentDialog?.dismiss()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
+        activity.hideKeyboard()
         currentDialog?.setOnDismissListener(null)
         currentDialog?.dismiss()
     }

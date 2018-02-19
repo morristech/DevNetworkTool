@@ -10,11 +10,13 @@ import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
 import app.deadmc.devnetworktool.observables.RxBus
+import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.launch
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @InjectViewState
 class RestRequestPresenter : BasePresenter<RestRequestView>() {
@@ -50,6 +52,7 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
         Log.e(TAG,"sendRequest")
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
+                .timeout(DevPreferences.restTimeoutAmount,TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({

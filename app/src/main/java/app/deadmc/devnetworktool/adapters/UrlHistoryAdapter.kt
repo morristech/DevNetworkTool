@@ -10,7 +10,6 @@ abstract class UrlHistoryAdapter(private val connectionArrayList: ArrayList<Conn
         viewHolder.itemView.urlTextView.text = connectionArrayList[position].ipAddress
         viewHolder.itemView.dateTextView.text = viewHolder.itemView.context.getString(R.string.last_usage,connectionArrayList[position].lastUsageTime)
         viewHolder.itemView.layoutUrlHistory.setOnClickListener {
-            Log.e("click","position "+position)
             onClickItem(connectionArrayList[position], position)
         }
 

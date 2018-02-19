@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IFillFormatter
 import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
+import kotlinx.android.synthetic.main.layout_empty_list.view.*
 import java.util.*
 
 
@@ -74,19 +75,18 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
         y.axisLineColor = ContextCompat.getColor(activity, R.color.textColor)
 
         myFragmentView.chart.axisRight.isEnabled = false
-        // add data
+        showEmpty()
         setDataToChart()
         myFragmentView.chart.legend.isEnabled = false
         myFragmentView.chart.animateXY(2000, 2000)
-        // dont forget to refresh the drawing
         myFragmentView.chart.invalidate()
+
     }
 
     private fun setDataToChart() {
-        Log.e(TAG, "setDataToChart")
         val yVals = ArrayList<Entry>()
-
         if (myFragmentView.chart.data != null && myFragmentView.chart.data.dataSetCount > 0) {
+            showView()
             lineDataSet = myFragmentView.chart.data.getDataSetByIndex(0) as LineDataSet
             lineDataSet.values = yVals
             myFragmentView.chart.data.notifyDataChanged()
@@ -101,7 +101,7 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
             lineDataSet.setDrawCircles(false)
             lineDataSet.lineWidth = 1.0f
             lineDataSet.highlightLineWidth = 1.0f
-            lineDataSet.highLightColor = ContextCompat.getColor(activity, R.color.textColor)
+            lineDataSet.highLightColor = ContextCompat.getColor(activity, R.color.textColorLight)
             lineDataSet.color = ContextCompat.getColor(activity, R.color.colorPrimaryDark)
             lineDataSet.fillColor = ContextCompat.getColor(activity, R.color.colorPrimary)
             lineDataSet.fillAlpha = 150
@@ -126,12 +126,24 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
     }
 
     private fun addDataToChart(value: Float) {
+        showView()
         val i = lineDataSet.entryCount
         lineDataSet.addEntry(Entry(i.toFloat(), value))
         myFragmentView.chart.data.notifyDataChanged()
         myFragmentView.chart.notifyDataSetChanged()
         myFragmentView.chart.invalidate()
+    }
 
+    private fun showEmpty() {
+        myFragmentView.chart.visibility = View.GONE
+        myFragmentView.emptyLayout.visibility = View.VISIBLE
+    }
+
+    private fun showView() {
+        if (myFragmentView.chart.visibility == View.VISIBLE)
+            return
+        myFragmentView.emptyLayout.visibility = View.GONE
+        myFragmentView.chart.visibility = View.VISIBLE
     }
 
 

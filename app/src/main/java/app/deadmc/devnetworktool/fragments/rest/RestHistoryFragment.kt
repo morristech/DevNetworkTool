@@ -20,7 +20,7 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
 
     @InjectPresenter
     lateinit var restHistoryPresenter: RestHistoryPresenter
-    private var restRequestHistoryArrayList: ArrayList<RestRequestHistory> = ArrayList<RestRequestHistory>()
+    private var restRequestHistoryArrayList: ArrayList<RestRequestHistory> = ArrayList()
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -80,7 +80,9 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
     }
 
     override fun addItem(restRequestHistory: RestRequestHistory) {
-        showView()
-        restRequestHistoryAdapter.addItem(restRequestHistory)
+        activity.runOnUiThread {
+            showView()
+            restRequestHistoryAdapter.addItem(restRequestHistory)
+        }
     }
 }

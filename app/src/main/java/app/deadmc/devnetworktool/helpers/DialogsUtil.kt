@@ -9,6 +9,7 @@ import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.presenters.SettingsPresenter
 import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import kotlinx.android.synthetic.main.fragment_rest_request.view.*
 
 
 inline fun showTimeoutDialog(checkActivityIsFinishing:Boolean, activity: Activity, settingsPresenter:SettingsPresenter,currentValue:String,crossinline callback: (timeout:Int)-> Unit): AlertDialog? {
@@ -19,16 +20,17 @@ inline fun showTimeoutDialog(checkActivityIsFinishing:Boolean, activity: Activit
     alertDialogBuilder.setView(alertView)
     val timeoutEditText = alertView?.findViewById<EditText>(R.id.timeoutEditText)
     timeoutEditText?.setText(currentValue)
-
+    timeoutEditText?.setSelection(timeoutEditText.text.length)
     alertDialogBuilder.setOnDismissListener {
+        activity.hideKeyboard()
         settingsPresenter.closeDialog()
     }
     alertDialogBuilder.setPositiveButton(R.string.edit,{ _, _ ->
+        activity.hideKeyboard()
         timeoutEditText?.let {
             if (!it.text.toString().isBlank())
                 callback(it.text.toString().toInt())
         }
-        activity.hideKeyboard()
         settingsPresenter.closeDialog()
     })
     val currentDialog = alertDialogBuilder.create()
@@ -50,13 +52,14 @@ inline fun showSpinnerDialog(checkActivityIsFinishing:Boolean, activity: Activit
     spinner?.setSelection(adapter.getPosition(DevPreferences.tcpUdpEncoding))
 
     alertDialogBuilder.setOnDismissListener {
+        activity.hideKeyboard()
         settingsPresenter.closeDialog()
     }
     alertDialogBuilder.setPositiveButton(R.string.edit,{ _, _ ->
+        activity.hideKeyboard()
         spinner?.let {
             callback(spinner.selectedItem.toString())
         }
-        activity.hideKeyboard()
         settingsPresenter.closeDialog()
     })
     val currentDialog = alertDialogBuilder.create()

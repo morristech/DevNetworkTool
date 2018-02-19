@@ -27,4 +27,9 @@ class ReceivedPingsAdapter(private val context: Context, private val pingArrayLi
         return pingArrayList.size
     }
 
+    fun addItem(pingStructure: PingStructure) {
+        pingArrayList.add(pingStructure)
+        notifyItemChanged(pingArrayList.size-1)
+    }
+
 }

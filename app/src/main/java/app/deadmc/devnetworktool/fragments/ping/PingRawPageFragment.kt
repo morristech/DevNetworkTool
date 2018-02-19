@@ -7,16 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.adapters.ReceivedPingsAdapter
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.PingView
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.presenters.BasePresenter
 import app.deadmc.devnetworktool.presenters.PingPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
+import kotlinx.android.synthetic.main.fragment_pager_chart.view.*
 import kotlinx.android.synthetic.main.fragment_pager_recyclerview.view.*
+import kotlinx.android.synthetic.main.layout_empty_list.view.*
 
-/**
- * Created by Feren on 12.01.2017.
- */
 class PingRawPageFragment : PingBaseFragment(), PingView {
 
     @InjectPresenter
@@ -25,9 +25,10 @@ class PingRawPageFragment : PingBaseFragment(), PingView {
     private var linearLayoutManager: LinearLayoutManager? = null
 
     override fun addPingStructure(pingStructure: PingStructure) {
+        showView()
         if (!initCompleted)
             return
-        receivedMessagesAdapter.notifyDataSetChanged()
+        receivedMessagesAdapter.addItem(pingStructure)
         if (linearLayoutManager!!.findLastVisibleItemPosition() >= pingPresenter.pingStructureArrayList.size - 3)
             myFragmentView.recyclerView.smoothScrollToPosition(pingPresenter.pingStructureArrayList.size - 1)
 
@@ -60,18 +61,32 @@ class PingRawPageFragment : PingBaseFragment(), PingView {
     private fun initPingList() {
         receivedMessagesAdapter = ReceivedPingsAdapter(activity, pingPresenter.pingStructureArrayList)
         myFragmentView.recyclerView.adapter = receivedMessagesAdapter
-        try {
+        safe {
             if (pingPresenter.currentPosition != 0 && pingPresenter.pingStructureArrayList.size > pingPresenter.currentPosition)
                 myFragmentView.recyclerView.smoothScrollToPosition(pingPresenter.currentPosition)
-        } catch (e: IllegalArgumentException) {
-            //Log.e("error",Log.getStackTraceString(e));
         }
 
+        if (pingPresenter.pingStructureArrayList.isEmpty())
+            showEmpty()
+        else
+            showView()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         pingPresenter.currentPosition = linearLayoutManager!!.findLastVisibleItemPosition()
+    }
+
+    private fun showEmpty() {
+        myFragmentView.recyclerView.visibility = View.GONE
+        myFragmentView.emptyLayout.visibility = View.VISIBLE
+    }
+
+    private fun showView() {
+        if (myFragmentView.recyclerView.visibility == View.VISIBLE)
+            return
+        myFragmentView.emptyLayout.visibility = View.GONE
+        myFragmentView.recyclerView.visibility = View.VISIBLE
     }
 
 

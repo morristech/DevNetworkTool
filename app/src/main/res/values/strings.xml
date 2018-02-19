@@ -91,6 +91,8 @@
     <string name="rest">REST</string>
     <string name="tcp_udp">TCP/UDP</string>
     <string name="last_usage">Last usage: %1$s</string>
+    <string name="list_is_empty">List is empty </string>
+    <string name="you_didnt_start_work_yes">You did not start yet</string>
 
     <!-- end of default fill -->
 

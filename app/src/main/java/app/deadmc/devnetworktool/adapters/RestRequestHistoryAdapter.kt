@@ -3,6 +3,7 @@ package app.deadmc.devnetworktool.adapters
 import android.content.Context
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.helpers.getDateAndTime
+import app.deadmc.devnetworktool.helpers.getDateTimeFromTimestamp
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import kotlinx.android.synthetic.main.item_rest_request_history.view.*
 
@@ -13,7 +14,7 @@ abstract class RestRequestHistoryAdapter(val context: Context, val requestHistor
 
         viewHolder.itemView.layoutRestRequestHistory.urlTextView.text = restRequestHistory.url
         viewHolder.itemView.layoutRestRequestHistory.methodTextView.text = restRequestHistory.method
-        viewHolder.itemView.layoutRestRequestHistory.dateTextView.text = getDateAndTime(restRequestHistory.lastUsage,context)
+        viewHolder.itemView.layoutRestRequestHistory.dateTextView.text = getDateTimeFromTimestamp(restRequestHistory.lastUsage)
         viewHolder.itemView.layoutRestRequestHistory.setOnClickListener { onClickItem(restRequestHistory,position) }
 
         super.onBindViewHolder(viewHolder,position)

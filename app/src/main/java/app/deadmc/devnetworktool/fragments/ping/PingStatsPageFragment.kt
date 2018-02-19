@@ -53,7 +53,7 @@ class PingStatsPageFragment : PingBaseFragment(), PingView {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
+        myFragmentView = inflater!!.inflate(R.layout.fragment_ping_stats, container, false)
         initElements()
         return myFragmentView
     }

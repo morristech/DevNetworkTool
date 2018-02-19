@@ -26,7 +26,7 @@ class PingPresenter : BasePresenter<PingView>() {
     }
 
     private fun addMessage(pingStructure: PingStructure) {
-        pingStructureArrayList.add(pingStructure)
+        //pingStructureArrayList.add(pingStructure)
         viewState.addPingStructure(pingStructure)
     }
 }

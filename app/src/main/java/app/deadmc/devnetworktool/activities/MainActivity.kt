@@ -68,6 +68,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             doBindService(null)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (supportFragmentManager.fragments.size == 0)
+            runFragmentDefault()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         runFragmentDependsOnClickedItem(id)
@@ -258,7 +264,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         mvpDelegate.onSaveInstanceState(outState)
-        mvpDelegate.onDetach()
     }
 
 }

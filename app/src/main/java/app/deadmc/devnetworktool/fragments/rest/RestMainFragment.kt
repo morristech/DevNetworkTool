@@ -41,19 +41,17 @@ class RestMainFragment : BaseFragment(), RestMainView {
     }
 
     override fun showProgress() {
-        Log.e(TAG,"showProgress")
         myFragmentView.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        Log.e(TAG,"hideProgress")
         myFragmentView.progressBar.visibility = View.INVISIBLE
     }
 
     private fun initViewPager() {
         restPagerAdapter = RestPagerAdapter(fragmentManager, activity)
         myFragmentView.viewPager.adapter = restPagerAdapter
-        myFragmentView.viewPager.offscreenPageLimit = 5
+        myFragmentView.viewPager.offscreenPageLimit = 3
         myFragmentView.viewPager.swipeEnabled = false
         myFragmentView.tabLayout.setupWithViewPager(myFragmentView.viewPager)
         myFragmentView.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -62,6 +60,7 @@ class RestMainFragment : BaseFragment(), RestMainView {
 
             override fun onPageSelected(position: Int) {
                 mainRestPresenter.currentPage = position
+                myFragmentView.viewPager.swipeEnabled = position == 1
             }
         })
         myFragmentView.viewPager.currentItem = mainRestPresenter.currentPage

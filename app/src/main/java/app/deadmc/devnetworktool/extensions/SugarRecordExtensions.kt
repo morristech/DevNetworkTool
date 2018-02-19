@@ -36,3 +36,9 @@ fun <T> deferredSelectDesc(type: Class<T>, whereClause: String? = null, args: St
         //SugarRecord.find(type, whereClause, args).toList()
     }
 }
+
+fun <T> deferredSelectAll(type: Class<T>):Deferred<List<T>> {
+    return async {
+        SugarRecord.listAll(type,"last_usage DESC")
+    }
+}

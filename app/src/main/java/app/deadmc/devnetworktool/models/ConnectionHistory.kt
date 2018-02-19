@@ -31,7 +31,6 @@ class ConnectionHistory : SugarRecord, Serializable, BaseModel {
 
     fun setLastUsageDefault() {
         this.lastUsage = System.currentTimeMillis()
-        this.save()
     }
 
     override fun getUniqueId(): String {

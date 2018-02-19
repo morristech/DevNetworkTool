@@ -62,15 +62,16 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun fillRecyclerView(list:List<ConnectionHistory>) {
-        val arrayListConnectionHistory = ArrayList(list)
-        if (!arrayListConnectionHistory.isEmpty()) {
-            showView()
-            connectionHistoryAdapter.addAll(arrayListConnectionHistory)
-            connectionHistoryAdapter.notifyDataSetChanged()
-        } else {
-            showEmpty()
+        activity.runOnUiThread {
+            val arrayListConnectionHistory = ArrayList(list)
+            if (!arrayListConnectionHistory.isEmpty()) {
+                showView()
+                connectionHistoryAdapter.addAll(arrayListConnectionHistory)
+                connectionHistoryAdapter.notifyDataSetChanged()
+            } else {
+                showEmpty()
+            }
         }
-
     }
 
     override fun showDialogForCreate() {
@@ -79,6 +80,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(getPresenter().currentConnectionHistory)
         alertDialogBuilder.setPositiveButton(R.string.add, { _, _ ->
+            activity.hideKeyboard()
             addConnectionHistory()
             getPresenter().hideDialog()
         })
@@ -93,6 +95,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         fillDialogVariables(connectionHistory)
 
         alertDialogBuilder.setPositiveButton(R.string.edit) { _, _ ->
+            activity.hideKeyboard()
             connectionHistory.ipAddress = alertView.urlEditText.text.toString()
             connectionHistory.name = alertView.urlEditText.text.toString()
             connectionHistory.port = 80
@@ -101,6 +104,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
             getPresenter().hideDialog()
         }
         alertDialogBuilder.setOnDismissListener {
+            activity.hideKeyboard()
             getPresenter().hideDialog()
         }
         alertDialog = alertDialogBuilder.create()
