@@ -20,10 +20,10 @@
 
         <meta-data
             android:name="DATABASE"
-            android:value="dev_network_tool.db" />
+            android:value="dev_network_tool2.db" />
         <meta-data
             android:name="VERSION"
-            android:value="4" />
+            android:value="5" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="false" />
