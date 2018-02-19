@@ -17,14 +17,15 @@ import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import kotlinx.android.synthetic.main.dialog_add_connection.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
+import kotlinx.android.synthetic.main.layout_empty_list.view.*
 import java.util.*
 
 abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     var alertDialog: AlertDialog? = null
     lateinit var alertView: View
-    lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
+    open lateinit var connectionHistoryAdapter: ConnectionHistoryAdapter
 
-    override abstract fun getPresenter() : ConnectionsPresenter
+    override abstract fun getPresenter(): ConnectionsPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myFragmentView = inflater?.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)
@@ -35,32 +36,43 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
 
     fun initElements() {
         myFragmentView.floatingActionButton.setOnClickListener { getPresenter().showDialogForCreate() }
-
         myFragmentView.recyclerViewHistory.setHasFixedSize(true)
         myFragmentView.recyclerViewHistory.layoutManager = LinearLayoutManager(context)
+        initRecyclerView()
         getPresenter().fillRecyclerView()
-
     }
 
-    override fun fillRecyclerView(list:List<ConnectionHistory>) {
-        val arrayListConnectionHistory = ArrayList(list)
+    fun initRecyclerView() {
+        val arrayListConnectionHistory = ArrayList<ConnectionHistory>()
         connectionHistoryAdapter = object : ConnectionHistoryAdapter(arrayListConnectionHistory) {
             override fun onClickItem(connectionHistory: ConnectionHistory, position: Int) {
-                Log.e("onClickItem","connectionHistory "+connectionHistory.ipAddress)
-                getPresenter().openNextFragment(mainActivity.mainPresenter,connectionHistory)
+                Log.e("onClickItem", "connectionHistory " + connectionHistory.ipAddress)
+                getPresenter().openNextFragment(mainActivity.mainPresenter, connectionHistory)
             }
 
             override fun onDeleteItem(connectionHistory: ConnectionHistory) {
                 getPresenter().deleteConnectionHistory(connectionHistory)
+                if (this.itemCount == 0)
+                    this@ConnectionsFragment.showEmpty()
             }
 
             override fun onEditItem(connectionHistory: ConnectionHistory, position: Int) {
-                getPresenter().showDialogForEdit(connectionHistory,position)
+                getPresenter().showDialogForEdit(connectionHistory, position)
             }
         }
 
         myFragmentView.recyclerViewHistory.adapter = connectionHistoryAdapter
-        connectionHistoryAdapter.notifyDataSetChanged()
+    }
+
+    override fun fillRecyclerView(list: List<ConnectionHistory>) {
+        val arrayListConnectionHistory = ArrayList(list)
+        if (!arrayListConnectionHistory.isEmpty()) {
+            showView()
+            connectionHistoryAdapter.addAll(arrayListConnectionHistory)
+            connectionHistoryAdapter.notifyDataSetChanged()
+        } else {
+            showEmpty()
+        }
     }
 
     override fun showDialogForCreate() {
@@ -103,13 +115,24 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
         activity.hideKeyboard()
     }
 
+    override fun showEmpty() {
+        myFragmentView.recyclerViewHistory.visibility = View.GONE
+        myFragmentView.emptyLayout.visibility = View.VISIBLE
+    }
+
+    override fun showView() {
+        myFragmentView.recyclerViewHistory.visibility = View.VISIBLE
+        myFragmentView.emptyLayout.visibility = View.GONE
+    }
+
 
     fun addConnectionHistory() {
         val connectionHistory = collectConnectionHistory()
         getPresenter().saveConnectionHistory(connectionHistory)
+        if (connectionHistoryAdapter.itemCount == 0)
+            showView()
         connectionHistoryAdapter.addItem(connectionHistory)
     }
-
 
     private fun fillDialogVariables(connectionHistory: ConnectionHistory) {
         alertView.editTextIpAddress.setText(connectionHistory.ipAddress)

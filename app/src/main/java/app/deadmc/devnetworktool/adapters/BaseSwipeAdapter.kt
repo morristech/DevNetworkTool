@@ -53,6 +53,12 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
         notifyItemInserted(0)
     }
 
+    fun addAll(list:ArrayList<T>) {
+        arrayList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+
     fun removeItem(position: Int) {
         if (position >= arrayList.size)
             return

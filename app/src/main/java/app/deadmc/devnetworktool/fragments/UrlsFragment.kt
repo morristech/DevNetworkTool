@@ -15,6 +15,7 @@ import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.presenters.ConnectionsPresenter
 import kotlinx.android.synthetic.main.dialog_add_url.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*
+import kotlinx.android.synthetic.main.layout_empty_list.view.*
 import java.util.*
 
 abstract class UrlsFragment : BaseFragment(), ConnectionsView {
@@ -35,11 +36,12 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         myFragmentView.floatingActionButton.setOnClickListener { getPresenter().showDialogForCreate() }
         myFragmentView.recyclerViewHistory.setHasFixedSize(true)
         myFragmentView.recyclerViewHistory.layoutManager = LinearLayoutManager(context)
+        initRecyclerView()
         getPresenter().fillRecyclerView()
     }
 
-    override fun fillRecyclerView(list:List<ConnectionHistory>) {
-        val arrayListConnectionHistory = ArrayList(list)
+    fun initRecyclerView() {
+        val arrayListConnectionHistory = ArrayList<ConnectionHistory>()
         connectionHistoryAdapter = object : UrlHistoryAdapter(arrayListConnectionHistory) {
             override fun onClickItem(connectionHistory: ConnectionHistory, position: Int) {
                 getPresenter().openNextFragment(mainActivity.mainPresenter,connectionHistory)
@@ -47,6 +49,8 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
 
             override fun onDeleteItem(connectionHistory: ConnectionHistory) {
                 getPresenter().deleteConnectionHistory(connectionHistory)
+                if (connectionHistoryAdapter.itemCount == 0)
+                    showEmpty()
             }
 
             override fun onEditItem(connectionHistory: ConnectionHistory, position: Int) {
@@ -55,7 +59,18 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         }
 
         myFragmentView.recyclerViewHistory.adapter = connectionHistoryAdapter
-        connectionHistoryAdapter.notifyDataSetChanged()
+    }
+
+    override fun fillRecyclerView(list:List<ConnectionHistory>) {
+        val arrayListConnectionHistory = ArrayList(list)
+        if (!arrayListConnectionHistory.isEmpty()) {
+            showView()
+            connectionHistoryAdapter.addAll(arrayListConnectionHistory)
+            connectionHistoryAdapter.notifyDataSetChanged()
+        } else {
+            showEmpty()
+        }
+
     }
 
     override fun showDialogForCreate() {
@@ -98,12 +113,26 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         activity.hideKeyboard()
     }
 
+    override fun showEmpty() {
+        myFragmentView.recyclerViewHistory.visibility = View.GONE
+        myFragmentView.emptyLayout.visibility = View.VISIBLE
+    }
+
+    override fun showView() {
+        myFragmentView.recyclerViewHistory.visibility = View.VISIBLE
+        myFragmentView.emptyLayout.visibility = View.GONE
+    }
+
 
     fun addConnectionHistory() {
         val connectionHistory = collectConnectionHistory()
         getPresenter().saveConnectionHistory(connectionHistory)
+        if (connectionHistoryAdapter.itemCount == 0)
+            showView()
         connectionHistoryAdapter.addItem(connectionHistory)
     }
+
+
 
 
     private fun fillDialogVariables(connectionHistory: ConnectionHistory) {

@@ -9,5 +9,6 @@ interface SettingsView: MvpView {
     fun showRestTimeoutDialog()
     fun showTcpTimeoutDialog()
     fun showTcpEncodingDialog()
+    fun showPingTimeoutDialog()
     fun closeDialog()
 }

@@ -172,6 +172,47 @@
                     android:textSize="@dimen/default_secondary_text" />
 
             </LinearLayout>
+
+            <include layout="@layout/divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="@string/ping"
+                android:textColor="@color/textColorLight"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/pingTimeoutLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeout"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/default_primary_text" />
+
+                <TextView
+                    android:id="@+id/pingTimeoutTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeout_description"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="@dimen/default_secondary_text" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

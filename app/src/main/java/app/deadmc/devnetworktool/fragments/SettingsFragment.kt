@@ -30,6 +30,7 @@ class SettingsFragment : BaseFragment(), SettingsView {
         activity.setTitle(R.string.settings)
         initTcpUdp()
         initRest()
+        initPing()
         return myFragmentView
     }
 
@@ -60,6 +61,13 @@ class SettingsFragment : BaseFragment(), SettingsView {
         }
     }
 
+    private fun initPing() {
+        myFragmentView.pingTimeoutTextView.text = getString(R.string.value_ms,DevPreferences.pingDelay)
+        myFragmentView.pingTimeoutLayout.setOnClickListener {
+            settingsPresenter.showPingTimeoutDialog()
+        }
+    }
+
     override fun showRestTimeoutDialog() {
         currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.restTimeoutAmount.toString(), {
             DevPreferences.restTimeoutAmount = it.toLong()
@@ -78,6 +86,13 @@ class SettingsFragment : BaseFragment(), SettingsView {
         currentDialog = showSpinnerDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.tcpUdpEncoding, {
             DevPreferences.tcpUdpEncoding = it
             myFragmentView.currentTcpUdpEncodingTextView.text = it
+        })
+    }
+
+    override fun showPingTimeoutDialog() {
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.pingDelay.toString(), {
+            DevPreferences.pingDelay = it
+            myFragmentView.tcpTimeoutTextView.text = getString(R.string.value_ms,it)
         })
     }
 

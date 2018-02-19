@@ -17,6 +17,10 @@ class SettingsPresenter : BasePresenter<SettingsView>() {
         viewState.showTcpEncodingDialog()
     }
 
+    fun showPingTimeoutDialog() {
+        viewState.showPingTimeoutDialog()
+    }
+
     fun closeDialog() {
         viewState.closeDialog()
     }
