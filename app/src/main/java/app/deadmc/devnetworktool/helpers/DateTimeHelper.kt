@@ -38,9 +38,20 @@ fun getDateFromTimestamp(timestamp: Long, context: Context): String {
 }
 
 fun getDateAndTime(timestamp: Long, context: Context): String {
+    safe {
+        val date = Date(timestamp)
+        val simpleDateFormat = SimpleDateFormat()
+        val dateLocalizedFormatPattern = simpleDateFormat.toLocalizedPattern()
+        val currentDateFormat: DateFormat = SimpleDateFormat(dateLocalizedFormatPattern)
+        return currentDateFormat.format(date)
+    }
+    return ""
+    /*
     val date = getDateFromTimestamp(timestamp, context)
     val time = getTimeFromTimestamp(timestamp)
     return date + " " + time
+    */
+
 }
 
 
