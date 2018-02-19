@@ -4,11 +4,11 @@ import app.deadmc.devnetworktool.events.RestHistoryEvent
 import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.extensions.asyncDelete
 import app.deadmc.devnetworktool.extensions.deferredFindById
+import app.deadmc.devnetworktool.extensions.deferredSelectDesc
 import app.deadmc.devnetworktool.interfaces.views.RestHistoryView
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
-import com.orm.SugarRecord
 import kotlinx.coroutines.experimental.launch
 
 @InjectViewState
@@ -42,7 +42,7 @@ class RestHistoryPresenter : BasePresenter<RestHistoryView>() {
         launch {
             Log.e(TAG,"coroutine")
             safe {
-                val list = deferredSelectDesk(RestRequestHistory::class.java).await()
+                val list = deferredSelectDesc(RestRequestHistory::class.java).await()
                 if (list != null)
                     viewState.fillRecyclerView(list)
             }
@@ -51,7 +51,14 @@ class RestHistoryPresenter : BasePresenter<RestHistoryView>() {
 
         */
 
-        viewState.fillRecyclerView(SugarRecord.listAll(RestRequestHistory::class.java))
+        //viewState.fillRecyclerView(SugarRecord.listAll(RestRequestHistory::class.java))
+
+
+        launch {
+            val list = deferredSelectDesc(RestRequestHistory::class.java).await()
+            viewState.fillRecyclerView(list)
+        }
+
     }
 
 }

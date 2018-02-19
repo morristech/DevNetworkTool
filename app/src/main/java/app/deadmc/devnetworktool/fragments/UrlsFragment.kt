@@ -108,9 +108,9 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun hideDialog() {
+        activity.hideKeyboard()
         alertDialog?.dismiss()
         getPresenter().currentConnectionHistory = ConnectionHistory()
-        activity.hideKeyboard()
     }
 
     override fun showEmpty() {

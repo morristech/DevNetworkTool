@@ -29,7 +29,7 @@ fun <T> deferredFindById(type: Class<T>, id: Long): Deferred<T> {
     }
 }
 
-fun <T> deferredSelectDesk(type: Class<T>, whereClause: String? = null, args: String? = null): Deferred<List<T>> {
+fun <T> deferredSelectDesc(type: Class<T>, whereClause: String? = null, args: String? = null): Deferred<List<T>> {
     return async {
         //SugarRecord.find(type, whereClause, args, null, null,"lis").toList()
         SugarRecord.find(type,whereClause, if (args != null) arrayOf(args) else arrayOf(),null,"last_usage DESC",null).toList()

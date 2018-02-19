@@ -4,7 +4,7 @@ package app.deadmc.devnetworktool.presenters
 import android.util.Log
 import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.constants.PING_FRAGMENT
-import app.deadmc.devnetworktool.extensions.deferredSelectDesk
+import app.deadmc.devnetworktool.extensions.deferredSelectDesc
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.launch
@@ -20,7 +20,7 @@ class PingConnectionsPresenter : ConnectionsPresenter() {
     override fun fillRecyclerView() {
         launch {
             Log.e(TAG,"coroutine")
-            val list = deferredSelectDesk(ConnectionHistory::class.java, "type = ?", PING).await()
+            val list = deferredSelectDesc(ConnectionHistory::class.java, "type = ?", PING).await()
             viewState.fillRecyclerView(list)
         }
     }

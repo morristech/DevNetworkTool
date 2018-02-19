@@ -8,8 +8,12 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerViewHistory" />
+        android:layout_height="match_parent" />
+
+
+    <include layout="@layout/layout_empty_list" />
+
+
 </RelativeLayout>
