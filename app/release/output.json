@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":11},"outputFile":{"path":"D:\\Projects\\DevNetworkTool\\app\\release\\app-release.apk"},"properties":{"packageId":"app.deadmc.devnetworktool","split":""}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":12},"path":"app-release.apk","properties":{"packageId":"app.deadmc.devnetworktool","split":"","minSdkVersion":"15"}}]

@@ -5,16 +5,19 @@ import app.deadmc.devnetworktool.constants.UDP_CLIENT
 import app.deadmc.devnetworktool.extensions.deferredSelectDesc
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 @InjectViewState
 class UdpConnectionsPresenter : ConnectionsPresenter() {
 
     override fun fillRecyclerView() {
         //val list = SugarRecord.find(ConnectionHistory::class.java, "type = ?", UDP_CLIENT)
-        launch {
+        val ref = viewState.asReference()
+        launch(UI) {
             val list = deferredSelectDesc(ConnectionHistory::class.java, "type = ?", UDP_CLIENT).await()
-            viewState.fillRecyclerView(list)
+            ref().fillRecyclerView(list)
         }
     }
 }

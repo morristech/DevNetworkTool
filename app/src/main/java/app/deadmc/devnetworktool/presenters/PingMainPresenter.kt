@@ -7,7 +7,9 @@ import app.deadmc.devnetworktool.interfaces.views.PingMainView
 import app.deadmc.devnetworktool.models.PingStructure
 import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 @InjectViewState
 class PingMainPresenter : BasePresenter<PingMainView>() {
@@ -37,7 +39,7 @@ class PingMainPresenter : BasePresenter<PingMainView>() {
     }
 
     private fun getPings() {
-        launch {
+        launch(UI) {
             while (working) {
                 val rawPing = getPing(currentUrl).await()
                 RxBus.post(PingEvent(PingStructure(rawPing)))

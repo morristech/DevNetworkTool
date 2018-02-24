@@ -89,7 +89,7 @@ class PingMainFragment : BaseFragment(), PingMainView {
 
             override fun onPageSelected(position: Int) {
                 pingPresenter.currentPage = position
-                myFragmentView.viewPager.swipeEnabled = position == 1
+                myFragmentView.viewPager.swipeEnabled = position != 1
             }
 
             override fun onPageScrollStateChanged(state: Int) {

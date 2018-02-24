@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import app.deadmc.devnetworktool.views.SwipeLayout
 import kotlinx.android.synthetic.main.item_edit_delete.view.*
@@ -54,8 +55,11 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
     }
 
     fun addAll(list:ArrayList<T>) {
-        arrayList.addAll(list)
-        notifyDataSetChanged()
+        safe {
+            arrayList.clear()
+            arrayList.addAll(list)
+            notifyDataSetChanged()
+        }
     }
 
 

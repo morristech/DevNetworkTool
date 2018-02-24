@@ -32,6 +32,6 @@ class MainApplication : Application() {
         SchemaGenerator(this).createDatabase(SugarDb(this).db)
         ConnectionHistory("test tcp connection", "http://google.com", 80, TCP_CLIENT).save()
         ConnectionHistory("test udp connection", "127.0.0.1", 1055, UDP_CLIENT).save()
-        ConnectionHistory("test ping", "http://www.speedtest.net/", 80, PING).save()
+        ConnectionHistory("test ping", "http://google.com/", 80, PING).save()
     }
 }

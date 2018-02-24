@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.models
 
+import app.deadmc.devnetworktool.extensions.asyncSave
 import app.deadmc.devnetworktool.helpers.getDateTimeFromTimestamp
 import app.deadmc.devnetworktool.interfaces.model.BaseModel
 import com.orm.SugarRecord
@@ -31,6 +32,7 @@ class ConnectionHistory : SugarRecord, Serializable, BaseModel {
 
     fun setLastUsageDefault() {
         this.lastUsage = System.currentTimeMillis()
+        asyncSave()
     }
 
     override fun getUniqueId(): String {

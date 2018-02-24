@@ -5,6 +5,7 @@ import app.deadmc.devnetworktool.events.RestHistoryEvent
 import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.events.RestResponseEvent
 import app.deadmc.devnetworktool.extensions.deferredSave
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -50,18 +51,20 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     fun sendRequest() {
         runRestHistoryEventAfterSave()
         Log.e(TAG,"sendRequest")
-        compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
-                .subscribeOn(Schedulers.io())
-                .timeout(DevPreferences.restTimeoutAmount,TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe({
-                    Log.e(TAG,"response")
-                    RxBus.post(RestResponseEvent(it))
-                }, {
-                    Log.e(TAG, Log.getStackTraceString(it))
-                })
-        )
+        safe {
+            compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
+                    .subscribeOn(Schedulers.io())
+                    .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe({
+                        Log.e(TAG, "response")
+                        RxBus.post(RestResponseEvent(it))
+                    }, {
+                        Log.e(TAG, Log.getStackTraceString(it))
+                    })
+            )
+        }
     }
 
     fun runRestHistoryEventAfterSave() {

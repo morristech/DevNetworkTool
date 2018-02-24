@@ -14,6 +14,7 @@ import app.deadmc.devnetworktool.adapters.JsonInputsAdapter
 import app.deadmc.devnetworktool.adapters.ReceivedMessagesAdapter
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.getTimeFromTimestamp
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.WorkingConnectionView
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import app.deadmc.devnetworktool.models.JsonInput
@@ -162,26 +163,20 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     }
 
     override fun addLineToAdapter(receivedMessage: ReceivedMessage) {
-        Log.e(TAG,"addLineToAdapter")
-        try {
+        safe {
             activity.runOnUiThread {
-                //receivedMessageArrayList.add(receivedMessage)
                 receivedMessagesAdapter.addItem(receivedMessage)
                 receivedMessagesAdapter.notifyItemInserted(receivedMessageArrayList.size - 1)
             }
-        } catch (e: Exception) {
         }
     }
 
     companion object {
         fun getInstance(serializable: Serializable): WorkingConnectionFragment {
             val fragment = WorkingConnectionFragment()
-
             val args = Bundle()
             args.putSerializable("connection_history", serializable)
-
             fragment.arguments = args
-
             return fragment
         }
     }

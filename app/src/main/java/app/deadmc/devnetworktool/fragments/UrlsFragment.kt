@@ -67,7 +67,6 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
             if (!arrayListConnectionHistory.isEmpty()) {
                 showView()
                 connectionHistoryAdapter.addAll(arrayListConnectionHistory)
-                connectionHistoryAdapter.notifyDataSetChanged()
             } else {
                 showEmpty()
             }

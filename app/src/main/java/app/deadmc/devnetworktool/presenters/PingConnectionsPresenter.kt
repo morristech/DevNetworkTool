@@ -8,7 +8,9 @@ import app.deadmc.devnetworktool.extensions.deferredSelectDesc
 import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.models.ConnectionHistory
 import com.arellomobile.mvp.InjectViewState
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 @InjectViewState
 class PingConnectionsPresenter : ConnectionsPresenter() {
@@ -19,11 +21,12 @@ class PingConnectionsPresenter : ConnectionsPresenter() {
     }
 
     override fun fillRecyclerView() {
-        launch {
+        val ref = viewState.asReference()
+        launch(UI) {
             Log.e(TAG,"coroutine")
             safe {
                 val list = deferredSelectDesc(ConnectionHistory::class.java, "type = ?", PING).await()
-                viewState.fillRecyclerView(list)
+                ref().fillRecyclerView(list)
             }
         }
     }
