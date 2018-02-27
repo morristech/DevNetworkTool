@@ -3,6 +3,7 @@ package app.deadmc.devnetworktool.fragments.socket_connections
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
+import app.deadmc.devnetworktool.extensions.asyncSave
 import app.deadmc.devnetworktool.helpers.portFromString
 
 import app.deadmc.devnetworktool.models.ConnectionHistory

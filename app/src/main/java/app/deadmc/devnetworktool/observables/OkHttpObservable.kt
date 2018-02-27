@@ -35,7 +35,7 @@ object OkHttpObservable {
                 val body = response.body().string()
                 val responseDev = ResponseDev(headers, body, code, time,url)
                 Observable.just(responseDev)
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 Log.e("OkHttpObservable",Log.getStackTraceString(e))
                 Observable.error(e)
             }

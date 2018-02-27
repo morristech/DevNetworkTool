@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 val TIME_FORMAT: DateFormat = SimpleDateFormat("HH:mm:ss")
-val DATE_TIME_FORMAT: DateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+val DATE_TIME_FORMAT: DateFormat = SimpleDateFormat("MMM d, yyyy HH:mm:ss")
 val DATE_FORMAT: DateFormat = SimpleDateFormat("dd.MM.yyyy")
 val currentTime: String
     get() {

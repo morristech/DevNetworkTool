@@ -18,6 +18,7 @@ import app.deadmc.devnetworktool.adapters.KeyValueAdapter
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.fragments.BaseFragment
 import app.deadmc.devnetworktool.helpers.AllHeaders
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
 import app.deadmc.devnetworktool.models.RestRequestHistory
@@ -116,25 +117,29 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
     }
 
     private fun initHeadersRecyclerView() {
-        initRecyclerView(myFragmentView.headersRecyclerView)
-        keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
-            override fun onEditItem(element: KeyValueModel, position: Int) {
-                restPresenter.showDialogForHeader(element, position)
+        safe {
+            initRecyclerView(myFragmentView.headersRecyclerView)
+            keyValueAdapterHeaders = object : KeyValueAdapter(restPresenter.headersArrayList) {
+                override fun onEditItem(element: KeyValueModel, position: Int) {
+                    restPresenter.showDialogForHeader(element, position)
+                }
             }
-        }
 
-        myFragmentView.headersRecyclerView.adapter = keyValueAdapterHeaders
+            myFragmentView.headersRecyclerView.adapter = keyValueAdapterHeaders
+        }
 
     }
 
     private fun initRequestRecyclerView() {
-        initRecyclerView(myFragmentView.requestRecyclerView)
-        keyValueAdapterRequest = object : KeyValueAdapter(restPresenter.requestArrayList) {
-            override fun onEditItem(element: KeyValueModel, position: Int) {
-                restPresenter.showDialogForRequest(element, position)
+        safe {
+            initRecyclerView(myFragmentView.requestRecyclerView)
+            keyValueAdapterRequest = object : KeyValueAdapter(restPresenter.requestArrayList) {
+                override fun onEditItem(element: KeyValueModel, position: Int) {
+                    restPresenter.showDialogForRequest(element, position)
+                }
             }
+            myFragmentView.requestRecyclerView.adapter = keyValueAdapterRequest
         }
-        myFragmentView.requestRecyclerView.adapter = keyValueAdapterRequest
     }
 
     private fun initRecyclerView(recyclerView: RecyclerView?) {

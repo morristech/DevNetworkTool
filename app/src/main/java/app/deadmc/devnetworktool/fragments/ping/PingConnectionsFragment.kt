@@ -3,6 +3,7 @@ package app.deadmc.devnetworktool.fragments.ping
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.PING
+import app.deadmc.devnetworktool.extensions.asyncSave
 import app.deadmc.devnetworktool.fragments.UrlsFragment
 import app.deadmc.devnetworktool.interfaces.views.ConnectionsView
 import app.deadmc.devnetworktool.models.ConnectionHistory

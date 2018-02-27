@@ -129,9 +129,11 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
             override fun onDeleteItem(element: ReceivedMessage) {
             }
         }
-        myFragmentView.recyclerViewMessages.adapter = receivedMessagesAdapter
-        myFragmentView.recyclerViewMessages.layoutManager = LinearLayoutManager(context)
-        workingConnectionPresenter.fillReceivedMessageList()
+        safe {
+            myFragmentView.recyclerViewMessages.adapter = receivedMessagesAdapter
+            myFragmentView.recyclerViewMessages.layoutManager = LinearLayoutManager(context)
+            workingConnectionPresenter.fillReceivedMessageList()
+        }
     }
 
     override fun fillReceivedMessageList(arrayListMessageHistory: ArrayList<MessageHistory>) {

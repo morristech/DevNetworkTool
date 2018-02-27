@@ -8,6 +8,7 @@ import app.deadmc.devnetworktool.extensions.deferredSave
 import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.RestRequestView
 import app.deadmc.devnetworktool.models.KeyValueModel
+import app.deadmc.devnetworktool.models.ResponseDev
 import app.deadmc.devnetworktool.models.RestRequestHistory
 import app.deadmc.devnetworktool.observables.OkHttpObservable
 import app.deadmc.devnetworktool.observables.RxBus
@@ -56,6 +57,9 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
                     .subscribeOn(Schedulers.io())
                     .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorReturn {
+                        ResponseDev("",it.localizedMessage?:"Request exceeded timeout",0,DevPreferences.restTimeoutAmount.toInt(),currentUrl)
+                    }
                     .unsubscribeOn(Schedulers.io())
                     .subscribe({
                         Log.e(TAG, "response")

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.helpers.formatString
+import app.deadmc.devnetworktool.helpers.safe
 import app.deadmc.devnetworktool.interfaces.views.FullView
 import app.deadmc.devnetworktool.presenters.FullViewPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -32,10 +33,12 @@ class FullViewActivity : BaseActivity(), FullView {
     }
 
     private fun initToolbar() {
-        toolbar = findViewById<View>(R.id.toobar) as Toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        safe {
+            toolbar = findViewById<View>(R.id.toobar) as Toolbar
+            setSupportActionBar(toolbar)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
