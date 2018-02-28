@@ -49,7 +49,7 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
         return arrayList.size
     }
 
-    fun addItem(element: T) {
+    open fun addItem(element: T) {
         arrayList.add(0,element)
         notifyItemInserted(0)
     }

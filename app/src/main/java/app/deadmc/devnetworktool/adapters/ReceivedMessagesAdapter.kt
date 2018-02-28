@@ -31,4 +31,9 @@ abstract class ReceivedMessagesAdapter(val context: Context, val receivedMessage
 
     override fun onEditItem(element: ReceivedMessage, position: Int) {
     }
+
+    override fun addItem(element: ReceivedMessage) {
+        arrayList.add(0,element)
+        notifyItemInserted(arrayList.size-1)
+    }
 }

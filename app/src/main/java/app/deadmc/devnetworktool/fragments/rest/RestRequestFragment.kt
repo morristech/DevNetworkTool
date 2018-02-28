@@ -2,6 +2,7 @@ package app.deadmc.devnetworktool.fragments.rest
 
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -113,6 +114,8 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+        val array:Array<String> = resources.getStringArray(R.array.methods)
+        methodSpinner?.setSelection( array.binarySearch(restPresenter.currentMethod))
 
     }
 
@@ -167,7 +170,6 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
             keyValueModel.value = editTextValue?.text.toString()
             if (isNew) {
                 keyValueAdapterHeaders.addItem(keyValueModel)
-                keyValueAdapterHeaders.notifyItemInserted(keyValueAdapterHeaders.itemCount-1)
             } else {
                 keyValueAdapterHeaders.notifyItemChanged(position)
             }
@@ -212,7 +214,6 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
             keyValueModel.value = editTextValue?.text.toString()
             if (isNew || position ==-1) {
                 keyValueAdapterRequest.addItem(keyValueModel)
-                keyValueAdapterRequest.notifyItemInserted(keyValueAdapterRequest.itemCount-1)
             } else {
                 keyValueAdapterRequest.notifyItemChanged(position)
             }

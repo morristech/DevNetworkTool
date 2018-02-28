@@ -168,7 +168,6 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
         safe {
             activity.runOnUiThread {
                 receivedMessagesAdapter.addItem(receivedMessage)
-                receivedMessagesAdapter.notifyItemInserted(receivedMessageArrayList.size - 1)
             }
         }
     }
