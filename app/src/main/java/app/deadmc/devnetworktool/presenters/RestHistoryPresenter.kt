@@ -14,6 +14,7 @@ import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
 import com.orm.SugarRecord
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
 
@@ -31,7 +32,7 @@ class RestHistoryPresenter : BasePresenter<RestHistoryView>() {
 
     fun addElementById(id:Long) {
         val ref = viewState.asReference()
-        launch(UI) {
+        async(UI) {
             safe {
                 val restRequestHistory = deferredFindById(RestRequestHistory::class.java, id).await()
                 Log.e(TAG, "restRequestHistory $id $restRequestHistory")
@@ -49,7 +50,7 @@ class RestHistoryPresenter : BasePresenter<RestHistoryView>() {
     }
 
     fun fillRecyclerView() {
-        launch {
+        async(UI) {
             val list = deferredSelectAll(RestRequestHistory::class.java).await()
             viewState.fillRecyclerView(list)
         }

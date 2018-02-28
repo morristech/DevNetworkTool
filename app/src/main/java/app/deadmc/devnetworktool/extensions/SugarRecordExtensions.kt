@@ -5,9 +5,10 @@ import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.coroutines.experimental.bg
 
 fun SugarRecord.deferredSave(): Deferred<Long> {
-    return async(UI) {
+    return bg {
         this@deferredSave.save()
     }
 }
@@ -25,13 +26,13 @@ fun SugarRecord.asyncDelete() {
 }
 
 fun <T> deferredFindById(type: Class<T>, id: Long): Deferred<T> {
-    return async(UI) {
+    return bg {
         SugarRecord.findById(type, id)
     }
 }
 
 fun <T> deferredSelectDesc(type: Class<T>, whereClause: String? = null, args: String? = null): Deferred<List<T>> {
-    return async(UI) {
+    return bg {
         //SugarRecord.find(type, whereClause, args, null, null,"lis").toList()
         SugarRecord.find(type,whereClause, if (args != null) arrayOf(args) else arrayOf(),null,"last_usage DESC",null).toList()
         //SugarRecord.find(type, whereClause, args).toList()
@@ -39,7 +40,7 @@ fun <T> deferredSelectDesc(type: Class<T>, whereClause: String? = null, args: St
 }
 
 fun <T> deferredSelectAll(type: Class<T>):Deferred<List<T>> {
-    return async(UI) {
+    return bg {
         SugarRecord.listAll(type,"last_usage DESC")
     }
 }

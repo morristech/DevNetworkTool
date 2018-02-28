@@ -32,8 +32,8 @@ android {
         applicationId "app.deadmc.devnetworktool"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 13
-        versionName "2.0.1"
+        versionCode 14
+        versionName "2.0.2"
         vectorDrawables.useSupportLibrary = true
         generatedDensities = []
     }

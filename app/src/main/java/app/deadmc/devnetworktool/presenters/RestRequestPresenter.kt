@@ -16,6 +16,8 @@ import app.deadmc.devnetworktool.shared_preferences.DevPreferences
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -72,7 +74,7 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     }
 
     fun runRestHistoryEventAfterSave() {
-        launch {
+        async(UI) {
             val id = RestRequestHistory(currentUrl, currentMethod, headersArrayList, requestArrayList).deferredSave().await()
             RxBus.post(RestRequestEvent(id))
         }
