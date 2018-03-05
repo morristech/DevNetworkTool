@@ -39,12 +39,12 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     }
 
 
-    fun showDialogForHeader(element:KeyValueModel, position:Int = -1) {
-        viewState.showDialogForHeader(element,position)
+    fun showDialogForHeader(element: KeyValueModel, position: Int = -1) {
+        viewState.showDialogForHeader(element, position)
     }
 
-    fun showDialogForRequest(element:KeyValueModel, position:Int = -1) {
-        viewState.showDialogForRequest(element,position)
+    fun showDialogForRequest(element: KeyValueModel, position: Int = -1) {
+        viewState.showDialogForRequest(element, position)
     }
 
     fun hideDialog() {
@@ -53,24 +53,22 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
 
     fun sendRequest() {
         runRestHistoryEventAfterSave()
-        Log.e(TAG,"sendRequest")
-        safe {
-            compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
-                    .subscribeOn(Schedulers.io())
-                    .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .onErrorReturn {
-                        ResponseDev("",it.localizedMessage?:"Request exceeded timeout",0,DevPreferences.restTimeoutAmount.toInt(),currentUrl)
-                    }
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe({
-                        Log.e(TAG, "response")
-                        RxBus.post(RestResponseEvent(it))
-                    }, {
-                        Log.e(TAG, Log.getStackTraceString(it))
-                    })
-            )
-        }
+        Log.e(TAG, "sendRequest")
+        compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
+                .subscribeOn(Schedulers.io())
+                .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorReturn {
+                    ResponseDev("", it.localizedMessage
+                            ?: "Request exceeded timeout", 0, DevPreferences.restTimeoutAmount.toInt(), currentUrl)
+                }
+                .unsubscribeOn(Schedulers.io())
+                .subscribe({
+                    Log.e(TAG, "response")
+                    RxBus.post(RestResponseEvent(it))
+                }, {
+                    Log.e(TAG, Log.getStackTraceString(it))
+                }))
     }
 
     fun runRestHistoryEventAfterSave() {

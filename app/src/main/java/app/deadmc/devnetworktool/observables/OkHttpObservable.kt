@@ -21,7 +21,6 @@ object OkHttpObservable {
     fun getObservable(url: String, requestMethod: String, headers: HashMap<String, String>, body: HashMap<String, String>): Observable<ResponseDev> {
         var okHttpClient = getOkHttpBuilder()
                 .retryOnConnectionFailure(true)
-                .connectTimeout(DevPreferences.restTimeoutAmount,TimeUnit.MILLISECONDS)
                 .build()
 
         return Observable.defer<ResponseDev>( {
