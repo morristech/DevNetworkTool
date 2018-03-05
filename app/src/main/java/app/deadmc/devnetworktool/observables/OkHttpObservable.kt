@@ -9,6 +9,7 @@ import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
+import java.io.InterruptedIOException
 import java.security.cert.X509Certificate
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -36,7 +37,12 @@ object OkHttpObservable {
                 Observable.just(responseDev)
             } catch (e: Exception) {
                 Log.e("OkHttpObservable",Log.getStackTraceString(e))
-                Observable.error(e)
+                if (e is InterruptedIOException) {
+                    Log.e("OkHttpObservable","wow")
+                }
+                Observable.just(ResponseDev("", e.localizedMessage
+                        ?: "Request exceeded timeout", 0, DevPreferences.restTimeoutAmount.toInt(), url))
+                //Observable.error(e)
             }
         })
     }
