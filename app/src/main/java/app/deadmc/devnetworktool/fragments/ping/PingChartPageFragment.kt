@@ -34,9 +34,9 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
             addDataToChart(pingStructure.ping)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_pager_chart, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_pager_chart, container, false)
         initGraphic()
         initCompleted = true
         return myFragmentView
@@ -61,7 +61,7 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
         myFragmentView.chart.setDrawGridBackground(false)
         myFragmentView.chart.maxHighlightDistance = 300f
 
-        myFragmentView.chart.setBackgroundColor(ContextCompat.getColor(activity, R.color.white))
+        myFragmentView.chart.setBackgroundColor(ContextCompat.getColor(activity!!, R.color.white))
 
         val x = myFragmentView.chart.xAxis
         x.isEnabled = false
@@ -69,10 +69,10 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
         //y.setTypeface(mTfLight);
         y.setLabelCount(8, false)
         y.axisMinimum = 0f
-        y.textColor = ContextCompat.getColor(activity, R.color.textColor)
+        y.textColor = ContextCompat.getColor(activity!!, R.color.textColor)
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         y.setDrawGridLines(false)
-        y.axisLineColor = ContextCompat.getColor(activity, R.color.textColor)
+        y.axisLineColor = ContextCompat.getColor(activity!!, R.color.textColor)
 
         myFragmentView.chart.axisRight.isEnabled = false
         showEmpty()
@@ -101,9 +101,9 @@ class PingChartPageFragment : PingBaseFragment(), PingView {
             lineDataSet.setDrawCircles(false)
             lineDataSet.lineWidth = 1.0f
             lineDataSet.highlightLineWidth = 1.0f
-            lineDataSet.highLightColor = ContextCompat.getColor(activity, R.color.textColorLight)
-            lineDataSet.color = ContextCompat.getColor(activity, R.color.colorPrimaryDark)
-            lineDataSet.fillColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+            lineDataSet.highLightColor = ContextCompat.getColor(activity!!, R.color.textColorLight)
+            lineDataSet.color = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+            lineDataSet.fillColor = ContextCompat.getColor(activity!!, R.color.colorPrimary)
             lineDataSet.fillAlpha = 150
             lineDataSet.setDrawHorizontalHighlightIndicator(true)
             lineDataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> 0f }

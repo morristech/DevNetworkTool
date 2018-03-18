@@ -1,5 +1,6 @@
 package app.deadmc.devnetworktool.presenters
 
+import android.util.Log
 import app.deadmc.devnetworktool.events.RestResponseEvent
 import app.deadmc.devnetworktool.interfaces.views.RestResponseView
 import app.deadmc.devnetworktool.models.ResponseDev
@@ -17,6 +18,12 @@ class RestResponsePresenter : BasePresenter<RestResponseView>() {
     }
 
     fun setResponse(responseDev: ResponseDev) {
-        viewState.setResponse(responseDev)
+        if (responseDev.error == null) {
+            Log.e(TAG,"setSuccessResponse")
+            viewState.setSuccessResponse(responseDev)
+        } else {
+            Log.e(TAG,"setErrorResponse")
+            viewState.setErrorResponse(responseDev)
+        }
     }
 }

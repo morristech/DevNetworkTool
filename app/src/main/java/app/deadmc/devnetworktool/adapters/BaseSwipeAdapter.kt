@@ -26,9 +26,9 @@ abstract class BaseSwipeAdapter<T:BaseModel>(protected val arrayList: ArrayList<
 
     abstract fun onEditItem(element: T, position: Int)
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView!!
+        this.recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): BaseSwipeAdapter<T>.ViewHolder {

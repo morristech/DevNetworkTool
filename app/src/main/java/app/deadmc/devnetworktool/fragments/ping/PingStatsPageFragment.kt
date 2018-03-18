@@ -47,13 +47,13 @@ class PingStatsPageFragment : PingBaseFragment(), PingView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val currentUrl = this.arguments.getString("current_url")
+        val currentUrl = this.arguments?.getString("current_url") ?:""
         pingPresenter.currentUrl = currentUrl
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_ping_stats, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_ping_stats, container, false)
         initElements()
         return myFragmentView
     }
@@ -74,7 +74,7 @@ class PingStatsPageFragment : PingBaseFragment(), PingView {
     }
 
     private fun initPingList() {
-        simpleStringAdapter = SimpleStringAdapter(activity, simpleStringArrayList)
+        simpleStringAdapter = SimpleStringAdapter(activity!!, simpleStringArrayList)
         myFragmentView.recyclerView.adapter = simpleStringAdapter
         setPingStats(true)
     }

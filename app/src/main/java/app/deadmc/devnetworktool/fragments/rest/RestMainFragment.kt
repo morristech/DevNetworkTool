@@ -23,9 +23,9 @@ class RestMainFragment : BaseFragment(), RestMainView {
     lateinit var mainRestPresenter: RestMainPresenter
     lateinit var restPagerAdapter: RestPagerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_rest, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_rest, container, false)
         initViewPager()
         hideProgress()
         return myFragmentView
@@ -37,7 +37,7 @@ class RestMainFragment : BaseFragment(), RestMainView {
 
     override fun onResume() {
         super.onResume()
-        activity.setTitle(R.string.rest_client)
+        activity?.setTitle(R.string.rest_client)
     }
 
     override fun showProgress() {
@@ -49,7 +49,7 @@ class RestMainFragment : BaseFragment(), RestMainView {
     }
 
     private fun initViewPager() {
-        restPagerAdapter = RestPagerAdapter(fragmentManager, activity)
+        restPagerAdapter = RestPagerAdapter(fragmentManager!!, activity!!)
         myFragmentView.viewPager.adapter = restPagerAdapter
         myFragmentView.viewPager.offscreenPageLimit = 3
         myFragmentView.viewPager.swipeEnabled = false

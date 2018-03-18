@@ -24,7 +24,7 @@ open class TcpConnectionsFragment : ConnectionsFragment(), ConnectionsView {
 
     override fun onResume() {
         super.onResume()
-        activity.setTitle(R.string.tcp_client)
+        activity?.setTitle(R.string.tcp_client)
     }
 
     override fun collectConnectionHistory():ConnectionHistory {

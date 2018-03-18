@@ -39,19 +39,15 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
     @InjectPresenter(type = PresenterType.WEAK, tag = FULL_VIEW)
     lateinit var fullViewPresenter: FullViewPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_rest_response, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_rest_response, container, false)
         initElements()
         return myFragmentView
     }
 
     override fun getPresenter(): BasePresenter<*> {
         return responseRestPresenter
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
     @ProvidePresenter(type = PresenterType.WEAK)
@@ -68,9 +64,12 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
         initLayout(myFragmentView.collapseLinearLayoutStats, myFragmentView.statsTitleLayout, myFragmentView.imageViewArrowStats)
         initLayout(myFragmentView.collapseLinearLayoutHeaders, myFragmentView.headerTitleLayout, myFragmentView.imageViewArrowHeader)
         initLayout(myFragmentView.collapseLinearLayoutRequest, myFragmentView.requestTitleLayout, myFragmentView.imageViewArrowRequest)
+        initLayout(myFragmentView.collapseLinearLayoutError, myFragmentView.errorTitleLayout, myFragmentView.imageViewArrowError)
         initRecyclerViews(myFragmentView.headersRecyclerView, null)
         initRecyclerViews(myFragmentView.statsRecyclerView, null)
         hideButton()
+        successResponseLayout.visibility = View.GONE
+        errorResponseLayout.visibility = View.GONE
     }
 
     fun hideButton() {
@@ -87,7 +86,6 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
             HTML -> myFragmentView.watchButton.text = getString(R.string.open_as) + " " + getString(R.string.html)
             UNDEFINED -> myFragmentView.watchButton.visibility = View.GONE
         }
-
 
         myFragmentView.watchButton.setOnClickListener({
             fullViewPresenter.text = responseDev.body
@@ -112,13 +110,21 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
     }
 
 
-    override fun setResponse(responseDev: ResponseDev) {
+    override fun setSuccessResponse(responseDev: ResponseDev) {
+        errorResponseLayout.visibility = View.GONE
+        successResponseLayout.visibility = View.VISIBLE
         initHeadersRecyclerView(responseDev.headers)
         initStatsRecyclerView(responseDev.code, responseDev.delay)
         bodyTextView!!.text = responseDev.body
         initButton(responseDev)
         collapseLinearLayoutStats.expand()
+    }
 
+    override fun setErrorResponse(responseDev: ResponseDev) {
+        successResponseLayout.visibility = View.GONE
+        errorResponseLayout.visibility = View.VISIBLE
+        errorTextView.text = responseDev.error?.localizedMessage ?: getString(R.string.no_error_description)
+        collapseLinearLayoutError.expand()
     }
 
     private fun initRecyclerViews(recyclerView: RecyclerView?, adapter: RecyclerView.Adapter<*>?) {
@@ -133,7 +139,7 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
         val arrayList = ArrayList<Spanned>()
         arrayList.add(fromHtml(getString(R.string.response_code) + " " + code))
         arrayList.add(fromHtml(getString(R.string.response_time) + " " + responseTime + " " + getString(R.string.ms)))
-        val parametersAdapter = ParametersAdapter(context, arrayList)
+        val parametersAdapter = ParametersAdapter(context!!, arrayList)
         initRecyclerViews(statsRecyclerView, parametersAdapter)
     }
 
@@ -147,7 +153,7 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
             arrayList.add(fromHtml("<b>$key</b>$value"))
         }
 
-        val parametersAdapter = ParametersAdapter(context, arrayList)
+        val parametersAdapter = ParametersAdapter(context!!, arrayList)
         initRecyclerViews(headersRecyclerView, parametersAdapter)
     }
 

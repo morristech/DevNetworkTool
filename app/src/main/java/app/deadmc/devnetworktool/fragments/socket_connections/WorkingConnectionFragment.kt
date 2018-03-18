@@ -45,11 +45,11 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (this.arguments != null)
-            workingConnectionPresenter.currentConnectionHistory = this.arguments.getSerializable("connection_history") as ConnectionHistory
+            workingConnectionPresenter.currentConnectionHistory = this.arguments?.getSerializable("connection_history") as ConnectionHistory
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_working_connection, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        myFragmentView = inflater.inflate(R.layout.fragment_working_connection, container, false)
         mainActivity = activity as MainActivity
         initElements()
         mainActivity.workingConnectionsPresenter = workingConnectionPresenter
@@ -125,7 +125,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
     }
 
     private fun initRecyclerViewMessages() {
-        receivedMessagesAdapter = object : ReceivedMessagesAdapter(context,receivedMessageArrayList) {
+        receivedMessagesAdapter = object : ReceivedMessagesAdapter(context!!,receivedMessageArrayList) {
             override fun onDeleteItem(element: ReceivedMessage) {
             }
         }
@@ -166,7 +166,7 @@ class WorkingConnectionFragment : BaseFragment(), WorkingConnectionView {
 
     override fun addLineToAdapter(receivedMessage: ReceivedMessage) {
         safe {
-            activity.runOnUiThread {
+            activity?.runOnUiThread {
                 receivedMessagesAdapter.addItem(receivedMessage)
             }
         }

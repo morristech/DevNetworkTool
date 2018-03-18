@@ -24,13 +24,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "app.deadmc.devnetworktool"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 16
         versionName "2.0.3"
         vectorDrawables.useSupportLibrary = true
@@ -55,7 +55,7 @@ android {
 
 
 ext {
-    support_version = "26.1.0"
+    support_version = "27.1.0"
     anko_version = "0.10.4"
 }
 

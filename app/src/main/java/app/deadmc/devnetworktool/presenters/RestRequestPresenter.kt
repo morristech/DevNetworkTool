@@ -59,15 +59,17 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
                 .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorReturn {
-                    ResponseDev("", it.localizedMessage
-                            ?: "Request exceeded timeout", 0, DevPreferences.restTimeoutAmount.toInt(), currentUrl)
+                    Log.e(TAG,"onErrorReturn")
+                    ResponseDev(delay = DevPreferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)
                 }
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
                     Log.e(TAG, "response")
                     RxBus.post(RestResponseEvent(it))
                 }, {
+                    Log.e(TAG, "error")
                     Log.e(TAG, Log.getStackTraceString(it))
+                    RxBus.post(RestResponseEvent( ResponseDev(delay = DevPreferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)))
                 }))
     }
 

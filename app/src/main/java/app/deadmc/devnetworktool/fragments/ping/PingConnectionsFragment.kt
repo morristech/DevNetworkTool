@@ -23,7 +23,7 @@ class PingConnectionsFragment : UrlsFragment(), ConnectionsView {
 
     override fun onResume() {
         super.onResume()
-        activity.setTitle(R.string.ping)
+        activity?.setTitle(R.string.ping)
     }
 
     override fun collectConnectionHistory(): ConnectionHistory {

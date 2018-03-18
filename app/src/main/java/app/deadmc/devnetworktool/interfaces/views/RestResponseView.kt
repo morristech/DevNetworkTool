@@ -4,5 +4,6 @@ import app.deadmc.devnetworktool.models.ResponseDev
 import com.arellomobile.mvp.MvpView
 
 interface RestResponseView : MvpView {
-    fun setResponse(responseDev: ResponseDev)
+    fun setSuccessResponse(responseDev: ResponseDev)
+    fun setErrorResponse(responseDev: ResponseDev)
 }

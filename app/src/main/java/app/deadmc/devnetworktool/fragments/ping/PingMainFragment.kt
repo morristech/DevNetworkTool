@@ -36,13 +36,13 @@ class PingMainFragment : BaseFragment(), PingMainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val currentConnectionHistory = this.arguments.getSerializable("connection_history") as ConnectionHistory
+        val currentConnectionHistory = this.arguments?.getSerializable("connection_history") as ConnectionHistory
         pingPresenter.currentUrl = currentConnectionHistory.ipAddress
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_ping, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_ping, container, false)
         initElements()
         return myFragmentView
     }
@@ -75,7 +75,7 @@ class PingMainFragment : BaseFragment(), PingMainView {
 
 
     private fun initViewPager() {
-        pingPagerAdapter = PingPagerAdapter(fragmentManager, activity, pingPresenter.currentUrl)
+        pingPagerAdapter = PingPagerAdapter(fragmentManager!!, activity!!, pingPresenter.currentUrl)
         myFragmentView.viewPager.adapter = pingPagerAdapter
         myFragmentView.viewPager.offscreenPageLimit = 3
         myFragmentView.tabLayout.setupWithViewPager(myFragmentView.viewPager)

@@ -25,8 +25,8 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
 
     override abstract fun getPresenter() : ConnectionsPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater?.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        myFragmentView = inflater.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)
         mainActivity = activity as MainActivity
         initElements()
         return myFragmentView
@@ -62,7 +62,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun fillRecyclerView(list:List<ConnectionHistory>) {
-        activity.runOnUiThread {
+        activity?.runOnUiThread {
             val arrayListConnectionHistory = ArrayList(list)
             if (!arrayListConnectionHistory.isEmpty()) {
                 showView()
@@ -74,12 +74,12 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun showDialogForCreate() {
-        val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+        val alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
         alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_url, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(getPresenter().currentConnectionHistory)
         alertDialogBuilder.setPositiveButton(R.string.add, { _, _ ->
-            activity.hideKeyboard()
+            activity?.hideKeyboard()
             addConnectionHistory()
             getPresenter().hideDialog()
         })
@@ -88,13 +88,13 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun showDialogForEdit(connectionHistory: ConnectionHistory, position: Int) {
-        val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+        val alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
         alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_url, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(connectionHistory)
 
         alertDialogBuilder.setPositiveButton(R.string.edit) { _, _ ->
-            activity.hideKeyboard()
+            activity?.hideKeyboard()
             connectionHistory.ipAddress = alertView.urlEditText.text.toString()
             connectionHistory.name = alertView.urlEditText.text.toString()
             connectionHistory.port = 80
@@ -103,7 +103,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
             getPresenter().hideDialog()
         }
         alertDialogBuilder.setOnDismissListener {
-            activity.hideKeyboard()
+            activity?.hideKeyboard()
             getPresenter().hideDialog()
         }
         alertDialog = alertDialogBuilder.create()
@@ -111,7 +111,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun hideDialog() {
-        activity.hideKeyboard()
+        activity?.hideKeyboard()
         alertDialog?.dismiss()
         getPresenter().currentConnectionHistory = ConnectionHistory()
     }
@@ -142,7 +142,7 @@ abstract class UrlsFragment : BaseFragment(), ConnectionsView {
         alertView.urlEditText.setText(connectionHistory.ipAddress)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         getPresenter().currentConnectionHistory = collectConnectionHistory()
     }

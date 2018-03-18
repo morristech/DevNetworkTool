@@ -73,6 +73,7 @@
     <string name="plus">"+"</string>
     <string name="headers">Headers</string>
     <string name="body">Body</string>
+    <string name="error">Error</string>
     <string name="response_code"><Data><![CDATA[ <b>Response code</b> ]]> </Data></string>
     <string name="response_length"><Data><![CDATA[ <b>Response length</b> ]]> </Data></string>
     <string name="response_time"><Data><![CDATA[ <b>Response time</b> ]]> </Data></string>
@@ -93,6 +94,7 @@
     <string name="last_usage">Last usage: %1$s</string>
     <string name="list_is_empty">List is empty </string>
     <string name="you_didnt_start_work_yes">You did not start yet</string>
+    <string name="no_error_description">No error description</string>
 
     <!-- end of default fill -->
 

@@ -23,7 +23,7 @@ class UdpConnectionsFragment : ConnectionsFragment() {
 
     override fun onResume() {
         super.onResume()
-        activity.setTitle(R.string.udp_client)
+        activity?.setTitle(R.string.udp_client)
     }
 
     override fun collectConnectionHistory():ConnectionHistory {

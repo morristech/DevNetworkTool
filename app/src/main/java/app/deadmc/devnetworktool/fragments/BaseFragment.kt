@@ -13,7 +13,7 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     val TAG = javaClass.simpleName
 
     fun checkActivityIsFinishing():Boolean {
-        if (activity.isFinishing)
+        if (activity!!.isFinishing)
             return true
         return false
     }

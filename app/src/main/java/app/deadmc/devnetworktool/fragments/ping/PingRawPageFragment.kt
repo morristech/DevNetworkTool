@@ -34,9 +34,9 @@ class PingRawPageFragment : PingBaseFragment(), PingView {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_pager_recyclerview, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_pager_recyclerview, container, false)
         initElements()
         return myFragmentView
     }
@@ -59,7 +59,7 @@ class PingRawPageFragment : PingBaseFragment(), PingView {
     }
 
     private fun initPingList() {
-        receivedMessagesAdapter = ReceivedPingsAdapter(activity, pingPresenter.pingStructureArrayList)
+        receivedMessagesAdapter = ReceivedPingsAdapter(activity!!, pingPresenter.pingStructureArrayList)
         myFragmentView.recyclerView.adapter = receivedMessagesAdapter
         safe {
             if (pingPresenter.currentPosition != 0 && pingPresenter.pingStructureArrayList.size > pingPresenter.currentPosition)
@@ -72,7 +72,7 @@ class PingRawPageFragment : PingBaseFragment(), PingView {
             showView()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         pingPresenter.currentPosition = linearLayoutManager!!.findLastVisibleItemPosition()
     }

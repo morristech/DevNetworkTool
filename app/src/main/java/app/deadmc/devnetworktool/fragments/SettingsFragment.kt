@@ -24,10 +24,10 @@ class SettingsFragment : BaseFragment(), SettingsView {
 
     var currentDialog:AlertDialog? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_settings, container, false)
-        activity.setTitle(R.string.settings)
+        myFragmentView = inflater.inflate(R.layout.fragment_settings, container, false)
+        activity?.setTitle(R.string.settings)
         initTcpUdp()
         initRest()
         initPing()
@@ -69,28 +69,28 @@ class SettingsFragment : BaseFragment(), SettingsView {
     }
 
     override fun showRestTimeoutDialog() {
-        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.restTimeoutAmount.toString(), {
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity!!,settingsPresenter,DevPreferences.restTimeoutAmount.toString(), {
             DevPreferences.restTimeoutAmount = it.toLong()
             myFragmentView.restTimeoutTextView.text = getString(R.string.value_ms,it)
         })
     }
 
     override fun showTcpTimeoutDialog() {
-        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.tcpTimeoutAmount.toString(), {
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity!!,settingsPresenter,DevPreferences.tcpTimeoutAmount.toString(), {
             DevPreferences.tcpTimeoutAmount = it
             myFragmentView.tcpTimeoutTextView.text = getString(R.string.value_ms,it)
         })
     }
 
     override fun showTcpEncodingDialog() {
-        currentDialog = showSpinnerDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.tcpUdpEncoding, {
+        currentDialog = showSpinnerDialog(checkActivityIsFinishing(),activity!!,settingsPresenter,DevPreferences.tcpUdpEncoding, {
             DevPreferences.tcpUdpEncoding = it
             myFragmentView.currentTcpUdpEncodingTextView.text = it
         })
     }
 
     override fun showPingTimeoutDialog() {
-        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity,settingsPresenter,DevPreferences.pingDelay.toString(), {
+        currentDialog = showTimeoutDialog(checkActivityIsFinishing(),activity!!,settingsPresenter,DevPreferences.pingDelay.toString(), {
             DevPreferences.pingDelay = it
             myFragmentView.pingTimeoutTextView.text = getString(R.string.value_ms,it)
         })
@@ -99,13 +99,13 @@ class SettingsFragment : BaseFragment(), SettingsView {
 
 
     override fun closeDialog() {
-        activity.hideKeyboard()
+        activity?.hideKeyboard()
         currentDialog?.dismiss()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        activity.hideKeyboard()
+        activity?.hideKeyboard()
         currentDialog?.setOnDismissListener(null)
         currentDialog?.dismiss()
     }

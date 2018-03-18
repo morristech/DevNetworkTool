@@ -58,9 +58,9 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
         return restPresenter
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_rest_request, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_rest_request, container, false)
         initElements()
         return myFragmentView
     }
@@ -178,7 +178,7 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
         initDialogEvents()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         editTextKey?.let {
             restPresenter.keyValueModel.key = it.text.toString()
@@ -196,7 +196,7 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
     override fun hideDialog() {
         restPresenter.keyValueModel = KeyValueModel()
         currentDialog?.dismiss()
-        activity.hideKeyboard()
+        activity?.hideKeyboard()
     }
 
     /**
@@ -227,8 +227,8 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
      * Init all views in header dialog
      */
     private fun initDialogVariablesHeader() {
-        alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = activity.layoutInflater.inflate(R.layout.dialog_key_value_header, null)
+        alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
+        alertView = activity?.layoutInflater?.inflate(R.layout.dialog_key_value_header, null)
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById(R.id.editTextKey)
         editTextValue = alertView?.findViewById(R.id.editTextValue)
@@ -241,8 +241,8 @@ class RestRequestFragment : BaseFragment(), RestRequestView {
      * Init all views in request dialog
      */
     private fun initDialogVariablesRequest() {
-        alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-        alertView = activity.layoutInflater.inflate(R.layout.dialog_add_key_value_request, null)
+        alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
+        alertView = activity?.layoutInflater?.inflate(R.layout.dialog_add_key_value_request, null)
         alertDialogBuilder?.setView(alertView)
         editTextKey = alertView?.findViewById(R.id.editTextKey)
         editTextValue = alertView?.findViewById(R.id.editTextValue)

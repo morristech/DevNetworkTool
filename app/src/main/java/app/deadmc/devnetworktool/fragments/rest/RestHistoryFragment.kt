@@ -23,9 +23,9 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
     private var restRequestHistoryArrayList: ArrayList<RestRequestHistory> = ArrayList()
     private lateinit var restRequestHistoryAdapter: RestRequestHistoryAdapter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater!!.inflate(R.layout.fragment_rest_history, container, false)
+        myFragmentView = inflater.inflate(R.layout.fragment_rest_history, container, false)
         initElements()
         return myFragmentView
     }
@@ -43,7 +43,7 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
     }
 
     fun initRecyclerView() {
-        restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context, ArrayList(restRequestHistoryArrayList)) {
+        restRequestHistoryAdapter = object : RestRequestHistoryAdapter(context!!, ArrayList(restRequestHistoryArrayList)) {
             override fun onDeleteItem(element: RestRequestHistory) {
                 restHistoryPresenter.deleteItem(element)
                 if (restRequestHistoryAdapter.itemCount == 0)
@@ -80,7 +80,7 @@ class RestHistoryFragment : BaseFragment(), RestHistoryView {
     }
 
     override fun addItem(restRequestHistory: RestRequestHistory) {
-        activity.runOnUiThread {
+        activity?.runOnUiThread {
             showView()
             restRequestHistoryAdapter.addItem(restRequestHistory)
         }

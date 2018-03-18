@@ -27,8 +27,8 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
 
     override abstract fun getPresenter(): ConnectionsPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        myFragmentView = inflater?.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        myFragmentView = inflater.inflate(R.layout.fragment_history_of_connections, container, false) ?: View(context)
         mainActivity = activity as MainActivity
         initElements()
         return myFragmentView
@@ -75,7 +75,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun showDialogForCreate() {
-        val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+        val alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
         alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_connection, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(getPresenter().currentConnectionHistory)
@@ -88,7 +88,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     }
 
     override fun showDialogForEdit(connectionHistory: ConnectionHistory, position: Int) {
-        val alertDialogBuilder = AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+        val alertDialogBuilder = AlertDialog.Builder(context!!, R.style.AppTheme_Dialog_Alert)
         alertView = onGetLayoutInflater(null).inflate(R.layout.dialog_add_connection, null)
         alertDialogBuilder.setView(alertView)
         fillDialogVariables(connectionHistory)
@@ -111,7 +111,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
     override fun hideDialog() {
         alertDialog?.dismiss()
         getPresenter().currentConnectionHistory = ConnectionHistory()
-        activity.hideKeyboard()
+        activity?.hideKeyboard()
     }
 
     override fun showEmpty() {
@@ -142,7 +142,7 @@ abstract class ConnectionsFragment : BaseFragment(), ConnectionsView {
             alertView.editTextPort.setText(connectionHistory.port.toString())
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         getPresenter().currentConnectionHistory = collectConnectionHistory()
     }
