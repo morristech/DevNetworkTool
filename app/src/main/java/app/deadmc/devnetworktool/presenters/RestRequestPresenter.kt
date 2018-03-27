@@ -54,6 +54,10 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     fun sendRequest() {
         runRestHistoryEventAfterSave()
         Log.e(TAG, "sendRequest")
+
+    }
+
+    private fun doRequest() {
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
                 .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
@@ -73,10 +77,11 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
                 }))
     }
 
-    fun runRestHistoryEventAfterSave() {
+    private fun runRestHistoryEventAfterSave() {
         async(UI) {
             val id = RestRequestHistory(currentUrl, currentMethod, headersArrayList, requestArrayList).deferredSave().await()
             RxBus.post(RestRequestEvent(id))
+            doRequest()
         }
     }
 

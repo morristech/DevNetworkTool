@@ -10,18 +10,6 @@ object RxBus {
     val TAG = RxBus.javaClass.simpleName
     private val busSubject = PublishRelay.create<Any>().toSerialized()
 
-    fun subscribeWithError(lambda: (value: Any) -> Unit, error: (value: Throwable) -> Unit): Disposable {
-        return busSubject.subscribeOn(
-                AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-            lambda(it)
-        }, {
-            error(it)
-        })
-    }
-
     fun subscribe(lambda: (value: Any) -> Unit): Disposable {
         return busSubject.subscribeOn(
                 AndroidSchedulers.mainThread())
