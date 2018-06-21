@@ -14,8 +14,14 @@ import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
 import com.orm.SchemaGenerator
 import com.orm.SugarDb
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
 
-class MainApplication : Application() {
+class MainApplication : Application(), KodeinAware {
+    override val kodein = Kodein.lazy {
+        /* bindings */
+    }
+
     override fun onCreate() {
         super.onCreate()
         Fabric.with(this, Crashlytics())
