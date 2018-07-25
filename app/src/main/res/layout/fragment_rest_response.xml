@@ -47,7 +47,7 @@
                 </LinearLayout>
 
 
-                <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                <app.deadmc.devnetworktool.ui.views.CollapseLinearLayout
                     android:id="@+id/collapseLinearLayoutStats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -60,7 +60,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp" />
 
-                </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+                </app.deadmc.devnetworktool.ui.views.CollapseLinearLayout>
 
                 <include layout="@layout/divider" />
 
@@ -91,7 +91,7 @@
 
                 </LinearLayout>
 
-                <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                <app.deadmc.devnetworktool.ui.views.CollapseLinearLayout
                     android:id="@+id/collapseLinearLayoutHeaders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -104,7 +104,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp" />
 
-                </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+                </app.deadmc.devnetworktool.ui.views.CollapseLinearLayout>
 
                 <include layout="@layout/divider" />
 
@@ -135,7 +135,7 @@
 
                 </LinearLayout>
 
-                <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                <app.deadmc.devnetworktool.ui.views.CollapseLinearLayout
                     android:id="@+id/collapseLinearLayoutRequest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -166,7 +166,7 @@
 
                     </LinearLayout>
 
-                </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+                </app.deadmc.devnetworktool.ui.views.CollapseLinearLayout>
 
             </LinearLayout>
 
@@ -203,7 +203,7 @@
 
                 </LinearLayout>
 
-                <app.deadmc.devnetworktool.views.CollapseLinearLayout
+                <app.deadmc.devnetworktool.ui.views.CollapseLinearLayout
                     android:id="@+id/collapseLinearLayoutError"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -223,7 +223,7 @@
 
                     </LinearLayout>
 
-                </app.deadmc.devnetworktool.views.CollapseLinearLayout>
+                </app.deadmc.devnetworktool.ui.views.CollapseLinearLayout>
 
             </LinearLayout>
         </LinearLayout>

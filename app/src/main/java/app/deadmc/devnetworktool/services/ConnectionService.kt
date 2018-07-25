@@ -1,27 +1,22 @@
 package app.deadmc.devnetworktool.services
 
-import android.app.Notification
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.activities.MainActivity
-import app.deadmc.devnetworktool.clients.BaseAbstractClient
-import app.deadmc.devnetworktool.clients.TCPClientSocket
-import app.deadmc.devnetworktool.clients.UDPClientSocket
+import app.deadmc.devnetworktool.domain.clients.BaseAbstractClient
+import app.deadmc.devnetworktool.domain.clients.TCPClientSocket
+import app.deadmc.devnetworktool.domain.clients.UDPClientSocket
 import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
-import app.deadmc.devnetworktool.helpers.getNotification
+import app.deadmc.devnetworktool.utils.getNotification
 
-import app.deadmc.devnetworktool.models.ConnectionHistory
-import app.deadmc.devnetworktool.models.MessageHistory
-import app.deadmc.devnetworktool.presenters.WorkingConnectionPresenter
+import app.deadmc.devnetworktool.data.models.ConnectionHistory
+import app.deadmc.devnetworktool.data.models.MessageHistory
+import app.deadmc.devnetworktool.ui.presentation.presenters.WorkingConnectionPresenter
 
 class ConnectionService : Service() {
 

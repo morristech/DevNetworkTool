@@ -1,30 +1,34 @@
 package app.deadmc.devnetworktool.observables
 
 import android.util.Log
-import app.deadmc.devnetworktool.models.ResponseDev
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import app.deadmc.devnetworktool.data.models.ResponseDev
+import app.deadmc.devnetworktool.data.shared_preferences.Preferences
+import app.deadmc.devnetworktool.data.shared_preferences.PreferencesImpl
 import io.reactivex.Observable
 import okhttp3.FormBody
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
+import org.kodein.di.KodeinAware
+import org.kodein.di.LateInitKodein
+import org.kodein.di.generic.instance
 import java.io.InterruptedIOException
 import java.security.cert.X509Certificate
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 object OkHttpObservable {
+    val kodein = LateInitKodein()
+    val preferences:Preferences by kodein.instance()
 
     fun getObservable(url: String, requestMethod: String, headers: HashMap<String, String>, body: HashMap<String, String>): Observable<ResponseDev> {
         var okHttpClient = getOkHttpBuilder()
                 .retryOnConnectionFailure(true)
                 .build()
 
-        return Observable.defer<ResponseDev>( {
+        return Observable.defer<ResponseDev> {
             try {
                 val request = buildRequest(url, requestMethod, headers, body)
                 val startTime = System.currentTimeMillis()
@@ -41,10 +45,10 @@ object OkHttpObservable {
                     Log.e("OkHttpObservable","wow")
                 }
                 Observable.just(ResponseDev("", e.localizedMessage
-                        ?: "Request exceeded timeout", 0, DevPreferences.restTimeoutAmount.toInt(), url))
+                        ?: "Request exceeded timeout", 0, preferences.restTimeoutAmount.toInt(), url))
                 //Observable.error(e)
             }
-        })
+        }
     }
 
     private fun buildRequest(url: String, requestMethod: String, headers: HashMap<String, String>, body: HashMap<String, String>): Request? {
@@ -120,7 +124,7 @@ object OkHttpObservable {
     }
 
     private fun getOkHttpBuilder():OkHttpClient.Builder {
-        if (DevPreferences.disableSsl)
+        if (preferences.disableSsl)
             return getUnsafeOkHttpClient()
         return OkHttpClient.Builder()
     }

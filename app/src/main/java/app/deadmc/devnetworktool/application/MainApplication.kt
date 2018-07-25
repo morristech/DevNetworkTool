@@ -5,32 +5,37 @@ import android.app.Application
 import com.crashlytics.android.Crashlytics
 import com.orm.SugarContext
 
-import app.deadmc.devnetworktool.models.ConnectionHistory
-import app.deadmc.devnetworktool.shared_preferences.DevPreferences
+import app.deadmc.devnetworktool.data.models.ConnectionHistory
+import app.deadmc.devnetworktool.data.shared_preferences.PreferencesImpl
 import io.fabric.sdk.android.Fabric
 
 import app.deadmc.devnetworktool.constants.PING
 import app.deadmc.devnetworktool.constants.TCP_CLIENT
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
+import app.deadmc.devnetworktool.data.shared_preferences.Preferences
 import com.orm.SchemaGenerator
 import com.orm.SugarDb
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.eagerSingleton
+import org.kodein.di.generic.instance
 
 class MainApplication : Application(), KodeinAware {
-    override val kodein = Kodein.lazy {
-        /* bindings */
+    override val kodein = Kodein {
+        bind<Preferences>() with eagerSingleton { PreferencesImpl(this@MainApplication) }
     }
 
     override fun onCreate() {
         super.onCreate()
         Fabric.with(this, Crashlytics())
-        SugarContext.init(applicationContext)
-        DevPreferences.init(applicationContext)
 
-        if (DevPreferences.firstLaunch) {
+        val preferences:Preferences by kodein.instance()
+        SugarContext.init(applicationContext)
+
+        if (preferences.firstLaunch) {
             createDefaultData()
-            DevPreferences.setFirstLaunch(false)
+            preferences.firstLaunch = false
         }
     }
 

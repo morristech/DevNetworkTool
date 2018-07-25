@@ -2,9 +2,7 @@ package app.deadmc.devnetworktool;
 
 import org.junit.Test;
 
-import app.deadmc.devnetworktool.helpers.SystemHelper;
-
-import static org.junit.Assert.*;
+import app.deadmc.devnetworktool.utils.SystemHelper;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
