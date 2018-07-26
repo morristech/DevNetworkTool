@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.activities.FullViewActivity
 import app.deadmc.devnetworktool.ui.adapters.ParametersAdapter
 import app.deadmc.devnetworktool.constants.FULL_VIEW
 import app.deadmc.devnetworktool.ui.presentation.fragments.BaseFragment
@@ -19,6 +18,7 @@ import app.deadmc.devnetworktool.utils.*
 import app.deadmc.devnetworktool.ui.presentation.views.FullView
 import app.deadmc.devnetworktool.ui.presentation.views.RestResponseView
 import app.deadmc.devnetworktool.data.models.ResponseDev
+import app.deadmc.devnetworktool.ui.presentation.activities.FullViewActivity
 import app.deadmc.devnetworktool.ui.presentation.presenters.BasePresenter
 import app.deadmc.devnetworktool.ui.presentation.presenters.FullViewPresenter
 import app.deadmc.devnetworktool.ui.presentation.presenters.RestResponsePresenter
@@ -68,8 +68,8 @@ class RestResponseFragment : BaseFragment(), RestResponseView, FullView {
         initRecyclerViews(myFragmentView.headersRecyclerView, null)
         initRecyclerViews(myFragmentView.statsRecyclerView, null)
         hideButton()
-        successResponseLayout.visibility = View.GONE
-        errorResponseLayout.visibility = View.GONE
+        myFragmentView.successResponseLayout.visibility = View.GONE
+        myFragmentView.errorResponseLayout.visibility = View.GONE
     }
 
     fun hideButton() {

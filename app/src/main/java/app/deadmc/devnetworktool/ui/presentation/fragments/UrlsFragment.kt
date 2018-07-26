@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.activities.MainActivity
 import app.deadmc.devnetworktool.ui.adapters.UrlHistoryAdapter
 import app.deadmc.devnetworktool.ui.presentation.views.ConnectionsView
 import app.deadmc.devnetworktool.data.models.ConnectionHistory
+import app.deadmc.devnetworktool.extensions.hideKeyboard
+import app.deadmc.devnetworktool.ui.presentation.activities.MainActivity
 import app.deadmc.devnetworktool.ui.presentation.presenters.ConnectionsPresenter
 import kotlinx.android.synthetic.main.dialog_add_url.view.*
 import kotlinx.android.synthetic.main.fragment_history_of_connections.view.*

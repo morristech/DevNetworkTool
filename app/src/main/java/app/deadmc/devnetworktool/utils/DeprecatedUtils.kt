@@ -11,7 +11,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import app.deadmc.devnetworktool.R
-import app.deadmc.devnetworktool.activities.MainActivity
+import app.deadmc.devnetworktool.ui.presentation.activities.MainActivity
 
 fun startServiceForeground(context: Context, intent: Intent) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

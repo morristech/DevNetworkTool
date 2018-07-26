@@ -1,10 +1,13 @@
 package app.deadmc.devnetworktool.utils
 
 import android.util.Log
+import app.deadmc.devnetworktool.data.shared_preferences.Preferences
 import app.deadmc.devnetworktool.data.shared_preferences.PreferencesImpl
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
+import org.kodein.di.LateInitKodein
+import org.kodein.di.generic.instance
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -35,6 +38,8 @@ fun executeCmd(cmd: String, sudo: Boolean): String {
 fun getPing(url: String): Deferred<String> {
     return async {
         Log.e("getPing","before delay")
+        val kodein = LateInitKodein()
+        val preferences: Preferences by kodein.instance()
         delay(preferences.pingDelay.toLong())
         Log.e("getPing","after delay")
         executeCmd("ping -c 1 -w 1 " + url, false)

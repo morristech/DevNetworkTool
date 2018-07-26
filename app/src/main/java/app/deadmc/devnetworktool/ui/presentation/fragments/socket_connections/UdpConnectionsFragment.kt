@@ -3,9 +3,9 @@ package app.deadmc.devnetworktool.ui.presentation.fragments.socket_connections
 
 import app.deadmc.devnetworktool.R
 import app.deadmc.devnetworktool.constants.UDP_CLIENT
-import app.deadmc.devnetworktool.utils.portFromString
 
 import app.deadmc.devnetworktool.data.models.ConnectionHistory
+import app.deadmc.devnetworktool.extensions.portFromString
 import app.deadmc.devnetworktool.ui.presentation.presenters.ConnectionsPresenter
 import app.deadmc.devnetworktool.ui.presentation.presenters.UdpConnectionsPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -30,7 +30,7 @@ class UdpConnectionsFragment : ConnectionsFragment() {
         if (alertDialog?.isShowing == true) {
             connectionHistory.ipAddress = alertView.editTextIpAddress.text.toString()
             connectionHistory.name = alertView.editTextName.text.toString()
-            connectionHistory.port = portFromString(alertView.editTextPort.text.toString())
+            connectionHistory.port = alertView.editTextPort.text.toString().portFromString()
             connectionHistory.setLastUsageDefault()
             connectionHistory.type = UDP_CLIENT
         }

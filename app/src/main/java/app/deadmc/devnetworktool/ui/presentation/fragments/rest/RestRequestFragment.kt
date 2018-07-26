@@ -21,6 +21,7 @@ import app.deadmc.devnetworktool.utils.safe
 import app.deadmc.devnetworktool.ui.presentation.views.RestRequestView
 import app.deadmc.devnetworktool.data.models.KeyValueModel
 import app.deadmc.devnetworktool.data.models.RestRequestHistory
+import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.ui.presentation.presenters.BasePresenter
 import app.deadmc.devnetworktool.ui.presentation.presenters.RestRequestPresenter
 import com.arellomobile.mvp.presenter.InjectPresenter

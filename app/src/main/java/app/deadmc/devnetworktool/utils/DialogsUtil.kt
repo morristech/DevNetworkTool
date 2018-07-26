@@ -6,9 +6,12 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import app.deadmc.devnetworktool.R
+import app.deadmc.devnetworktool.data.shared_preferences.Preferences
 import app.deadmc.devnetworktool.extensions.hideKeyboard
 import app.deadmc.devnetworktool.ui.presentation.presenters.SettingsPresenter
 import app.deadmc.devnetworktool.data.shared_preferences.PreferencesImpl
+import org.kodein.di.LateInitKodein
+import org.kodein.di.generic.instance
 
 
 inline fun showTimeoutDialog(checkActivityIsFinishing:Boolean, activity: Activity, settingsPresenter: SettingsPresenter, currentValue:String, crossinline callback: (timeout:Int)-> Unit): AlertDialog? {
@@ -48,6 +51,8 @@ inline fun showSpinnerDialog(checkActivityIsFinishing:Boolean, activity: Activit
             R.array.encodings, android.R.layout.simple_spinner_item)
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
     spinner?.adapter = adapter
+    val kodein = LateInitKodein()
+    val preferences:Preferences by kodein.instance()
     spinner?.setSelection(adapter.getPosition(preferences.tcpUdpEncoding))
 
     alertDialogBuilder.setOnDismissListener {

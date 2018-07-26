@@ -20,10 +20,11 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.eagerSingleton
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.singleton
 
 class MainApplication : Application(), KodeinAware {
-    override val kodein = Kodein {
-        bind<Preferences>() with eagerSingleton { PreferencesImpl(this@MainApplication) }
+    override val kodein = Kodein.lazy {
+        bind<Preferences>() with singleton { PreferencesImpl(this@MainApplication) }
     }
 
     override fun onCreate() {

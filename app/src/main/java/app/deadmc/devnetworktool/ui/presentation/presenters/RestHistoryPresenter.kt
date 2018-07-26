@@ -14,6 +14,7 @@ import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 @InjectViewState
 class RestHistoryPresenter : BasePresenter<RestHistoryView>() {

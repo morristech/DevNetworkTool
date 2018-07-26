@@ -6,10 +6,13 @@ import app.deadmc.devnetworktool.events.RestRequestEvent
 import app.deadmc.devnetworktool.extensions.deferredSave
 import app.deadmc.devnetworktool.ui.presentation.views.RestRequestView
 import app.deadmc.devnetworktool.data.models.KeyValueModel
+import app.deadmc.devnetworktool.data.models.ResponseDev
 import app.deadmc.devnetworktool.data.models.RestRequestHistory
+import app.deadmc.devnetworktool.events.RestResponseEvent
 import app.deadmc.devnetworktool.observables.OkHttpObservable
 import app.deadmc.devnetworktool.observables.RxBus
 import com.arellomobile.mvp.InjectViewState
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -54,11 +57,11 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
     private fun doRequest() {
         compositeDisposable.add(OkHttpObservable.getObservable(currentUrl, currentMethod, collectHeaders(), collectRequests())
                 .subscribeOn(Schedulers.io())
-                .timeout(DevPreferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
+                .timeout(preferences.restTimeoutAmount, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorReturn {
                     Log.e(TAG,"onErrorReturn")
-                    ResponseDev(delay = DevPreferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)
+                    ResponseDev(delay = preferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)
                 }
                 .unsubscribeOn(Schedulers.io())
                 .subscribe({
@@ -67,7 +70,7 @@ class RestRequestPresenter : BasePresenter<RestRequestView>() {
                 }, {
                     Log.e(TAG, "error")
                     Log.e(TAG, Log.getStackTraceString(it))
-                    RxBus.post(RestResponseEvent( ResponseDev(delay = DevPreferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)))
+                    RxBus.post(RestResponseEvent( ResponseDev(delay = preferences.restTimeoutAmount.toInt(), currentUrl = currentUrl,error = it)))
                 }))
     }
 
